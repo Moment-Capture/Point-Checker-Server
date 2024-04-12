@@ -18,6 +18,8 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"assets//assets//frame0")
 ##########################################################
 ##########################################################
 
+
+
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
@@ -25,6 +27,8 @@ def relative_to_assets(path: str) -> Path:
 
 ##########################################################
 ##########################################################
+
+
 
 transfer_widgets = []
 home_widgets = []
@@ -136,10 +140,7 @@ def hide_widgets(widget_list):
 ##########################################################
 
 
-
-##########################################################
-##########################################################
-
+############################
 ### 시험지 양식 적용 화면 ###
 def show_transfer():
     global home_widgets
@@ -243,6 +244,7 @@ def show_transfer():
 
 
 
+##################### 
 ### 채점하기 화면 ###
 def show_grade():
     global transfer_widgets
@@ -397,6 +399,7 @@ def show_grade():
         y=165
     )
 
+
     # 2. 채점할 시험지 파일 업로드하세요
     canvas_r.create_text(
         40,
@@ -484,7 +487,6 @@ def show_grade():
             cell_entry.place(x=x1, y=y1, width=cell_width, height=cell_height)
             cell_entries.append((cell_entry, x1, y1, x2, y2))
             
-
  
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
@@ -515,7 +517,6 @@ def show_grade():
     progress_bar = ttk.Progressbar(root, orient="horizontal", length=260, mode="indeterminate")
     progress_bar.place(x=350, y=565)
 
-
     # 4-3. 채점 결과 확인하기 버튼
     button_3 = tk.Button(
         text="채점 결과 확인하기",
@@ -543,9 +544,6 @@ def show_grade():
 ##########################################################
 
 
-
-##########################################################
-##########################################################
 
 # 메인 창 생성
 root = tk.Tk()
@@ -583,6 +581,3 @@ show_grade()
 
 # 메인 루프 실행
 root.mainloop()
-
-##########################################################
-##########################################################
