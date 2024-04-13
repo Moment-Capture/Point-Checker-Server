@@ -1,12 +1,13 @@
 python
+pip
 
 numpy
 pandas
 
-shtuil
 pathlib
 natsort
 
+opencv
 pdf2image
 utlralytics
 easyocr
