@@ -1,0 +1,12 @@
+python
+
+numpy
+pandas
+
+shtuil
+pathlib
+natsort
+
+pdf2image
+utlralytics
+easyocr
