@@ -10,11 +10,11 @@ from utils import cropBox, compute_intersect_size, label_to_int
 
 def detect_multiple(path):
     # 경로 정의
-    ultralytics_path = path + "\\ultralytics"
     save_path = path + "\\temp"
     mul_save_path = save_path + "\\mul"
 
-    multiple_path = ultralytics_path + "\\runs\\detect\\multiple_train2_epoch50\\weights\\best.pt"
+    model_path = path + "\\models"
+    multiple_path = model_path + "\\multiple\\weights\\best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(mul_save_path).glob('*.jpg'))
@@ -79,5 +79,3 @@ def detect_multiple(path):
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
     return df
-
-   

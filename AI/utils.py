@@ -150,4 +150,3 @@ def label_to_int(label):
         return 5
     else:
         return 0
-    

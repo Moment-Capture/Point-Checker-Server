@@ -5,6 +5,8 @@ from tkinter import ttk
 
 import os
 import time
+import requests
+
 from pdf2image import convert_from_path
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -39,16 +41,17 @@ def process_input(num_candidates, file_path):
     end_time = time.time()  # 처리 종료 시간 기록
     print(f"전체 처리 시간: {end_time - start_time} 초")
     # show_grade()
+    ### 종료 알람 띄우기 ###
 
 
 
 def insert(num_candidates, file_path):
-
     output_pdf_path = os.path.splitext(file_path)[0] + "_pointchecker.pdf"
 
     # PDF를 이미지로 변환하고 번호를 삽입하여 저장
-    images,num_pages = pdf_to_images(file_path)
+    images, num_pages = pdf_to_images(file_path)
     processed_images = []
+
     # 각 페이지에 대해 번호 삽입
     for page_num in range(1, int(num_candidates) + 1):
         for i in range(1, num_pages+1):
@@ -56,16 +59,19 @@ def insert(num_candidates, file_path):
             
             number_to_insert = f"{page_num}-{i}"
             # 삽입할 위치 (x, y 좌표)
+            ### 삽입할 위치는 객체 인식으로 잡거나 해야 할 듯... ###
             insert_position = (100, 100)  # 적절한 위치로 수정 필요
             
             image = images[i-1].copy()
             image = insert_number(image, number_to_insert, insert_position, i)
             processed_images.append(image)
+    
     # 최종 PDF 파일 저장
+    ### 1부마다 pdf로 저장해서 반환 ###
     save_as_pdf(output_pdf_path, num_candidates, processed_images)
    
 
-
+### 1부마다 pdf로 저장해서 반환 ###
 def save_as_pdf(output_pdf_path, num_candidates, images):
     # PDF 생성 및 이미지 추가
     c = canvas.Canvas(output_pdf_path, pagesize=letter)
@@ -91,7 +97,6 @@ def pdf_to_images(pdf_path):#output_folder):
 
 
 def insert_number(image, text, position, page_num):
-
     # 이미지에 숫자 삽입
     draw = ImageDraw.Draw(image)
     font_path = ImageFont.truetype("C:/Windows/Fonts/NanumGothic.ttf", 80)  # 폰트와 크기 설정
@@ -104,13 +109,13 @@ def insert_number(image, text, position, page_num):
     # 하이픈을 포함한 텍스트 삽입
     position_x, position_y = position
     for char in text:
-
       char_width = draw.textlength(char, font=font_path)
       char_height = 80
       draw.text((position_x, position_y), char, fill="black", font=font_path)
       total_width += char_width
       max_height = max(max_height, char_height)
       position_x += char_width  # 다음 문자의 x 위치 조정
+    
     # 선 추가
     if page_num==1:
       underline_x1 = 1750 
@@ -131,6 +136,13 @@ def insert_number(image, text, position, page_num):
 def hide_widgets(widget_list):
     for widget in widget_list:
         widget.place_forget()
+
+
+
+def server_connect(filepath):
+    url = "http://107.23.189.114:8080/upload"
+    files = {"file":open(filepath, "rb")}
+    r = requests.post(url, files=files)
 
 
 
@@ -503,7 +515,7 @@ def show_grade():
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=lambda: server_connect(file_path_var.get()),
         relief="flat"
     )
     button_1.place(
@@ -559,7 +571,6 @@ toolbar_frame = tk.Frame(root)
 toolbar_frame.pack(side=tk.LEFT, fill=tk.Y)
 
 # 오른쪽에 캔버스 생성
-
 canvas_r = tk.Canvas(
     root,
     bg = "#FFFFFF",
@@ -578,7 +589,8 @@ home_button = tk.Button(toolbar_frame, text="채점 하기", command=show_grade,
 home_button.pack(fill=tk.X, padx=10, pady=10,ipadx=10, ipady=20) 
 
 # 메인 화면 설정
-show_grade()
+#show_grade()
+show_transfer()
 
 # 메인 루프 실행
 root.mainloop()

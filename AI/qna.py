@@ -1,4 +1,3 @@
-## 라이브러리 import ##
 import cv2
 
 from pathlib import Path
@@ -6,7 +5,6 @@ from natsort import os_sorted
 from ultralytics import YOLO
 
 from utils import cropBox, concatImage
-## 라이브러리 import ##
 
 
 def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_path):
@@ -99,15 +97,15 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
 
 def categorize_qna(path):
     # 경로 정의
-    ultralytics_path = path + "\\ultralytics"
     save_path = path + "\\temp"
     input_save_path = save_path + "\\jpg"
     mul_save_path = save_path + "\\mul"
     sub_save_path = save_path + "\\sub"
     save_name = ""
 
-    qna_path = ultralytics_path + "\\runs\\detect\\categorize_train5_epoch50\\weights\\best.pt"
-    match_path = ultralytics_path + "\\runs\\detect\\matching_train1_epoch50\\weights\\best.pt"
+    model_path = path + "\\models"
+    qna_path = model_path + "\\categorize\\weights\\best.pt"
+    match_path = model_path + "\\matching\\weights\\best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(input_save_path).glob('*.jpg'))

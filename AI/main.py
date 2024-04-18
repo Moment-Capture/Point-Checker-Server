@@ -27,7 +27,7 @@ def getFinalDf():
         # if os.path.exists(input_path):
         #     shutil.rmtree(input_path)
         # os.mkdir(input_path)
-        if os.path.exists(input_path):
+        if not os.path.exists(input_path):
             os.mkdir(input_path)
     except:
         pass
@@ -100,5 +100,3 @@ def getFinalDf():
     ## 결과 저장 폴더 삭제 ##
 
     return final_df
-  
-
