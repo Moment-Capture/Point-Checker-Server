@@ -5,7 +5,7 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from utils import cropBox, compute_intersect_size, label_to_int
+from utils import cropBox, label_to_int
 
 
 def detect_multiple(path):
