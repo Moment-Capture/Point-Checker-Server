@@ -24,6 +24,7 @@ FONT_PATH = ASSETS_PATH / "NanumGothic.ttf"
 
 
 
+### assets의 상대 경로 ###
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
