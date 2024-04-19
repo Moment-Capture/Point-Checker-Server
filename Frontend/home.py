@@ -13,7 +13,7 @@ from reportlab.pdfgen import canvas
 from PIL import Image, ImageDraw, ImageFont
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"assets//assets//frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"assets//frame0")
 
 
 
@@ -103,7 +103,7 @@ def pdf_to_images(pdf_path):#output_folder):
 ### 이미지에 숫자 코드 삽입하는 함수 ###
 def insert_number(image, text, position, page_num):
     draw = ImageDraw.Draw(image)
-    font_path = ImageFont.truetype("C:/Windows/Fonts/NanumGothic.ttf", 80)  # 폰트와 크기 설정
+    font_path = ImageFont.truetype(OUTPUT_PATH / Path(r"assets//NanumGothic.ttf"), 80)  # 폰트와 크기 설정
     position = position  # 왼쪽 상단에 출력
 
     # 삽입할 텍스트의 너비와 높이 초기화
