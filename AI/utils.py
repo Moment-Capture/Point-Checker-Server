@@ -120,7 +120,21 @@ def convertToDf(file_path_list, path):
             file_path = file
             break
     
-    df = pd.read_excel(file_path, engine='openpyxl')
+    df = pd.read_excel(file_path, names=["num", "correct_answer"] ,engine='openpyxl')
+    return df
+
+
+def concatDfWithAns(df, answer_df):
+    # df와 answer_df 합치기
+    for df_idx, df_row in df.iterrows():
+        df_num = df_row["num"]
+        if df_num == 0:
+            continue
+        for ans_idx, ans_row in answer_df.iterrows():
+            if (int(ans_row["correct_answer"]) == int(df_num)):
+                df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
+                break
+    
     return df
 
 
