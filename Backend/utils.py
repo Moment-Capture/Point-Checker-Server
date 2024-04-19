@@ -141,7 +141,7 @@ def concatDfWithAns(df, answer_df):
 #df를 최종 출력 형태로 변환
 def dfToFinalDf(df):
     final_df = pd.DataFrame()
-    final_df = df[df.check != 0]
+    final_df = df[df.testee_answer != 0]
     final_df = final_df.drop(["file"], axis=1)
     final_df = final_df[final_df.ans != 0]
     final_df = final_df.set_index(keys=["num"], drop=True)
