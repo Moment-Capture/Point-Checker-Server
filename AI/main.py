@@ -7,7 +7,8 @@ from natsort import os_sorted
 
 from qna import categorize_qna
 from mul import detect_multiple
-from utils import convertToJpg, convertToDf, dfToFinalDf
+from sub import detect_subjective
+from utils import convertToJpg, convertToDf, concatDfWithAns, dfToFinalDf
 
 
 
@@ -77,18 +78,14 @@ def getFinalDf():
 
     # 문제 인식 및 채점 진행
     categorize_qna(path)
-    df = detect_multiple(path)
+    mul_df = detect_multiple(path)
+    sub_df = detect_subjective(path)
 
-    # df와 answer_df 합치기
-    for df_idx, df_row in df.iterrows():
-        df_num = df_row["num"]
-        if df_num == 0:
-            continue
-        for ans_idx, ans_row in answer_df.iterrows():
-            if (int(ans_row["correct_answer"]) == int(df_num)):
-                df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
-                break
+    # mul과 sub 통합을 위한 df 생성
+    df = pd.concat([mul_df, sub_df], axis=0)
+    df = concatDfWithAns(df, answer_df)
 
+    # df 정리해서 final_df로 반환
     final_df = dfToFinalDf(df)
 
     ## 결과 저장 폴더 삭제 ##
