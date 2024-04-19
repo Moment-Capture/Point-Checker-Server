@@ -138,15 +138,15 @@ def dfToFinalDf(df):
 
 # 입력 받은 label을 int로 변환
 def label_to_int(label):
-    if label == "a1":
+    if label == "check1":
         return 1
-    elif label == "a2":
+    elif label == "check2":
         return 2
-    elif label == "a3":
+    elif label == "check3":
         return 3
-    elif label == "a4":
+    elif label == "check4":
         return 4
-    elif label == "a5":
+    elif label == "check5":
         return 5
     else:
         return 0
