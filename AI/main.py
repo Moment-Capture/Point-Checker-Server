@@ -27,7 +27,7 @@ def getFinalDf():
         # if os.path.exists(input_path):
         #     shutil.rmtree(input_path)
         # os.mkdir(input_path)
-        if os.path.exists(input_path):
+        if not os.path.exists(input_path):
             os.mkdir(input_path)
     except:
         pass
@@ -85,8 +85,8 @@ def getFinalDf():
         if df_num == 0:
             continue
         for ans_idx, ans_row in answer_df.iterrows():
-            if (int(ans_row["ans"]) == int(df_num)):
-                df.loc[df_idx, "ans"] = ans_row["ans"]
+            if (int(ans_row["correct_answer"]) == int(df_num)):
+                df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
                 break
 
     final_df = dfToFinalDf(df)
@@ -100,5 +100,3 @@ def getFinalDf():
     ## 결과 저장 폴더 삭제 ##
 
     return final_df
-  
-
