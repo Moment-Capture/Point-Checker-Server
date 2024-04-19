@@ -88,7 +88,7 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
             cropped_qna_arr.remove(searching_arr)
 
             # 이미지 저장
-            save_name = mul_save_path + "\mul_" + str(mul_save_idx) + ".jpg"
+            save_name = mul_save_path + "\\mul_" + str(mul_save_idx) + ".jpg"
             cv2.imwrite(save_name, joined_image)
             mul_save_idx += 1
 

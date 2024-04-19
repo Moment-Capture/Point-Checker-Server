@@ -85,8 +85,8 @@ def getFinalDf():
         if df_num == 0:
             continue
         for ans_idx, ans_row in answer_df.iterrows():
-            if (int(ans_row["ans"]) == int(df_num)):
-                df.loc[df_idx, "ans"] = ans_row["ans"]
+            if (int(ans_row["correct_answer"]) == int(df_num)):
+                df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
                 break
 
     final_df = dfToFinalDf(df)

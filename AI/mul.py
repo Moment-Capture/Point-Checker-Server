@@ -28,9 +28,7 @@ def detect_multiple(path):
     reader = easyocr.Reader(['ko', 'en'], gpu=False)
 
     # 결과 저장을 위한 df 선언
-    df = pd.DataFrame(columns=["file", "num", "check", "ans"])
-
-    print()
+    df = pd.DataFrame(columns=["file", "num", "checked_answer", "correct_answer"])
 
     for result in results:
         boxes = result.boxes.xyxy.tolist()
@@ -41,7 +39,6 @@ def detect_multiple(path):
 
         if boxes is not None:
             # 변수 초기화
-            checked_box = []
             qna_num = 0
             check = 0
 
@@ -58,7 +55,7 @@ def detect_multiple(path):
                 # 체크한 선지 번호 check 감지
                 check = label_to_int(names[int(cls)])            
             
-            new_row = {"file" : file, "num" : qna_num, "check" : check, "ans" : 0}
+            new_row = {"file" : file, "num" : qna_num, "checked_answer" : check, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
     return df

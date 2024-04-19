@@ -109,7 +109,7 @@ def convertToJpg(file_path_list, path):
 
 # df으로 변환
 def convertToDf(file_path_list, path):
-    file_path = ""
+    file_path = path
     df = pd.DataFrame()
 
     if len(file_path_list) == 0:
