@@ -143,7 +143,7 @@ def dfToFinalDf(df):
     final_df = pd.DataFrame()
     final_df = df[df.testee_answer != 0]
     final_df = final_df.drop(["file"], axis=1)
-    final_df = final_df[final_df.ans != 0]
+    final_df = final_df[final_df.correct_answer != 0]
     final_df = final_df.set_index(keys=["num"], drop=True)
     final_df = final_df.sort_index(ascending=True)
     final_df = final_df.reset_index(drop=False)
