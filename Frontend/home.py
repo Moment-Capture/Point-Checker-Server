@@ -29,6 +29,8 @@ def relative_to_assets(path: str) -> Path:
 
 ##########################################################
 ##########################################################
+### 함수 및 변수 ###
+
 
 transfer_widgets = []
 home_widgets = []
@@ -45,6 +47,7 @@ def process_input(num_candidates, file_path):
 
 
 
+### 각 이미지에 번호 삽입하는 함수 ###
 def insert(num_candidates, file_path):
     output_pdf_path = os.path.splitext(file_path)[0] + "_pointchecker.pdf"
 
@@ -71,7 +74,7 @@ def insert(num_candidates, file_path):
     save_as_pdf(output_pdf_path, num_candidates, processed_images)
    
 
-### 1부마다 pdf로 저장해서 반환 ###
+### 1부마다 pdf로 저장해서 반환하는 함수 ###
 def save_as_pdf(output_pdf_path, num_candidates, images):
     # PDF 생성 및 이미지 추가
     c = canvas.Canvas(output_pdf_path, pagesize=letter)
@@ -85,6 +88,7 @@ def save_as_pdf(output_pdf_path, num_candidates, images):
 
 
 
+### pdf를 이미지 파일로 변환하는 함수 ###
 def pdf_to_images(pdf_path):#output_folder):
     images = []
 
@@ -96,8 +100,8 @@ def pdf_to_images(pdf_path):#output_folder):
 
 
 
+### 이미지에 숫자 코드 삽입하는 함수 ###
 def insert_number(image, text, position, page_num):
-    # 이미지에 숫자 삽입
     draw = ImageDraw.Draw(image)
     font_path = ImageFont.truetype("C:/Windows/Fonts/NanumGothic.ttf", 80)  # 폰트와 크기 설정
     position = position  # 왼쪽 상단에 출력
@@ -133,12 +137,14 @@ def insert_number(image, text, position, page_num):
 
 
 
+### 위젯 숨기는 함수 ###
 def hide_widgets(widget_list):
     for widget in widget_list:
         widget.place_forget()
 
 
 
+### 서버 연결하는 함수 ###
 def server_connect(filepath):
     url = "http://107.23.189.114:8080/upload"
     files = {"file":open(filepath, "rb")}
@@ -148,6 +154,7 @@ def server_connect(filepath):
 
 ##########################################################
 ##########################################################
+### 화면 ###
 
 
 
@@ -511,11 +518,12 @@ def show_grade():
     )
 
     # 4-1. 채점하기 버튼
+    ### 채점하기 누르면 서버에 연결됨 ###
     button_1 = tk.Button(
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: server_connect(file_path_var.get()),
+        command=lambda: server_connect(file_path_var.get()), ### 서버 연결 함수 ###
         relief="flat"
     )
     button_1.place(
