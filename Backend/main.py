@@ -8,7 +8,7 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import convertToJpg, convertToDf, concatDfWithAns, dfToFinalDf
+from utils import convertToJpg, convertToDf, concatDfWithAnswer, dfToFinalDf
 
 
 
@@ -80,10 +80,11 @@ def getFinalDf():
     categorize_qna(path)
     mul_df = detect_multiple(path)
     sub_df = detect_subjective(path)
+    sub_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0)
-    df = concatDfWithAns(df, answer_df)
+    df = concatDfWithAnswer(df, answer_df)
 
     # df 정리해서 final_df로 반환
     final_df = dfToFinalDf(df)
