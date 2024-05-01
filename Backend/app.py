@@ -30,7 +30,7 @@ def upload_pdf():
             file.save(file_path)
 
         df = pd.DataFrame()
-        df = getFinalDf(file_path)
+        df = getFinalDf(UPLOAD_FOLDER)
         json_data = df.to_json(orient="records")
         return json_data
         
