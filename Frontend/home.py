@@ -1,16 +1,14 @@
 from pathlib import Path
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from tkinter import ttk
+from reportlab.pdfgen import canvas
 
-import os
+import os, gc
 import time
 import requests
+import fitz
 
-from pdf2image import convert_from_path
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from PIL import Image, ImageDraw, ImageFont
 
 FILE_PATH = Path(__file__)
 OUTPUT_PATH = FILE_PATH.parent
@@ -39,104 +37,64 @@ transfer_widgets = []
 home_widgets = []
 
 
-
 def process_input(num_candidates, file_path):
     start_time = time.time()
-    insert(num_candidates, file_path)
+    insert_page_number(int(num_candidates), file_path)
     end_time = time.time()  # 처리 종료 시간 기록
     print(f"전체 처리 시간: {end_time - start_time} 초")
-    # show_grade()
-    ### 종료 알람 띄우기 ###
+    show_popup()
 
+#종료 팝업 띄우기
+def show_popup():
+    root = tk.Tk()
+    root.withdraw()  # 메인 윈도우 숨기기
 
+    messagebox.showinfo("완료", "시험지 양식 적용이 완료되었습니다.")  # 팝업 메시지 보이기
+    root.destroy()  # Tkinter 종료
+    show_transfer()  # 메인 함수 다시 실행
 
-### 각 이미지에 번호 삽입하는 함수 ###
-def insert(num_candidates, file_path):
-    output_pdf_path = os.path.splitext(file_path)[0] + "_pointchecker.pdf"
+def insert_page_number(num_students, file_path):
+    # Open the PDF
+    pdf_document = fitz.open(file_path)
+    num_pages = len(pdf_document)
 
-    # PDF를 이미지로 변환하고 번호를 삽입하여 저장
-    images, num_pages = pdf_to_images(file_path)
-    processed_images = []
+    # Get page width and height
+    page_width = pdf_document[0].rect.width
 
-    # 각 페이지에 대해 번호 삽입
-    for page_num in range(1, int(num_candidates) + 1):
-        for i in range(1, num_pages+1):
+    # Convert start and end points to coordinates relative to top-right corner
+    start_point = (page_width - 180, 65)
+    end_point = (page_width - 50, 65)
+
+    
+
+    for i in range(0, num_students):
+        output_pdf_path = os.path.splitext(file_path)[0] + f"_{i+1}.pdf"
+        pdf_document = fitz.open(file_path)
+
+        #첫 장에 이름 적는 칸
+        page = pdf_document[0]
+        text = "ID : "
+        page.insert_text((page_width-220, 60), text, fontsize=18)
+        page.draw_line(start_point, end_point)
+
+        for j in range(0, num_pages):
             # 삽입할 숫자 (예: "1-1", "1-2", ...)
-            
-            number_to_insert = f"{page_num}-{i}"
+            text = f"{i+1} - {j+1}"
+
             # 삽입할 위치 (x, y 좌표)
-            ### 삽입할 위치는 객체 인식으로 잡거나 해야 할 듯... ###
-            insert_position = (100, 100)  # 적절한 위치로 수정 필요
-            
-            image = images[i-1].copy()
-            image = insert_number(image, number_to_insert, insert_position, i)
-            processed_images.append(image)
-    
-    # 최종 PDF 파일 저장
-    ### 1부마다 pdf로 저장해서 반환 ###
-    save_as_pdf(output_pdf_path, num_candidates, processed_images)
-   
+            insert_position = (60, 60)  # 적절한 위치로 수정 필요
 
-### 1부마다 pdf로 저장해서 반환하는 함수 ###
-def save_as_pdf(output_pdf_path, num_candidates, images):
-    # PDF 생성 및 이미지 추가
-    c = canvas.Canvas(output_pdf_path, pagesize=letter)
+            # Select the first page
+            page = pdf_document[j]
 
-    for image in images:
+            # Start editing the page
+            page.insert_text(insert_position, text, fontsize=20)
 
-        c.drawInlineImage(image, 0, 0, width=letter[0], height=letter[1])
-        c.showPage()
-    # PDF 파일 저장
-    c.save()
-
-
-
-### pdf를 이미지 파일로 변환하는 함수 ###
-def pdf_to_images(pdf_path):#output_folder):
-    images = []
-
-    # PDF 파일 열기
-    images = convert_from_path(pdf_path)
-    num_pages = len(images)
-
-    return images, num_pages
-
-
-
-### 이미지에 숫자 코드 삽입하는 함수 ###
-def insert_number(image, text, position, page_num):
-    draw = ImageDraw.Draw(image)
-    font_path = ImageFont.truetype(FONT_PATH, 80)  # 폰트와 크기 설정
-    position = position  # 왼쪽 상단에 출력
-
-    # 삽입할 텍스트의 너비와 높이 초기화
-    total_width = 0
-    max_height = 0
-
-    # 하이픈을 포함한 텍스트 삽입
-    position_x, position_y = position
-    for char in text:
-      char_width = draw.textlength(char, font=font_path)
-      char_height = 80
-      draw.text((position_x, position_y), char, fill="black", font=font_path)
-      total_width += char_width
-      max_height = max(max_height, char_height)
-      position_x += char_width  # 다음 문자의 x 위치 조정
-    
-    # 선 추가
-    if page_num==1:
-      underline_x1 = 1750 
-      underline_x2 = 2100 
-      underline_y = 200 
-      draw.line([(underline_x1, underline_y), (underline_x2, underline_y)], fill="black", width=2)
-
-        # 'id :' 텍스트 삽입
-      id_text = 'ID :'
-      id_position_x = 1600  # 박스 왼쪽에 위치하도록 조정
-      id_position_y = 130
-      draw.text((id_position_x, id_position_y), id_text, fill="black", font=font_path)
-
-    return (image)
+        # Save the changes to a new PDF
+        pdf_document.save(output_pdf_path)
+        
+        # Close the PDF
+        pdf_document.close()
 
 
 
@@ -575,7 +533,16 @@ root.title("POINTCHECKER")
 root.geometry("800x660")
 root.resizable(False, False)
 root.configure(bg = "#FFFFFF")
-root.iconbitmap('assets\pointchecker.ico')
+root.iconbitmap('Frontend/assets/pointchecker.ico')
+
+# 창을 화면 중앙에 배치
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+window_width = 800
+window_height = 660
+x = (screen_width - window_width) // 2
+y = (screen_height - window_height) // 2
+root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
 # 왼쪽에 툴바 생성 
 toolbar_frame = tk.Frame(root)
