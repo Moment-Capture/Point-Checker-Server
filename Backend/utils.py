@@ -5,6 +5,7 @@ import pandas as pd
 from pdf2image import convert_from_path
 
 
+# 인트로 출력
 def print_intro():
     print()
     print("========================")
@@ -15,12 +16,14 @@ def print_intro():
     print()
 
 
+# 아웃트로 출력
 def print_outro():
     print()
     print("========================")
     print("감사합니다.")
     print("========================")
     print()
+
 
 # 모든 df cmd로 출력
 def print_full(df):
@@ -124,7 +127,7 @@ def convertToDf(file_path_list, path):
     return df
 
 
-def concatDfWithAns(df, answer_df):
+def concatDfWithAnswer(df, answer_df):
     # df와 answer_df 합치기
     for df_idx, df_row in df.iterrows():
         df_num = df_row["num"]
@@ -164,3 +167,18 @@ def label_to_int(label):
         return 5
     else:
         return 0
+
+
+# 중복 파일들 제거
+def deleteDuplicateFiles(path):
+    del_list = []
+    for f in os.listdir(path):
+        i = 1
+        while (True):
+            if '(' + str(i) + ').jpg' in f:
+                del_list.append(f)
+                i += 1
+            break
+
+    for file in del_list:
+        os.unlink(file)
