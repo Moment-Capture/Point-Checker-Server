@@ -139,9 +139,11 @@ def show_transfer():
     entry_2_value = tk.StringVar()  # entry_2_value를 함수 내에서 선언합니다.
     entry_2 = tk.Entry(
         bd=0,
-        bg="#D9D9D9",
-        fg="#000716",
-        highlightthickness=0,
+        bg="white",  # 배경색 (흰색)
+        fg="#000716",  # 텍스트 색상
+        highlightbackground="#d9d9d9",  # 테두리 색상
+        highlightthickness=1,
+        font=("Inter", 16 * -1),
         textvariable=entry_2_value
     )
     entry_2.place(
