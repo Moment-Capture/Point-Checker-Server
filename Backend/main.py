@@ -12,10 +12,9 @@ from utils import convertToJpg, convertToDf, concatDfWithAnswer, dfToFinalDf
 
 
 
-def getFinalDf():
+def getFinalDf(file_path):
     # 경로 정의: yolo 이용 편의성을 위해 경로 설정을 따로 해야 할 필요성 있음
-    cwd_path = os.getcwd()
-    path = str(Path(cwd_path))
+    path = str(Path(file_path))
     input_path = path + "\\input"
     save_path = path + "\\temp"
     input_save_path = save_path + "\\jpg"

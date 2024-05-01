@@ -5,7 +5,7 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from utils import cropBox, label_to_int, deleteDuplicateFiles
+from utils import cropBox, deleteDuplicateFiles
 
 
 def detect_subjective(path):
