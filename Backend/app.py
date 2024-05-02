@@ -7,7 +7,8 @@ from main import getFinalDf
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.getcwd() + "\\upload"
+CWD_PATH = os.getcwd()
+UPLOAD_FOLDER = str(CWD_PATH) + "/upload"
 ALLOWED_FILE_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
 ALLOWED_ANSWER_EXTENSIONS = set(['xlsx'])
 
@@ -28,12 +29,22 @@ def hello():
 
 @app.route("/upload", methods=["POST"])
 def upload_pdf():
+    ## upload 폴더 생성 ##
+    try:
+        if not os.path.exists(UPLOAD_FOLDER):
+            os.mkdir(UPLOAD_FOLDER)
+    except:
+        pass
+    ## upload 폴더 생성 ##
+
     if request.method == "POST":
         files = request.files
 
         file = files["file"]
         file_name = file.filename
         file_path = os.path.join(UPLOAD_FOLDER, file_name)
+        print(file_name)
+        print(file_path)
         if file and allowed_file(file_name):
             file.save(file_path)
         
@@ -43,10 +54,10 @@ def upload_pdf():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        df = pd.DataFrame()
-        df = getFinalDf(UPLOAD_FOLDER)
-        json_data = df.to_json(orient="records")
-        return json_data
+        # df = pd.DataFrame()
+        # df = getFinalDf(UPLOAD_FOLDER)
+        # json_data = df.to_json(orient="records")
+        # return json_data
         
 
 @app.route("/demo")
