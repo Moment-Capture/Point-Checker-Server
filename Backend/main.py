@@ -8,7 +8,7 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import convertToJpg, convertToDf, concatDfWithAnswer, dfToFinalDf
+from utils import print_full, convertToJpg, convertToDf, concatDfWithAnswer, dfToFinalDf
 
 
 def getFinalDf(upload_path):
@@ -53,6 +53,9 @@ def getFinalDf(upload_path):
     answer_df = pd.DataFrame()
     final_df = pd.DataFrame()
 
+    mul_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+    sub_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+
     # file path list
     original_pdf_file_path_list = []
     answer_file_path_list = []
@@ -77,15 +80,19 @@ def getFinalDf(upload_path):
     # 문제 인식 및 채점 진행
     categorize_qna(path)
     mul_df = detect_multiple(path)
+    print_full(mul_df)
     sub_df = detect_subjective(path)
-    sub_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+    print_full(sub_df)
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0)
+    print_full(df)
     df = concatDfWithAnswer(df, answer_df)
+    print_full(df)
 
     # df 정리해서 final_df로 반환
     final_df = dfToFinalDf(df)
+    print_full(final_df)
 
     ## 결과 저장 폴더 삭제 ##
     try:
