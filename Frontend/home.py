@@ -32,26 +32,32 @@ def relative_to_assets(path: str) -> Path:
 ##########################################################
 ### 함수 및 변수 ###
 
+## 공통  ##
 
-transfer_widgets = []
-home_widgets = []
+## 전역변수 ##
+widgets = []
+entry_columns = []
+file_path_var = None
+answersheet_path_var = None
+
+### 위젯 숨기는 함수 ###
+def hide_widgets(widget_list):
+    for widget in widget_list:
+        widget.place_forget()
 
 
-def process_input(num_candidates, file_path):
-    start_time = time.time()
-    insert_page_number(int(num_candidates), file_path)
-    end_time = time.time()  # 처리 종료 시간 기록
-    print(f"전체 처리 시간: {end_time - start_time} 초")
-    show_popup()
+### 서버 연결하는 함수 ###
+def server_connect(filepath):
+    url = "http://107.23.189.114:8080/upload"
+    files = {"file":open(filepath, "rb")}
+    r = requests.post(url, files=files)
 
-#종료 팝업 띄우기
-def show_popup():
-    root = tk.Tk()
-    root.withdraw()  # 메인 윈도우 숨기기
 
-    messagebox.showinfo("완료", "시험지 양식 적용이 완료되었습니다.")  # 팝업 메시지 보이기
-    root.destroy()  # Tkinter 종료
-    show_transfer()  # 메인 함수 다시 실행
+
+##1. 시험지 양식 적용 화면 함수##
+def browse_file():
+    file_path = filedialog.askopenfilename(filetypes=(("pdf files","*.pdf*"),))  # 파일 선택 다이얼로그 열기
+    file_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
 
 def insert_page_number(num_students, file_path):
     # Open the PDF
@@ -64,8 +70,6 @@ def insert_page_number(num_students, file_path):
     # Convert start and end points to coordinates relative to top-right corner
     start_point = (page_width - 180, 65)
     end_point = (page_width - 50, 65)
-
-    
 
     for i in range(0, num_students):
         output_pdf_path = os.path.splitext(file_path)[0] + f"_{i+1}.pdf"
@@ -95,23 +99,23 @@ def insert_page_number(num_students, file_path):
         
         # Close the PDF
         pdf_document.close()
+    show_popup()
+
+#종료 팝업 띄우기
+def show_popup():
+    root = tk.Tk()
+    root.withdraw()  # 메인 윈도우 숨기기
+
+    messagebox.showinfo("완료", "시험지 양식 적용이 완료되었습니다.")  # 팝업 메시지 보이기
+    root.destroy()  # Tkinter 종료
+    show_transfer()  # 메인 함수 다시 실행
 
 
-
-### 위젯 숨기는 함수 ###
-def hide_widgets(widget_list):
-    for widget in widget_list:
-        widget.place_forget()
-
-
-
-### 서버 연결하는 함수 ###
-def server_connect(filepath):
-    url = "http://107.23.189.114:8080/upload"
-    files = {"file":open(filepath, "rb")}
-    r = requests.post(url, files=files)
-
-
+##2. 채점하기 화면 함수##
+#답안지 파일용
+def browse_file2():
+    file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
+    answersheet_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
 
 ##########################################################
 ##########################################################
@@ -123,8 +127,8 @@ def server_connect(filepath):
 ### 시험지 양식 적용 화면 ###
 ############################
 def show_transfer():
-    global home_widgets
-    hide_widgets(home_widgets)
+    global widgets, file_path_var
+    hide_widgets(widgets)
     canvas_r.delete("all")  # 캔버스 초기화
     
     canvas_r.create_text(
@@ -153,7 +157,6 @@ def show_transfer():
         height=25
     )
 
-    
     canvas_r.create_text(
         35.0,
         25.0,
@@ -171,7 +174,9 @@ def show_transfer():
         font=("Inter", 14 * -1)
     )
 
-    file_path_var=tk.StringVar()
+    #파일경로를 전역변수로 사용
+
+    file_path_var = tk.StringVar()
 
     file_path_label=tk.Label(
         bd=0,
@@ -187,10 +192,6 @@ def show_transfer():
         height=30
     )
 
-    def browse_file():
-        file_path = filedialog.askopenfilename()  # 파일 선택 다이얼로그 열기
-        file_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
-   
    #시험지 파일 업로드 버튼
     button_2 = tk.Button(
         text="시험지 파일 업로드",
@@ -211,7 +212,7 @@ def show_transfer():
         text="인쇄용 파일 저장",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: process_input(entry_2_value.get(), file_path_var.get()), #print("button_1 clicked"),
+        command=lambda: insert_page_number(int(entry_2_value.get()), file_path_var.get()), #print("button_1 clicked"),
         relief="flat"
     )
     button_1.place(
@@ -220,9 +221,8 @@ def show_transfer():
         width=135,
         height=30.0
     )
-    # transfer_widgets 리스트 정의
-    global transfer_widgets
-    transfer_widgets = [entry_2, button_2, button_1, file_path_label]
+
+    widgets = [entry_2, button_2, button_1, file_path_label]
 
 
 
@@ -230,8 +230,8 @@ def show_transfer():
 ####### 채점하기 화면 #######
 #############################
 def show_grade():
-    global transfer_widgets
-    hide_widgets(transfer_widgets)
+    global widgets, file_path_var, answersheet_path_var
+    hide_widgets(widgets)
     canvas_r.delete("all")  # 캔버스 초기화
 
     # 1. 시험정보를 입력하세요
@@ -247,7 +247,7 @@ def show_grade():
     # 1-1. 시험명
     canvas_r.create_text(
         40,
-        50,
+        55,
         anchor="nw",
         text="시험명",
         fill="#000000",
@@ -263,7 +263,7 @@ def show_grade():
     )
     entry_5.place(
         x=340, 
-        y=45,
+        y=50,
         width=140,
         height=23
     )
@@ -271,7 +271,7 @@ def show_grade():
     # 1-2. 시험지1부당매수
     canvas_r.create_text(
         40,
-        80,
+        90,
         anchor="nw",
         text="시험지 1부당 매수",
         fill="#000000",
@@ -287,15 +287,16 @@ def show_grade():
     )
     entry_4.place(
         x=340, 
-        y=75,
+        y=85,
         width=140,
         height=23
     )
-
+    
     # 1-3. 총문항수
+    
     canvas_r.create_text(
         40,
-        110,
+        125,
         anchor="nw",
         text="총 문항 수",
         fill="#000000",
@@ -311,7 +312,7 @@ def show_grade():
     )
     entry_3.place(
         x=340, 
-        y=105,
+        y=120,
         width=140,
         height=23
     )
@@ -319,7 +320,7 @@ def show_grade():
     # 1-4. 응시자수
     canvas_r.create_text(
         40,
-        140,
+        160,
         anchor="nw",
         text="응시자수",
         fill="#000000",
@@ -335,7 +336,7 @@ def show_grade():
     )
     entry_2.place(
         x=340, 
-        y=135,
+        y=155,
         width=140,
         height=23
     )
@@ -343,7 +344,7 @@ def show_grade():
     # 1-5. 문제유형
     canvas_r.create_text(
         40,
-        170,
+        195,
         anchor="nw",
         text="문제유형",
         fill="#000000",
@@ -363,7 +364,7 @@ def show_grade():
     ) 
     choice_checkbox.place(
         x=340, 
-        y=165
+        y=190
     )
  
     # 1-7. 단답식 체크박스 생성
@@ -379,13 +380,13 @@ def show_grade():
     )
     short_answer_checkbox.place(
         x=420,
-        y=165
+        y=190
     )
 
     # 2. 채점할 시험지 파일 업로드하세요
     canvas_r.create_text(
         40,
-        220,
+        250,
         anchor="nw",
         text="2. 채점할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
         fill="#000000",
@@ -393,7 +394,8 @@ def show_grade():
     )
 
     # 2-1. 시험지 파일 업로드 버튼
-    file_path_var=tk.StringVar()
+    file_path_var = tk.StringVar()
+    
     file_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -403,14 +405,10 @@ def show_grade():
         )
     file_path_label.place(
         x=370,
-        y=250.0, 
+        y=280.0, 
         width=300,
         height=30
     )
-
-    def browse_file():
-        file_path = filedialog.askopenfilename()  # 파일 선택 다이얼로그 열기
-        file_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
    
     button_2 = tk.Button(
         text="시험지 파일 업로드",
@@ -421,7 +419,7 @@ def show_grade():
     )
     button_2.place(
         x=200,
-        y=250.0,
+        y=280.0,
         width=150,
         height=30.0
     )
@@ -430,45 +428,42 @@ def show_grade():
     # 3. 시험지 답을 입력해주세요
     canvas_r.create_text(
         40,
-        310,
+        360,
         anchor="nw",
-        text="3. 시험지의 답을 입력해주세요.",
+        text="3. 시험지의 답 파일을 양식에 맞추어 업로드 해주세요.(파일확장자: .xlsx)",
         fill="#000000",
         font=("Inter", 14 * -1)
     )
 
-    # 표의 행과 열 수 정의
-    num_rows = 4
-    num_columns = 15
-
-    # 표의 셀 크기 설정
-    cell_width = 35 
-    cell_height = 30
-
-    # 표의 시작 위치 설정
-    start_x = 200
-    start_y = 340 
-    cell_entries = []
+    answersheet_path_var = tk.StringVar()
     
-    # 표 생성
-    for i in range(num_rows):
-        for j in range(num_columns):
-            # 각 셀의 좌표 계산
-            x1 = start_x + j * cell_width
-            y1 = start_y + i * cell_height
-            x2 = x1 + cell_width
-            y2 = y1 + cell_height
-            
-            # 셀 생성
-            cell_entry = tk.Entry(
-                bd=1,  # 테두리 굵기 설정
-                bg="#FFFFFF",  # 배경색 설정
-                fg="#000000",  # 텍스트 색상 설정
-                highlightthickness=0
-            )
-            cell_entry.place(x=x1, y=y1, width=cell_width, height=cell_height)
-            cell_entries.append((cell_entry, x1, y1, x2, y2))
-            
+    answersheet_path_label=tk.Label(
+        bd=0,
+        bg="#dddddd",
+        fg="#000716",
+        highlightthickness=0,
+        textvariable=answersheet_path_var
+        )
+    answersheet_path_label.place(
+        x=370,
+        y=400.0, 
+        width=300,
+        height=30
+    )
+    button_6 = tk.Button(
+        text="답 파일 업로드",
+        borderwidth=0,
+        highlightthickness=0,
+        command=browse_file2,
+        relief="flat"
+    )
+    button_6.place(
+        x=200,
+        y=400.0,
+        width=150,
+        height=30.0
+    )
+
 
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
@@ -486,7 +481,7 @@ def show_grade():
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: server_connect(file_path_var.get()), ### 서버 연결 함수 ###
+        command=lambda: server_connect(file_path_var.get(), answersheet_path_var.get()), ### 서버 연결 함수 ###
         relief="flat"
     )
     button_1.place(
@@ -517,10 +512,7 @@ def show_grade():
     )
 
     ## home_widgets 리스트 정의 ##
-    global home_widgets
-    home_widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar]
-    home_widgets += [entry[0] for entry in cell_entries]
-    ## home_widgets 리스트 정의 ##
+    widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar]
 
 
 
