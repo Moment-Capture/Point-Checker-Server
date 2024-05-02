@@ -67,7 +67,7 @@ def upload_pdf():
 @app.route("/demo")
 def view_demo():
     df = pd.DataFrame()
-    df = getFinalDf(UPLOAD_FOLDER )
+    df = getFinalDf(UPLOAD_FOLDER)
     json_data = df.to_json(orient="records")
     return json_data
 

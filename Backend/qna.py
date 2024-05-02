@@ -97,15 +97,15 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
 
 def categorize_qna(path):
     # 경로 정의
-    save_path = path + "\\temp"
-    input_save_path = save_path + "\\jpg"
-    mul_save_path = save_path + "\\mul"
-    sub_save_path = save_path + "\\sub"
+    save_path = path + "/temp"
+    input_save_path = save_path + "/jpg"
+    mul_save_path = save_path + "/mul"
+    sub_save_path = save_path + "/sub"
     save_name = ""
 
-    model_path = path + "\\models"
-    qna_path = model_path + "\\categorize\\weights\\best.pt"
-    match_path = model_path + "\\matching\\weights\\best.pt"
+    model_path = path + "/models"
+    qna_path = model_path + "/categorize/weights/best.pt"
+    match_path = model_path + "/matching/weights/best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(input_save_path).glob('*.jpg'))
@@ -139,13 +139,13 @@ def categorize_qna(path):
                     continue
 
                 elif (names[int(cls)] == "multiple"):
-                    save_name = mul_save_path + "\\mul_" + str(mul_save_idx) + ".jpg"
+                    save_name = mul_save_path + "/mul_" + str(mul_save_idx) + ".jpg"
                     cv2.imwrite(save_name, qna)
                     mul_save_idx += 1
                     continue
 
                 elif (names[int(cls)] == "subjective"):
-                    save_name = sub_save_path + "\\sub_" + str(sub_save_idx) + ".jpg"
+                    save_name = sub_save_path + "/sub_" + str(sub_save_idx) + ".jpg"
                     cv2.imwrite(save_name, qna)
                     sub_save_idx += 1
                     continue
