@@ -2,10 +2,10 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
-from reportlab.pdfgen import canvas
+# from reportlab.pdfgen import canvas
 
-import os, gc
-import time
+# import gc, time
+import os
 import requests
 import fitz
 
