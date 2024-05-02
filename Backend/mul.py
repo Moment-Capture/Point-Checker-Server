@@ -17,7 +17,7 @@ def detect_multiple(path):
     mul_save_path = save_path + "/mul"
 
     model_path = BE_PATH + "/models"
-    multiple_path = BE_PATH + "/multiple/weights/best.pt"
+    multiple_path = model_path + "/multiple/weights/best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(mul_save_path).glob('*.jpg'))
