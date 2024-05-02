@@ -8,7 +8,10 @@ from main import getFinalDf
 app = Flask(__name__)
 
 CWD_PATH = os.getcwd()
-UPLOAD_FOLDER = str(CWD_PATH) + "/upload"
+
+BE_PATH = "/home/ubuntu/Point-Checker/Backend"
+UPLOAD_FOLDER = BE_PATH + "/upload"
+
 ALLOWED_FILE_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
 ALLOWED_ANSWER_EXTENSIONS = set(['xlsx'])
 

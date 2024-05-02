@@ -7,6 +7,9 @@ from ultralytics import YOLO
 from utils import cropBox, concatImage
 
 
+BE_PATH = "/home/ubuntu/Point-Checker/Backend"
+
+
 def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_path):
     # cropped_arr에 저장된 crop_obj 매칭
     model_match = YOLO(match_path)
@@ -103,7 +106,7 @@ def categorize_qna(path):
     sub_save_path = save_path + "/sub"
     save_name = ""
 
-    model_path = path + "/models"
+    model_path = BE_PATH + "/models"
     qna_path = model_path + "/categorize/weights/best.pt"
     match_path = model_path + "/matching/weights/best.pt"
 

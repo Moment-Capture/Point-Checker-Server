@@ -8,6 +8,12 @@ pathlib
 natsort
 
 opencv
+
 pdf2image
+poppler
+
+openpyxl
+
 utlralytics
+
 easyocr

@@ -8,13 +8,16 @@ from ultralytics import YOLO
 from utils import cropBox, label_to_int
 
 
+BE_PATH = "/home/ubuntu/Point-Checker/Backend"
+
+
 def detect_multiple(path):
     # 경로 정의
     save_path = path + "/temp"
     mul_save_path = save_path + "/mul"
 
-    model_path = path + "/models"
-    multiple_path = model_path + "/multiple/weights/best.pt"
+    model_path = BE_PATH + "/models"
+    multiple_path = BE_PATH + "/multiple/weights/best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(mul_save_path).glob('*.jpg'))
