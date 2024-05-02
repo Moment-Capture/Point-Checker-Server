@@ -47,9 +47,10 @@ def hide_widgets(widget_list):
 
 
 ### 서버 연결하는 함수 ###
-def server_connect(filepath):
+def server_connect(file_path, answer_path):
     url = "http://107.23.189.114:8080/upload"
-    files = {"file":open(filepath, "rb")}
+    files = {"file":open(file_path, "rb"),
+             "answer":open(answer_path, "rb")}
     r = requests.post(url, files=files)
 
 
