@@ -22,14 +22,11 @@ def getFinalDf(upload_path):
     os.chdir(path)
 
     ## input 폴더 생성 ##
-    # try:
-    #     # if os.path.exists(input_path):
-    #     #     shutil.rmtree(input_path)
-    #     # os.mkdir(input_path)
-    #     if not os.path.exists(input_path):
-    #         os.mkdir(input_path)
-    # except:
-    #     pass
+    try:
+        if not os.path.exists(input_path):
+            os.mkdir(input_path)
+    except:
+        pass
     ## input 폴더 생성 ##
 
     ## 결과 저장 폴더 생성 ##
