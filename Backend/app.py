@@ -94,8 +94,6 @@ def view_test():
 
     df = pd.concat([mul_df, sub_df], axis=0)
     print_full(df)
-    df = concatDfWithAnswer(df, answer_df)
-    print_full(df)
 
     final_df = dfToFinalDf(df)
     print_full(final_df)
