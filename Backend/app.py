@@ -87,18 +87,18 @@ def view_test():
     path = UPLOAD_FOLDER
     
     mul_df = detect_multiple(path)
+    print()
     print_full(mul_df)
     
     sub_df = detect_subjective(path)
+    print()
     print_full(sub_df)
 
     df = pd.concat([mul_df, sub_df], axis=0)
+    print()
     print_full(df)
 
-    final_df = dfToFinalDf(df)
-    print_full(final_df)
-
-    json_data = final_df.to_json(orient="records")
+    json_data = df.to_json(orient="records")
     return json_data
 
 
