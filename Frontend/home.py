@@ -502,7 +502,7 @@ def show_grade():
         text="채점 결과 확인하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_3 clicked"),
+        command=show_result,
         relief="flat"
     ) 
     button_3.place(
@@ -513,7 +513,44 @@ def show_grade():
     )
 
     ## home_widgets 리스트 정의 ##
-    widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar]
+    widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar, button_6,answersheet_path_label]
+
+
+#####################################
+####### 채점 결과 확인하기 화면 #######
+#####################################
+
+def show_result():
+    global widgets
+    hide_widgets(widgets)
+    canvas_r.delete("all")  # 캔버스 초기화
+
+    # 1. 채점 결과 확인
+    canvas_r.create_text(
+        40.0,
+        20.0,
+        anchor="nw",
+        text="1. 채점 결과를 확인하세요.",
+        fill="#000000",
+        font=("Inter", 14 * -1)
+    )
+    button_1 = tk.Button(
+        text="채점 결과 다운로드",
+        borderwidth=0,
+        highlightthickness=0,
+        command=lambda: print("clicked 채점 결과 다운로드"),
+        relief="flat"
+    )
+    button_1.place(
+        x=600,
+        y=20,
+        width=125,
+        height=30
+    )
+    
+
+    ## widgets 리스트 정의 ##
+    widgets = [button_1]
 
 
 
