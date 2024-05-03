@@ -2,6 +2,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
+from tkinter import *
 # from reportlab.pdfgen import canvas
 
 # import gc, time
@@ -34,6 +35,14 @@ def relative_to_assets(path: str) -> Path:
 ### 함수 및 변수 ###
 
 ## 공통  ##
+
+## 공통 버튼 스타일 ##
+button_style = {
+    "bg": "#FCB6A8",     # 배경색
+    "fg": "white",       # 텍스트 색상
+    "font": (FONT_PATH, 12),  # 폰트 및 크기
+    "relief": RIDGE      # 외곽선 스타일
+}
 
 ## 전역변수 ##
 widgets = []
@@ -139,7 +148,7 @@ def show_transfer():
         anchor="nw",
         text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     entry_2_value = tk.StringVar()  # entry_2_value를 함수 내에서 선언합니다.
@@ -149,7 +158,7 @@ def show_transfer():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Inter", 16 * -1),
+        font=("Malgun Gothic", 16 * -1),
         textvariable=entry_2_value
     )
     entry_2.place(
@@ -165,7 +174,7 @@ def show_transfer():
         anchor="nw",
         text="1. 시험 정보를 입력 하세요.",
         fill="#000000",
-        font=("Inter", 14 * -1) 
+        font=("Malgun Gothic", 14 * -1) 
     )
     canvas_r.create_text(
         35,
@@ -173,7 +182,7 @@ def show_transfer():
         anchor="nw",
         text="응시자수",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     #파일경로를 전역변수로 사용
@@ -193,14 +202,14 @@ def show_transfer():
         width=390, 
         height=30
     )
-
+    photo = PhotoImage(file = ASSETS_PATH /"frame0/button_2.png")
    #시험지 파일 업로드 버튼
     button_2 = tk.Button(
         text="시험지 파일 업로드",
         borderwidth=0,
         highlightthickness=0,
-        command=browse_file,
-        relief="flat"
+        command=browse_file
+        #, **button_style
     )
     button_2.place(
         x=195,
@@ -214,8 +223,8 @@ def show_transfer():
         text="인쇄용 파일 저장",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: insert_page_number(int(entry_2_value.get()), file_path_var.get()), #print("button_1 clicked"),
-        relief="flat"
+        command=lambda: insert_page_number(int(entry_2_value.get()), file_path_var.get())
+        #,relief="flat"
     )
     button_1.place(
         x=620,
@@ -243,7 +252,7 @@ def show_grade():
         anchor="nw",
         text="1. 시험 정보를 입력 하세요.",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     # 1-1. 시험명
@@ -253,7 +262,7 @@ def show_grade():
         anchor="nw",
         text="시험명",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
     entry_5 = tk.Text(
         bd=0,
@@ -261,7 +270,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Inter", 16 * -1)
+        font=("Malgun Gothic", 16 * -1)
     )
     entry_5.place(
         x=340, 
@@ -277,7 +286,7 @@ def show_grade():
         anchor="nw",
         text="시험지 1부당 매수",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     ) 
     entry_4 = tk.Text(
         bd=0,
@@ -285,7 +294,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Inter", 16 * -1)
+        font=("Malgun Gothic", 16 * -1)
     )
     entry_4.place(
         x=340, 
@@ -302,7 +311,7 @@ def show_grade():
         anchor="nw",
         text="총 문항 수",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
     entry_3 = tk.Text(
         bd=0,
@@ -310,7 +319,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Inter", 16 * -1)
+        font=("Malgun Gothic", 16 * -1)
     )
     entry_3.place(
         x=340, 
@@ -326,7 +335,7 @@ def show_grade():
         anchor="nw",
         text="응시자수",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
     entry_2 = tk.Text(
         bd=0,
@@ -334,7 +343,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Inter", 16 * -1)
+        font=("Malgun Gothic", 16 * -1)
     )
     entry_2.place(
         x=340, 
@@ -350,7 +359,7 @@ def show_grade():
         anchor="nw",
         text="문제유형",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     # 1-6. 객관식 체크박스 생성
@@ -392,7 +401,7 @@ def show_grade():
         anchor="nw",
         text="2. 채점할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     # 2-1. 시험지 파일 업로드 버튼
@@ -434,7 +443,7 @@ def show_grade():
         anchor="nw",
         text="3. 시험지의 답 파일을 양식에 맞추어 업로드 해주세요.(파일확장자: .xlsx)",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     answersheet_path_var = tk.StringVar()
@@ -474,7 +483,7 @@ def show_grade():
         anchor="nw",
         text="4. 채점하기 버튼을 클릭하세요. \n\n   채점이 완료되면 ‘결과 다운로드’ 버튼을 클릭하여 채점 결과를 다운로드 하세요.",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
 
     # 4-1. 채점하기 버튼
@@ -533,7 +542,7 @@ def show_result():
         anchor="nw",
         text="1. 채점 결과를 확인하세요.",
         fill="#000000",
-        font=("Inter", 14 * -1)
+        font=("Malgun Gothic", 14 * -1)
     )
     button_1 = tk.Button(
         text="채점 결과 다운로드",
@@ -565,7 +574,7 @@ root = tk.Tk()
 root.title("POINTCHECKER")
 root.geometry("800x660")
 root.resizable(False, False)
-root.configure(bg = "#FFFFFF")
+root.configure(bg = "#FFDED7")#"#FFFFFF")
 root.iconbitmap(ICON_PATH)
 
 # 창을 화면 중앙에 배치
@@ -578,26 +587,28 @@ y = (screen_height - window_height) // 2
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
 # 왼쪽에 툴바 생성 
-toolbar_frame = tk.Frame(root)
-toolbar_frame.pack(side=tk.LEFT, fill=tk.Y)
+#toolbar_frame = tk.Frame(root,bg="#FFDED7")
+#toolbar_frame.pack(side=tk.LEFT, fill=tk.Y)
 
 # 오른쪽에 캔버스 생성
 canvas_r = tk.Canvas(
     root,
     bg = "#FFFFFF",
     height = 660,
-    width = 800,
+    width = 650,
     bd = 0,
     highlightthickness = 0,
     relief = "ridge"
 ) 
 canvas_r.pack(side=tk.RIGHT, padx=0, pady=0)
- 
 # 툴바 버튼 생성 
-transfer_button = tk.Button(toolbar_frame, text="시험지 양식 적용", command=show_transfer, bg="#d9d9d9", font=("Inter", 14 * -1))
-transfer_button.pack(fill=tk.X, padx=10, pady=20,ipadx=10, ipady=20)
-home_button = tk.Button(toolbar_frame, text="채점 하기", command=show_grade, bg="#d9d9d9",font=("Inter", 14 * -1)) 
-home_button.pack(fill=tk.X, padx=10, pady=10,ipadx=10, ipady=20) 
+photo = PhotoImage(file = ASSETS_PATH / "tool1.png")
+transfer_button = tk.Button(root, image=photo, command=show_transfer, bg="#FFDED7", borderwidth=-1)
+transfer_button.pack(padx=10, pady=10)
+
+photo2 = PhotoImage(file = ASSETS_PATH / "tool2.png")
+home_button = tk.Button(root, image=photo2, command=show_grade, bg="#FFDED7", borderwidth=-1) 
+home_button.pack( padx=10, pady=10) 
 
 # 메인 화면 설정
 #show_grade()
