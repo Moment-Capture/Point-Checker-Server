@@ -93,7 +93,7 @@ def concatImage(crop_obj, searching_obj):
 
 
 # jpg로 변환
-def convertToJpg(file_path_list, path):
+def convertPdfToJpg(file_path_list, path):
     file_path = ""
 
     if file_path_list is None:
@@ -112,7 +112,7 @@ def convertToJpg(file_path_list, path):
 
 
 # df으로 변환
-def convertToDf(file_path_list, path):
+def convertExcelToDf(file_path_list, path):
     file_path = path
     df = pd.DataFrame()
 

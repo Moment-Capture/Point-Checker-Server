@@ -8,7 +8,7 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, convertToJpg, convertToDf, concatDfWithAnswer, dfToFinalDf
+from utils import print_full, convertPdfToJpg, convertExcelToDf, concatDfWithAnswer, dfToFinalDf
 
 
 def getFinalDf(upload_path):
@@ -65,10 +65,10 @@ def getFinalDf(upload_path):
         return None
 
     # pdf 파일 jpg로 변환
-    convertToJpg(original_pdf_file_path_list, input_save_path)
+    convertPdfToJpg(original_pdf_file_path_list, input_save_path)
 
     # excel 읽어 df로 변환
-    answer_df = convertToDf(answer_file_path_list, input_path)
+    answer_df = convertExcelToDf(answer_file_path_list, input_path)
     
     if len(answer_df) == 0:
         print("answer_df empty")
