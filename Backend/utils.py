@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
+from pathlib import Path
 from pdf2image import convert_from_path
 
 
@@ -170,15 +171,6 @@ def label_to_int(label):
 
 
 # 중복 파일들 제거
-def deleteDuplicateFiles(path):
-    del_list = []
-    for f in os.listdir(path):
-        i = 1
-        while (True):
-            if '(' + str(i) + ').jpg' in f:
-                del_list.append(f)
-                i += 1
-            break
-
-    for file in del_list:
-        os.unlink(file)
+def deleteDuplicateFiles(path, images):
+    for file in Path(path).glob('*).jpg'):
+        images.remove(file)
