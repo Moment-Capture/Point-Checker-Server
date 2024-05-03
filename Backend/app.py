@@ -83,6 +83,8 @@ def view_demo():
 def view_test():
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
+
+    path = UPLOAD_FOLDER
     
     mul_df = detect_multiple(path)
     print_full(mul_df)
