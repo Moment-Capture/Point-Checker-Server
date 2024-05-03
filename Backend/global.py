@@ -1,0 +1,1 @@
+BE_PATH = "/home/ubuntu/Point-Checker/Backend"

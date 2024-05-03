@@ -2,10 +2,10 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
-from reportlab.pdfgen import canvas
+# from reportlab.pdfgen import canvas
 
-import os, gc
-import time
+# import gc, time
+import os
 import requests
 import fitz
 
@@ -14,6 +14,7 @@ FILE_PATH = Path(__file__)
 OUTPUT_PATH = FILE_PATH.parent
 ASSETS_PATH = OUTPUT_PATH / "assets"
 FONT_PATH = ASSETS_PATH / "NanumGothic.ttf"
+ICON_PATH = ASSETS_PATH / "pointchecker.ico"
 
 
 
@@ -565,7 +566,7 @@ root.title("POINTCHECKER")
 root.geometry("800x660")
 root.resizable(False, False)
 root.configure(bg = "#FFFFFF")
-root.iconbitmap('Frontend/assets/pointchecker.ico')
+root.iconbitmap(ICON_PATH)
 
 # 창을 화면 중앙에 배치
 screen_width = root.winfo_screenwidth()

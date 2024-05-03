@@ -8,13 +8,16 @@ from ultralytics import YOLO
 from utils import cropBox, deleteDuplicateFiles
 
 
+BE_PATH = "/home/ubuntu/Point-Checker/Backend"
+
+
 def detect_subjective(path):
     # 경로 정의
-    save_path = path + "\\temp"
-    sub_save_path = save_path + "\\sub"
+    save_path = path + "/temp"
+    sub_save_path = save_path + "/sub"
 
-    model_path = path + "\\models"
-    subjective_path = model_path + "\\subjective\\weights\\best.pt"
+    model_path = BE_PATH + "/models"
+    subjective_path = model_path + "/subjective/weights/best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(sub_save_path).glob('*.jpg'))
