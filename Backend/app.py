@@ -5,6 +5,10 @@ import pandas as pd
 
 from main import getFinalDf
 
+from mul import detect_multiple
+from sub import detect_subjective
+from utils import print_full, concatDfWithAnswer, dfToFinalDf
+
 app = Flask(__name__)
 
 CWD_PATH = os.getcwd()
@@ -72,6 +76,29 @@ def view_demo():
     df = pd.DataFrame()
     df = getFinalDf(UPLOAD_FOLDER)
     json_data = df.to_json(orient="records")
+    return json_data
+
+
+@app.route("/test")
+def view_test():
+    mul_df = pd.DataFrame()
+    sub_df = pd.DataFrame()
+    
+    mul_df = detect_multiple(path)
+    print_full(mul_df)
+    
+    sub_df = detect_subjective(path)
+    print_full(sub_df)
+
+    df = pd.concat([mul_df, sub_df], axis=0)
+    print_full(df)
+    df = concatDfWithAnswer(df, answer_df)
+    print_full(df)
+
+    final_df = dfToFinalDf(df)
+    print_full(final_df)
+
+    json_data = final_df.to_json(orient="records")
     return json_data
 
 
