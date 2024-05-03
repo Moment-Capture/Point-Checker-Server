@@ -7,7 +7,7 @@ from main import getFinalDf
 
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, concatDfWithAnswer, dfToFinalDf
+from utils import print_full, print_intro, print_outro
 
 app = Flask(__name__)
 
@@ -81,24 +81,28 @@ def view_demo():
 
 @app.route("/test")
 def view_test():
+    print_intro()
+    
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
 
     path = UPLOAD_FOLDER
     
     mul_df = detect_multiple(path)
+    print()
     print_full(mul_df)
     
     sub_df = detect_subjective(path)
+    print()
     print_full(sub_df)
 
     df = pd.concat([mul_df, sub_df], axis=0)
+    print()
     print_full(df)
 
-    final_df = dfToFinalDf(df)
-    print_full(final_df)
+    print_outro()
 
-    json_data = final_df.to_json(orient="records")
+    json_data = df.to_json(orient="records")
     return json_data
 
 
