@@ -14,7 +14,7 @@ import fitz
 FILE_PATH = Path(__file__)
 OUTPUT_PATH = FILE_PATH.parent
 ASSETS_PATH = OUTPUT_PATH / "assets"
-FONT_PATH = ASSETS_PATH / "NanumGothic.ttf"
+FONT_PATH = "Malgun Gothic"
 ICON_PATH = ASSETS_PATH / "pointchecker.ico"
 
 
@@ -148,7 +148,7 @@ def show_transfer():
         anchor="nw",
         text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     entry_2_value = tk.StringVar()  # entry_2_value를 함수 내에서 선언합니다.
@@ -158,7 +158,7 @@ def show_transfer():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Malgun Gothic", 16 * -1),
+        font=(FONT_PATH, 16 * -1),
         textvariable=entry_2_value
     )
     entry_2.place(
@@ -174,7 +174,7 @@ def show_transfer():
         anchor="nw",
         text="1. 시험 정보를 입력 하세요.",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1) 
+        font=(FONT_PATH, 14 * -1) 
     )
     canvas_r.create_text(
         35,
@@ -182,7 +182,7 @@ def show_transfer():
         anchor="nw",
         text="응시자수",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     #파일경로를 전역변수로 사용
@@ -252,7 +252,7 @@ def show_grade():
         anchor="nw",
         text="1. 시험 정보를 입력 하세요.",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     # 1-1. 시험명
@@ -262,7 +262,7 @@ def show_grade():
         anchor="nw",
         text="시험명",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
     entry_5 = tk.Text(
         bd=0,
@@ -270,7 +270,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Malgun Gothic", 16 * -1)
+        font=(FONT_PATH, 16 * -1)
     )
     entry_5.place(
         x=340, 
@@ -286,7 +286,7 @@ def show_grade():
         anchor="nw",
         text="시험지 1부당 매수",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     ) 
     entry_4 = tk.Text(
         bd=0,
@@ -294,7 +294,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Malgun Gothic", 16 * -1)
+        font=(FONT_PATH, 16 * -1)
     )
     entry_4.place(
         x=340, 
@@ -311,7 +311,7 @@ def show_grade():
         anchor="nw",
         text="총 문항 수",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
     entry_3 = tk.Text(
         bd=0,
@@ -319,7 +319,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Malgun Gothic", 16 * -1)
+        font=(FONT_PATH, 16 * -1)
     )
     entry_3.place(
         x=340, 
@@ -335,7 +335,7 @@ def show_grade():
         anchor="nw",
         text="응시자수",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
     entry_2 = tk.Text(
         bd=0,
@@ -343,7 +343,7 @@ def show_grade():
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=("Malgun Gothic", 16 * -1)
+        font=(FONT_PATH, 16 * -1)
     )
     entry_2.place(
         x=340, 
@@ -359,7 +359,7 @@ def show_grade():
         anchor="nw",
         text="문제유형",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     # 1-6. 객관식 체크박스 생성
@@ -401,7 +401,7 @@ def show_grade():
         anchor="nw",
         text="2. 채점할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     # 2-1. 시험지 파일 업로드 버튼
@@ -443,7 +443,7 @@ def show_grade():
         anchor="nw",
         text="3. 시험지의 답 파일을 양식에 맞추어 업로드 해주세요.(파일확장자: .xlsx)",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     answersheet_path_var = tk.StringVar()
@@ -483,7 +483,7 @@ def show_grade():
         anchor="nw",
         text="4. 채점하기 버튼을 클릭하세요. \n\n   채점이 완료되면 ‘결과 다운로드’ 버튼을 클릭하여 채점 결과를 다운로드 하세요.",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
 
     # 4-1. 채점하기 버튼
@@ -542,7 +542,7 @@ def show_result():
         anchor="nw",
         text="1. 채점 결과를 확인하세요.",
         fill="#000000",
-        font=("Malgun Gothic", 14 * -1)
+        font=(FONT_PATH, 14 * -1)
     )
     button_1 = tk.Button(
         text="채점 결과 다운로드",
