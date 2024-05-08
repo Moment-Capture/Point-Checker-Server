@@ -73,10 +73,12 @@ def upload_pdf():
         
         print("파일 업로드 성공")
 
-        df = pd.DataFrame()
-        df = getFinalDf(id_path)
-        json_data = df.to_json(orient="records")
-        return json_data, 200
+        # df = pd.DataFrame()
+        # df = getFinalDf(id_path)
+        # json_data = df.to_json(orient="records")
+        # return json_data, 200
+    
+    return 200
         
 
 @app.route("/demo")
