@@ -127,7 +127,7 @@ def view_test():
     answer_df = convertExcelToDf(answer_file_path_list, id_path)
 
     original_pdf_file_path_list = []
-    original_pdf_file_path_list = os_sorted(Path(path).glob('*.pdf'))
+    original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
     convertPdfToJpg(original_pdf_file_path_list, input_save_path)
     
     mul_df = pd.DataFrame()
