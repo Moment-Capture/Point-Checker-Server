@@ -506,7 +506,6 @@ def show_grade():
     progress_bar = ttk.Progressbar(root, orient="horizontal", length=260, mode="indeterminate")
     progress_bar.place(x=350, y=565)
 
-
     # 4-3. 채점 결과 확인하기 버튼
     button_3 = tk.Button(
         text="채점 결과 확인하기",
@@ -558,15 +557,7 @@ def show_result():
         height=30
     )
     
-
-    ## widgets 리스트 정의 ##
     widgets = [button_1]
-
-
-
-##########################################################
-##########################################################
-
 
 
 # 메인 창 생성
@@ -586,9 +577,6 @@ x = (screen_width - window_width) // 2
 y = (screen_height - window_height) // 2
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
-# 왼쪽에 툴바 생성 
-#toolbar_frame = tk.Frame(root,bg="#FFDED7")
-#toolbar_frame.pack(side=tk.LEFT, fill=tk.Y)
 
 # 오른쪽에 캔버스 생성
 canvas_r = tk.Canvas(
@@ -611,7 +599,6 @@ home_button = tk.Button(root, image=photo2, command=show_grade, bg="#FFDED7", bo
 home_button.pack( padx=10, pady=10) 
 
 # 메인 화면 설정
-#show_grade()
 show_transfer()
 
 # 메인 루프 실행
