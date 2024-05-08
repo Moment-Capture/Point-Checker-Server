@@ -560,6 +560,17 @@ def show_result():
     )
     
 
+    #결과 확인용 임시 textarea
+
+    T = tk.Text(root, height=40, width=80)
+    T.place(
+        x=200,
+        y=60
+    )
+    #텍스트 삽입문 아래 큰따옴표 안에 원하는 텍스트 넣으면 됨
+    T.insert(tk.END, "HELLO")
+    
+
     ## widgets 리스트 정의 ##
     widgets = [button_1]
 
