@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 from main import getFinalDf
-
+from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
 from utils import print_full, print_intro, print_outro
@@ -99,6 +99,8 @@ def view_test():
     sub_df = pd.DataFrame()
 
     id_path = UPLOAD_FOLDER + "/id"
+
+    categorize_qna(id_path)
     
     mul_df = detect_multiple(id_path)
     print()
