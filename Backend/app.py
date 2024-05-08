@@ -78,7 +78,7 @@ def upload_pdf():
         # json_data = df.to_json(orient="records")
         # return json_data, 200
     
-    return 200
+    return "Success", 200
         
 
 @app.route("/demo")
