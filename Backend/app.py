@@ -1,6 +1,7 @@
 from flask import Flask, request
 
 import os
+import shutil
 import pandas as pd
 
 from pathlib import Path
@@ -10,7 +11,7 @@ from main import getFinalDf
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, print_intro, print_outro, convertExcelToDf, concatDfWithAnswer
+from utils import print_full, print_intro, print_outro, convertPdfToJpg, convertExcelToDf, concatDfWithAnswer
 
 app = Flask(__name__)
 
@@ -98,11 +99,36 @@ def view_demo():
 def view_test():
     id_path = UPLOAD_FOLDER + "/id"
 
+    save_path = path + "/temp"
+    input_save_path = save_path + "/jpg"
+    mul_save_path = save_path + "/mul"
+    sub_save_path = save_path + "/sub"
+
+    ## 결과 저장 폴더 생성 ##
+    try:
+        if (os.path.exists(save_path)):
+            shutil.rmtree(save_path)
+        os.mkdir(save_path)
+    except:
+        pass
+
+    try:
+        os.mkdir(input_save_path)
+        os.mkdir(mul_save_path)
+        os.mkdir(sub_save_path)
+    except:
+        pass
+    ## 결과 저장 폴더 생성 ##
+
     print_intro()
 
     answer_file_path_list = []
     answer_file_path_list = os_sorted(Path(id_path).glob('*.xlsx'))
     answer_df = convertExcelToDf(answer_file_path_list, id_path)
+
+    original_pdf_file_path_list = []
+    original_pdf_file_path_list = os_sorted(Path(path).glob('*.pdf'))
+    convertPdfToJpg(original_pdf_file_path_list, input_save_path)
     
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
