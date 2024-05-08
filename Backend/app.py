@@ -3,11 +3,14 @@ from flask import Flask, request
 import os
 import pandas as pd
 
+from pathlib import Path
+from natsort import os_sorted
+
 from main import getFinalDf
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, print_intro, print_outro
+from utils import print_full, print_intro, print_outro, convertExcelToDf, concatDfWithAnswer
 
 app = Flask(__name__)
 
@@ -93,24 +96,36 @@ def view_demo():
 
 @app.route("/test")
 def view_test():
+    id_path = UPLOAD_FOLDER + "/id"
+
     print_intro()
+
+    answer_file_path_list = []
+    answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
+    answer_df = convertExcelToDf(answer_file_path_list, id_path)
     
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
 
-    id_path = UPLOAD_FOLDER + "/id"
-
     categorize_qna(id_path)
     
     mul_df = detect_multiple(id_path)
+    mul_df.sort_values(by=["num"], inplace=True)
     print()
     print_full(mul_df)
     
     sub_df = detect_subjective(id_path)
+    sub_df.sort_values(by=["num"], inplace=True)
     print()
     print_full(sub_df)
 
     df = pd.concat([mul_df, sub_df], axis=0)
+    df.sort_values(by=["num"], inplace=True)
+    print()
+    print_full(df)
+
+    answer_df = convertExcelToDf(answer_file_path_list, id_path)
+    df = concatDfWithAnswer(df, answer_df)
     print()
     print_full(df)
 

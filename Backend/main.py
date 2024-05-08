@@ -77,13 +77,10 @@ def getFinalDf(upload_path):
     # 문제 인식 및 채점 진행
     categorize_qna(path)
     mul_df = detect_multiple(path)
-    print_full(mul_df)
     sub_df = detect_subjective(path)
-    print_full(sub_df)
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0)
-    print_full(df)
     df = concatDfWithAnswer(df, answer_df)
     print_full(df)
 
