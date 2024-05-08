@@ -99,7 +99,7 @@ def view_demo():
 def view_test():
     id_path = UPLOAD_FOLDER + "/id"
 
-    save_path = path + "/temp"
+    save_path = id_path + "/temp"
     input_save_path = save_path + "/jpg"
     mul_save_path = save_path + "/mul"
     sub_save_path = save_path + "/sub"
