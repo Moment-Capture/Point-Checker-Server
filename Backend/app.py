@@ -45,7 +45,7 @@ def upload_pdf():
     ## upload 폴더 생성 ##
 
     if request.method == "POST":
-        id_path = UPLOAD_FOLDER + "id"
+        id_path = UPLOAD_FOLDER + "/id"
         
         ## id 폴더 생성 ##
         try:
@@ -81,7 +81,7 @@ def upload_pdf():
 
 @app.route("/demo")
 def view_demo():
-    id_path = UPLOAD_FOLDER + "id"
+    id_path = UPLOAD_FOLDER + "/id"
 
     df = pd.DataFrame()
     df = getFinalDf(id_path)
@@ -96,7 +96,7 @@ def view_test():
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
 
-    id_path = UPLOAD_FOLDER + "id"
+    id_path = UPLOAD_FOLDER + "/id"
     
     mul_df = detect_multiple(id_path)
     print()
