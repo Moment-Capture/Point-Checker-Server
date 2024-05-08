@@ -47,13 +47,13 @@ def upload_pdf():
     if request.method == "POST":
         id_path = UPLOAD_FOLDER + "id"
         
-        ## upload/id 폴더 생성 ##
+        ## id 폴더 생성 ##
         try:
             if not os.path.exists(id_path):
                 os.mkdir(id_path)
         except:
             pass
-        ## upload/id 폴더 생성 ##
+        ## id 폴더 생성 ##
 
         files = request.files
 
@@ -76,17 +76,17 @@ def upload_pdf():
         df = pd.DataFrame()
         df = getFinalDf(id_path)
         json_data = df.to_json(orient="records")
-        return json_data
-    
-    # return 200
+        return json_data, 200
         
 
 @app.route("/demo")
 def view_demo():
+    id_path = UPLOAD_FOLDER + "id"
+
     df = pd.DataFrame()
-    df = getFinalDf(UPLOAD_FOLDER)
+    df = getFinalDf(id_path)
     json_data = df.to_json(orient="records")
-    return json_data
+    return json_data, 200
 
 
 @app.route("/test")
@@ -96,13 +96,13 @@ def view_test():
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
 
-    path = UPLOAD_FOLDER
+    id_path = UPLOAD_FOLDER + "id"
     
-    mul_df = detect_multiple(path)
+    mul_df = detect_multiple(id_path)
     print()
     print_full(mul_df)
     
-    sub_df = detect_subjective(path)
+    sub_df = detect_subjective(id_path)
     print()
     print_full(sub_df)
 
@@ -113,7 +113,7 @@ def view_test():
     print_outro()
 
     json_data = df.to_json(orient="records")
-    return json_data
+    return json_data, 200
 
 
 if __name__ == "__main__":
