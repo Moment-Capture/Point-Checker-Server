@@ -128,6 +128,8 @@ def browse_file2():
     file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
     answersheet_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
 
+
+
 ##########################################################
 ##########################################################
 ### 화면 ###
@@ -303,8 +305,7 @@ def show_grade():
         height=23
     )
     
-    # 1-3. 총문항수
-    
+    # 1-3. 총문항수  
     canvas_r.create_text(
         40,
         125,
