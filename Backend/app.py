@@ -101,7 +101,7 @@ def view_test():
     print_intro()
 
     answer_file_path_list = []
-    answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
+    answer_file_path_list = os_sorted(Path(id_path).glob('*.xlsx'))
     answer_df = convertExcelToDf(answer_file_path_list, id_path)
     
     mul_df = pd.DataFrame()
@@ -128,6 +128,7 @@ def view_test():
     df = concatDfWithAnswer(df, answer_df)
     print()
     print_full(df)
+    df.to_excel(excel_writer=id_path+"df.xlsx")
 
     print_outro()
 
