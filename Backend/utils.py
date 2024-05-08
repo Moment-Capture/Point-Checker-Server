@@ -1,8 +1,12 @@
 import os
+import shutil
+
 import numpy as np
 import pandas as pd
 
 from pathlib import Path
+from natsort import os_sorted
+
 from pdf2image import convert_from_path
 
 
@@ -128,8 +132,8 @@ def convertExcelToDf(file_path_list, path):
     return df
 
 
-def concatDfWithAnswer(df, answer_df):
-    # df와 answer_df 합치기
+# df와 answer_df 합치기
+def concatAnswer(df, answer_df):
     for df_idx, df_row in df.iterrows():
         df_num = df_row["num"]
         if df_num == 0:
@@ -174,3 +178,69 @@ def label_to_int(label):
 def deleteDuplicateFiles(path, images):
     for file in Path(path).glob('*).jpg'):
         images.remove(file)
+
+
+# 폴더 생성
+def makeFolder(path):
+    ## 폴더 생성 ##
+    try:
+        if not (os.path.exists(path)):
+            os.mkdir(path)
+    except:
+        pass
+
+
+# 폴더 삭제
+def deleteFolder(path):
+    try:
+        if (os.path.exists(path)):
+            shutil.rmtree(path)
+    except:
+        pass
+
+
+# 응시자 폴더 생성
+def makeTesteeFolder(testee_path):
+    mul_path = testee_path + "/mul"
+    sub_path = testee_path + "/sub"
+        
+    ## temp 하위 폴더 생성 ##
+    # 해당 tester의 폴더 생성
+    makeFolder(testee_path)
+
+    # 해당 tester 폴더 밑의 mul 폴더 생성
+    makeFolder(mul_path)
+
+    # 해당 tester 폴더 밑의 sub 폴더 생성
+    makeFolder(sub_path)
+
+
+# id 폴더 생성
+def makeIdFolder(upload_path):
+    id_path = str(Path(upload_path))
+    jpg_path = id_path + "/jpg"
+    temp_path = id_path + "/temp"
+
+    ## 결과 저장 폴더 생성 ##
+    # 해당 id의 폴더 생성
+    makeFolder(id_path)
+
+    # 해당 id 밑의 jpg 폴더 생성
+    makeFolder(jpg_path)
+
+    # 해당 id 밑의 temp 폴더 생성
+    makeFolder(temp_path)
+
+
+# df에 testee df 합치기
+def concatTesteeDf(df, testee_df):
+    # for df_idx, df_row in df.iterrows():
+    #     df_num = df_row["num"]
+    #     if df_num == 0:
+    #         continue
+    #     for ans_idx, ans_row in answer_df.iterrows():
+    #         if (int(ans_row["correct_answer"]) == int(df_num)):
+    #             df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
+    #             break
+    
+    return df

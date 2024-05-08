@@ -7,11 +7,11 @@ import pandas as pd
 from pathlib import Path
 from natsort import os_sorted
 
-from main import getFinalDf
+from main import pointchecker
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, print_intro, print_outro, convertPdfToJpg, convertExcelToDf, concatDfWithAnswer
+from utils import print_full, print_intro, print_outro, convertPdfToJpg, convertExcelToDf, concatAnswer, makeFolder
 
 app = Flask(__name__)
 
@@ -85,39 +85,40 @@ def upload_pdf():
     return "Success", 200
         
 
-@app.route("/demo")
+# 다인용
+@app.route("/many")
 def view_demo():
     id_path = UPLOAD_FOLDER + "/id"
+    num = 1
 
     df = pd.DataFrame()
-    df = getFinalDf(id_path)
+    df = pointchecker(id_path, num)
     json_data = df.to_json(orient="records")
     return json_data, 200
 
 
-@app.route("/test")
+# 1인용
+@app.route("/single")
 def view_test():
-    id_path = UPLOAD_FOLDER + "/id"
-
-    save_path = id_path + "/temp"
-    input_save_path = save_path + "/jpg"
-    mul_save_path = save_path + "/mul"
-    sub_save_path = save_path + "/sub"
+    id_path = UPLOAD_FOLDER + "/single"
+    jpg_path = id_path + "/jpg"
+    temp_path = id_path + "/temp"
+    mul_path = temp_path + "/mul"
+    sub_path = temp_path + "/sub"
 
     ## 결과 저장 폴더 생성 ##
+    makeFolder(id_path)
+    makeFolder(jpg_path)
+    
     try:
-        if (os.path.exists(save_path)):
-            shutil.rmtree(save_path)
-        os.mkdir(save_path)
+        if (os.path.exists(temp_path)):
+            shutil.rmtree(temp_path)
+        os.mkdir(temp_path)
     except:
         pass
 
-    try:
-        os.mkdir(input_save_path)
-        os.mkdir(mul_save_path)
-        os.mkdir(sub_save_path)
-    except:
-        pass
+    makeFolder(mul_path)
+    makeFolder(sub_path)
     ## 결과 저장 폴더 생성 ##
 
     print_intro()
@@ -128,10 +129,13 @@ def view_test():
 
     original_pdf_file_path_list = []
     original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
-    convertPdfToJpg(original_pdf_file_path_list, input_save_path)
+    convertPdfToJpg(original_pdf_file_path_list, jpg_path)
     
+    df = pd.DataFrame()
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
+    answer_df = pd.DataFrame()
+    final_df = pd.DataFrame()
 
     categorize_qna(id_path)
     
@@ -151,14 +155,15 @@ def view_test():
     print_full(df)
 
     answer_df = convertExcelToDf(answer_file_path_list, id_path)
-    df = concatDfWithAnswer(df, answer_df)
+    final_df = concatAnswer(df, answer_df)
     print()
-    print_full(df)
-    df.to_excel(excel_writer=id_path+"/df.xlsx")
+    print_full(final_df)
+
+    final_df.to_excel(excel_writer=id_path+"/df.xlsx")
 
     print_outro()
 
-    json_data = df.to_json(orient="records")
+    json_data = final_df.to_json(orient="records")
     return json_data, 200
 
 
