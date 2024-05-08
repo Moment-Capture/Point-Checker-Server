@@ -1,13 +1,17 @@
 from flask import Flask, request
 
 import os
+import shutil
 import pandas as pd
 
-from main import getFinalDf
+from pathlib import Path
+from natsort import os_sorted
 
+from main import pointchecker
+from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, print_intro, print_outro
+from utils import print_full, print_intro, print_outro, convertPdfToJpg, convertExcelToDf, concatAnswer, makeFolder
 
 app = Flask(__name__)
 
@@ -45,11 +49,21 @@ def upload_pdf():
     ## upload 폴더 생성 ##
 
     if request.method == "POST":
+        id_path = UPLOAD_FOLDER + "/id"
+        
+        ## id 폴더 생성 ##
+        try:
+            if not os.path.exists(id_path):
+                os.mkdir(id_path)
+        except:
+            pass
+        ## id 폴더 생성 ##
+
         files = request.files
 
         file = files["file"]
         file_name = file.filename
-        file_path = os.path.join(UPLOAD_FOLDER, file_name)
+        file_path = os.path.join(id_path, file_name)
         print(file_name)
         print(file_path)
         if file and allowed_file(file_name):
@@ -57,53 +71,100 @@ def upload_pdf():
         
         answer = files["answer"]
         answer_name = answer.filename
-        answer_path = os.path.join(UPLOAD_FOLDER, answer_name)
+        answer_path = os.path.join(id_path, answer_name)
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
         
         print("파일 업로드 성공")
 
-        df = pd.DataFrame()
-        df = getFinalDf(UPLOAD_FOLDER)
-        json_data = df.to_json(orient="records")
-        return json_data
+        # df = pd.DataFrame()
+        # df = getFinalDf(id_path)
+        # json_data = df.to_json(orient="records")
+        # return json_data, 200
     
-    # return 200
+    return "Success", 200
         
 
-@app.route("/demo")
+# 다인용
+@app.route("/many")
 def view_demo():
+    id_path = UPLOAD_FOLDER + "/id"
+    num = 1
+
     df = pd.DataFrame()
-    df = getFinalDf(UPLOAD_FOLDER)
+    df = pointchecker(id_path, num)
     json_data = df.to_json(orient="records")
-    return json_data
+    return json_data, 200
 
 
-@app.route("/test")
+# 1인용
+@app.route("/single")
 def view_test():
-    print_intro()
+    id_path = UPLOAD_FOLDER + "/single"
+    jpg_path = id_path + "/jpg"
+    temp_path = id_path + "/temp"
+    mul_path = temp_path + "/mul"
+    sub_path = temp_path + "/sub"
+
+    ## 결과 저장 폴더 생성 ##
+    makeFolder(id_path)
+    makeFolder(jpg_path)
     
+    try:
+        if (os.path.exists(temp_path)):
+            shutil.rmtree(temp_path)
+        os.mkdir(temp_path)
+    except:
+        pass
+
+    makeFolder(mul_path)
+    makeFolder(sub_path)
+    ## 결과 저장 폴더 생성 ##
+
+    print_intro()
+
+    answer_file_path_list = []
+    answer_file_path_list = os_sorted(Path(id_path).glob('*.xlsx'))
+    answer_df = convertExcelToDf(answer_file_path_list, id_path)
+
+    original_pdf_file_path_list = []
+    original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
+    convertPdfToJpg(original_pdf_file_path_list, jpg_path)
+    
+    df = pd.DataFrame()
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
+    answer_df = pd.DataFrame()
+    final_df = pd.DataFrame()
 
-    path = UPLOAD_FOLDER
+    categorize_qna(id_path)
     
-    mul_df = detect_multiple(path)
+    mul_df = detect_multiple(id_path)
+    mul_df.sort_values(by=["num"], inplace=True)
     print()
     print_full(mul_df)
     
-    sub_df = detect_subjective(path)
+    sub_df = detect_subjective(id_path)
+    sub_df.sort_values(by=["num"], inplace=True)
     print()
     print_full(sub_df)
 
     df = pd.concat([mul_df, sub_df], axis=0)
+    df.sort_values(by=["num"], inplace=True)
     print()
     print_full(df)
 
+    answer_df = convertExcelToDf(answer_file_path_list, id_path)
+    final_df = concatAnswer(df, answer_df)
+    print()
+    print_full(final_df)
+
+    final_df.to_excel(excel_writer=id_path+"/df.xlsx")
+
     print_outro()
 
-    json_data = df.to_json(orient="records")
-    return json_data
+    json_data = final_df.to_json(orient="records")
+    return json_data, 200
 
 
 if __name__ == "__main__":

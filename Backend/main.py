@@ -8,95 +8,85 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, convertPdfToJpg, convertExcelToDf, concatDfWithAnswer, dfToFinalDf
+from utils import print_full, convertPdfToJpg, convertExcelToDf, concatAnswer, dfToFinalDf, makeFolder, makeIdFolder, makeTesteeFolder, deleteFolder, concatTesteeDf
 
 
-def getFinalDf(upload_path):
-    # 경로 정의: yolo 이용 편의성을 위해 경로 설정을 따로 해야 할 필요성 있음
+def pointchecker(upload_path, num):
+    # 경로 정의
     path = str(Path(upload_path))
-    input_path = path
-    save_path = path + "/temp"
-    input_save_path = save_path + "/jpg"
-    mul_save_path = save_path + "/mul"
-    sub_save_path = save_path + "/sub"
-    os.chdir(path)
+    jpg_path = path + "/jpg"
+    temp_path = path + "/temp"
 
-    ## input 폴더 생성 ##
-    try:
-        if not os.path.exists(input_path):
-            os.mkdir(input_path)
-    except:
-        pass
-    ## input 폴더 생성 ##
-
-    ## 결과 저장 폴더 생성 ##
-    try:
-        if (os.path.exists(save_path)):
-            shutil.rmtree(save_path)
-        os.mkdir(save_path)
-    except:
-        pass
-
-    try:
-        os.mkdir(input_save_path)
-        os.mkdir(mul_save_path)
-        os.mkdir(sub_save_path)
-    except:
-        pass
-    ## 결과 저장 폴더 생성 ##
-
-    # df, answer_df, final_df
-    df = pd.DataFrame()
-    answer_df = pd.DataFrame()
-    final_df = pd.DataFrame()
-
-    mul_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
-    sub_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
-
-    # file path list
-    original_pdf_file_path_list = []
-    answer_file_path_list = []
-
-    # file path list에 각 파일 경로 검색해 저장
-    original_pdf_file_path_list = os_sorted(Path(input_path).glob('*.pdf'))
-    answer_file_path_list = os_sorted(Path(input_path).glob('*.xlsx'))
-    if len(original_pdf_file_path_list) == 0 or len(answer_file_path_list) == 0:
-        print("file path list is empty")
-        return None
+    # 파일 생성
+    makeIdFolder(path)
 
     # pdf 파일 jpg로 변환
-    convertPdfToJpg(original_pdf_file_path_list, input_save_path)
-
-    # excel 읽어 df로 변환
-    answer_df = convertExcelToDf(answer_file_path_list, input_path)
+    original_pdf_file_path_list = []
+    original_pdf_file_path_list = os_sorted(Path(path).glob('*.pdf'))
     
+    if len(original_pdf_file_path_list) == 0:
+        print("original pdf file path list is empty")
+        return None
+    
+    convertPdfToJpg(original_pdf_file_path_list, jpg_path)
+
+    # xlsx 파일 df로 변환
+    answer_file_path_list = []
+    answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
+    
+    if len(answer_file_path_list) == 0:
+        print("answer file path list is empty")
+        return None
+    
+    answer_df = convertExcelToDf(answer_file_path_list, path)
+
     if len(answer_df) == 0:
         print("answer_df empty")
         return None
 
+    # 데이터프레임 생성
+    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+
+    # 응시자 수만큼 해당 과정 반복
+    for i in range(num):
+        # 응시자별 폴더 생성
+        testee_path = temp_path + "/testee" + str(i)
+        makeTesteeFolder(testee_path, num)
+
+        # 응시자별 폴더로 jpg 나누기
+        ## 구현 해야 함 ##
+        ## 구현 해야 함 ##
+
+        # 응시자별 df 생성
+        testee_df = getTesteeDf(testee_path)
+
+        # 정답 df와 합치기
+        testee_df = concatAnswer(testee_df, answer_df)
+
+        # 전체 df와 합치기
+        ## 구현 해야 함 ##
+        concatTesteeDf(df, testee_df)
+        ## 구현 해야 함 ##
+
+        # 응시자별 폴더 삭제
+        deleteFolder(testee_path)
+
+
+def getTesteeDf(testee_path):
+    # 경로 정의
+    path = testee_path
+
     # 문제 인식 및 채점 진행
     categorize_qna(path)
     mul_df = detect_multiple(path)
-    print_full(mul_df)
     sub_df = detect_subjective(path)
-    print_full(sub_df)
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0)
     print_full(df)
-    df = concatDfWithAnswer(df, answer_df)
+
+    # df 정리해서 testee_df로 반환
+    df = dfToFinalDf(df)
     print_full(df)
 
-    # df 정리해서 final_df로 반환
-    final_df = dfToFinalDf(df)
-    print_full(final_df)
-
-    ## 결과 저장 폴더 삭제 ##
-    try:
-        if (os.path.exists(save_path)):
-            shutil.rmtree(save_path)
-    except:
-        pass
-    ## 결과 저장 폴더 삭제 ##
-
-    return final_df
+    return df
