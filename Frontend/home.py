@@ -65,7 +65,7 @@ def server_connect(file_path, answer_path):
 
 
 
-##1. 시험지 양식 적용 화면 함수##
+## 1. 시험지 양식 적용 화면 함수 ##
 def browse_file():
     file_path = filedialog.askopenfilename(filetypes=(("pdf files","*.pdf*"),))  # 파일 선택 다이얼로그 열기
     file_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
