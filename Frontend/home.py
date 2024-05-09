@@ -418,8 +418,7 @@ def show_grade():
     )
 
     # 2-1. 시험지 파일 업로드 버튼
-    file_path_var = tk.StringVar()
-    
+    file_path = tk.StringVar()   
     file_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -472,8 +471,7 @@ def show_grade():
         height=30.0
     )
 
-    answersheet_path_var = tk.StringVar()
-    
+    answer_path = tk.StringVar()  
     answersheet_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -504,7 +502,13 @@ def show_grade():
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: server_connect(file_path_var.get(), answersheet_path_var.get()), ### 서버 연결 함수 ###
+        ### 서버 연결 함수 ###
+        command=lambda: server_connect(file_path.get(),
+                                       answer_path.get(),
+                                       test_name.get(),
+                                       copy_num.get(),
+                                       testee_num.get(),
+                                       [test_category_mul.get(), test_category_mul.sub()]),
         relief="flat"
     )
     StartGradingBtn.place(
