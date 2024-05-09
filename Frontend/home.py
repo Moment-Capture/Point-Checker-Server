@@ -602,7 +602,6 @@ x = (screen_width - window_width) // 2
 y = (screen_height - window_height) // 2
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
-
 # 오른쪽에 캔버스 생성
 canvas_r = tk.Canvas(
     root,
@@ -614,6 +613,7 @@ canvas_r = tk.Canvas(
     relief = "ridge"
 ) 
 canvas_r.pack(side=tk.RIGHT, padx=0, pady=0)
+
 # 툴바 버튼 생성 
 photo = PhotoImage(file = ASSETS_PATH / "btn_img/tool1.png")
 transfer_button = tk.Button(root, image=photo, command=show_transfer, bg="#FFDED7", borderwidth=-1)
