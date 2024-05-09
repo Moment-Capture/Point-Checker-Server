@@ -571,7 +571,6 @@ def show_result():
         height=30
     )
     
-
     #결과 확인용 임시 textarea
     T = tk.Text(root, height=40, width=80)
     T.place(
