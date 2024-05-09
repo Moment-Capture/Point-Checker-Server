@@ -238,3 +238,10 @@ def concatTesteeDf(df, testee_id, testee_df):
         df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
   
     return df
+
+
+# 각 jpg에 적힌 코드 인식해서 이름 매칭
+## 구현 해야 함 ##
+def testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df):
+    pass
+## 구현 해야 함 ##

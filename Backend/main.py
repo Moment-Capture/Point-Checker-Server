@@ -8,10 +8,10 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, convertPdfToJpg, convertExcelToDf, concatAnswer, dfToFinalDf, makeFolder, makeIdFolder, makeTesteeFolder, deleteFolder, concatTesteeDf
+from utils import *
 
 
-def pointchecker(upload_path, num):
+def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     # 경로 정의
     path = str(Path(upload_path))
     jpg_path = path + "/jpg"
@@ -32,6 +32,26 @@ def pointchecker(upload_path, num):
     # pdf 파일 jpg로 변환
     convertPdfToJpg(original_pdf_file_path_list, jpg_path)
 
+    # jpg 파일 개수 검사
+    jpg_file_path_list = []
+    jpg_file_path_list = os_sorted(Path(jpg_path).glob('*.jpg'))
+
+    if len(jpg_file_path_list) == 0:
+        print("jpg file path list is empty")
+        return None
+    
+    if len(jpg_file_path_list) != copy_num * testee_num:
+        print("some jpg files are missing")
+        return None
+
+    # jpg에 적힌 코드 인식해서 testee 구분
+    ## 구현 해야 함 ##
+    # testee jpg df 생성 - name은 page가 1일 때만 인식
+    testee_jpg_df = pd.DataFrame(columns=["file", "id", "page", "name"])
+    testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df)
+    ## 구현 해야 함 ##
+
+
     # xlsx 파일 탐지
     answer_file_path_list = []
     answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
@@ -46,18 +66,18 @@ def pointchecker(upload_path, num):
 
     # answer df에 값이 존재하는지 검사
     if len(answer_df) == 0:
-        print("answer_df empty")
+        print("answer df is empty")
         return None
 
     # 데이터프레임 생성
     df = pd.DataFrame(columns=["testee", "file", "num", "testee_answer", "correct_answer"])
 
     # 응시자 수만큼 해당 과정 반복
-    for i in range(num):
+    for i in range(testee_num):
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
         testee_path = temp_path + "/" + testee_id
-        makeTesteeFolder(testee_path, num)
+        makeTesteeFolder(testee_path, testee_num)
 
         # 응시자별 폴더로 jpg 나누기
         ## 구현 해야 함 ##

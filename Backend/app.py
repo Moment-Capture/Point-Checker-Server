@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 
 import os
 import shutil
@@ -74,32 +74,35 @@ def upload_pdf():
         answer_path = os.path.join(id_path, answer_name)
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
+
+        id = 1
+        test_name = files["test_name"]
+        copy_num = files["copy_num"]
+        total_qna_num = files["total_qna_num"]
+        testee_num = files["testee_num"]
+        test_category = files["test_category"]
         
         print("파일 업로드 성공")
-
-        # df = pd.DataFrame()
-        # df = getFinalDf(id_path)
-        # json_data = df.to_json(orient="records")
-        # return json_data, 200
     
-    return "Success", 200
+    return redirect(url_for("plural_check", ))
         
 
 # 다인용
-@app.route("/many")
-def view_demo():
-    id_path = UPLOAD_FOLDER + "/id"
-    num = 1
+@app.route("/plural")
+def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
+    id_path = UPLOAD_FOLDER + "/" + id
 
     df = pd.DataFrame()
-    df = pointchecker(id_path, num)
+    df = pointchecker(id_path, test_name, copy_num, total_qna_num, testee_num, test_category)
+    if len(df) == 0:
+        return "Error Occured", 200
     json_data = df.to_json(orient="records")
     return json_data, 200
 
 
 # 1인용
 @app.route("/single")
-def view_test():
+def single_check():
     id_path = UPLOAD_FOLDER + "/single"
     jpg_path = id_path + "/jpg"
     temp_path = id_path + "/temp"
