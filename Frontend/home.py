@@ -77,10 +77,12 @@ def insert_page_number(num_students, file_path):
 
     # Get page width and height
     page_width = pdf_document[0].rect.width
-
+    page_height = pdf_document[0].rect.height
+    print(page_width)
+    print(page_height)
     # Convert start and end points to coordinates relative to top-right corner
     start_point = (page_width - 180, 65)
-    end_point = (page_width - 50, 65)
+    end_point = (page_width - 60, 65)
 
     for i in range(0, num_students):
         output_pdf_path = os.path.splitext(file_path)[0] + f"_{i+1}.pdf"
@@ -89,12 +91,12 @@ def insert_page_number(num_students, file_path):
         #첫 장에 이름 적는 칸
         page = pdf_document[0]
         text = "ID : "
-        page.insert_text((page_width-220, 60), text, fontsize=18)
+        page.insert_text((page_width-220, 60), text, fontsize=16,fontname="courier")
         page.draw_line(start_point, end_point)
 
         for j in range(0, num_pages):
             # 삽입할 숫자 (예: "1-1", "1-2", ...)
-            text = f"{i+1} - {j+1}"
+            text = f"{i+1}-{j+1}"
 
             # 삽입할 위치 (x, y 좌표)
             insert_position = (60, 60)  # 적절한 위치로 수정 필요
@@ -103,7 +105,7 @@ def insert_page_number(num_students, file_path):
             page = pdf_document[j]
 
             # Start editing the page
-            page.insert_text(insert_position, text, fontsize=20)
+            page.insert_text(insert_position, text, fontsize=18,fontname="courier")
 
         # Save the changes to a new PDF
         pdf_document.save(output_pdf_path)
