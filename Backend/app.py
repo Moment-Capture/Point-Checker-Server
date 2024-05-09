@@ -36,8 +36,16 @@ def allowed_answer(filename):
 
 @app.route("/")
 def hello():
+    # id 생성 규칙 - 클라이언트 ip + 접속시간
     client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    return f'Hello World! <br><br> Your IP: {client_ip} <br><br> Now: {datetime.datetime.now()}'
+    access_now = datetime.datetime.now()
+    access_date = access_now.strftime("%Y-%m-%d")
+    access_time = access_now.strftime("%H-%M-%S")
+    id = client_ip + "_" + access_date + "_" + access_time
+    return f'Hello World! <br><br>
+        Your IP: {client_ip} <br><br>
+        Now: {datetime.datetime.now()} <br><br>
+        id : {id}'
 
 
 @app.route("/upload", methods=["POST"])
@@ -53,9 +61,11 @@ def upload_pdf():
     if request.method == "POST":
         # id 생성 규칙 - 클라이언트 ip + 접속시간
         client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-        access_time = datetime.datetime.now()
+        access_now = datetime.datetime.now()
+        access_date = access_now.strftime("%Y-%m-%d")
+        access_time = access_now.strftime("%H-%M-%S")
 
-        id = client_ip + "_" + access_time
+        id = client_ip + "_" + access_date + "_" + access_time
         print(id)
         id_path = UPLOAD_FOLDER + "/" + id
         
