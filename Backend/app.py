@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for
 
 import os
 import shutil
+import datetime
 import pandas as pd
 
 from pathlib import Path
@@ -36,7 +37,7 @@ def allowed_answer(filename):
 @app.route("/")
 def hello():
     client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    return f'Hello My Flask World! <br><br> Your IP: {client_ip}'
+    return f'Hello World! <br><br> Your IP: {client_ip} <br><br> Now: {datetime.datetime.now()}'
 
 
 @app.route("/upload", methods=["POST"])
@@ -50,7 +51,13 @@ def upload_pdf():
     ## upload 폴더 생성 ##
 
     if request.method == "POST":
-        id_path = UPLOAD_FOLDER + "/id"
+        # id 생성 규칙 - 클라이언트 ip + 접속시간
+        client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+        access_time = datetime.datetime.now()
+
+        id = client_ip + "_" + access_time
+        print(id)
+        id_path = UPLOAD_FOLDER + "/" + id
         
         ## id 폴더 생성 ##
         try:
@@ -76,7 +83,6 @@ def upload_pdf():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        id = 1
         test_name = files["test_name"]
         copy_num = files["copy_num"]
         total_qna_num = files["total_qna_num"]
