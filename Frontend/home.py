@@ -146,32 +146,6 @@ def show_transfer():
     
     canvas_r.create_text(
         35.0,
-        130.0,
-        anchor="nw",
-        text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)",
-        fill="#000000",
-        font=(FONT_PATH, 14 * -1)
-    )
-
-    entry_2_value = tk.StringVar()  # entry_2_value를 함수 내에서 선언합니다.
-    entry_2 = tk.Entry(
-        bd=0,
-        bg="white",  # 배경색 (흰색)
-        fg="#000716",  # 텍스트 색상
-        highlightbackground="#d9d9d9",  # 테두리 색상
-        highlightthickness=1,
-        font=(FONT_PATH, 16 * -1),
-        textvariable=entry_2_value
-    )
-    entry_2.place(
-        x=330,
-        y=65,
-        width=170,
-        height=25
-    )
-
-    canvas_r.create_text(
-        35.0,
         25.0,
         anchor="nw",
         text="1. 시험 정보를 입력 하세요.",
@@ -187,7 +161,50 @@ def show_transfer():
         font=(FONT_PATH, 14 * -1)
     )
 
-    #파일경로를 전역변수로 사용
+    #응시자수 입력하는 텍스트필트
+    testee_num = tk.StringVar()  
+    testee_num_field = tk.Entry(
+        bd=0,
+        bg="white",  # 배경색 (흰색)
+        fg="#000716",  # 텍스트 색상
+        highlightbackground="#d9d9d9",  # 테두리 색상
+        highlightthickness=1,
+        font=(FONT_PATH, 16 * -1),
+        textvariable=testee_num
+    )
+    testee_num_field.place(
+        x=330,
+        y=65,
+        width=170,
+        height=25
+    )
+
+    canvas_r.create_text(
+        35.0,
+        130.0,
+        anchor="nw",
+        text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)\n   (선택한 시험지 파일과 같은 위치에 양식이 적용된 새파일이 생성됩니다.)",
+        fill="#000000",
+        font=(FONT_PATH, 14 * -1)
+    )
+
+     
+   #시험지 파일 업로드 버튼
+    UploadExamSheetsBtn = tk.Button(
+        text="시험지 파일 업로드",
+        borderwidth=0,
+        highlightthickness=0,
+        command=browse_file
+    )
+    UploadExamSheetsBtn.place(
+        x=195,
+        y=180,
+        width=155,
+        height=30.0
+    )
+
+    #시험지 파일 경로를 전역변수로 사용
+
     file_path_var = tk.StringVar()
 
     file_path_label=tk.Label(
@@ -199,42 +216,26 @@ def show_transfer():
         )
     file_path_label.place(
         x=360,
-        y=165.0,
+        y=180,
         width=390, 
         height=30
     )
     
-   #시험지 파일 업로드 버튼
-    button_2 = tk.Button(
-        text="시험지 파일 업로드",
-        borderwidth=0,
-        highlightthickness=0,
-        command=browse_file
-        #, **button_style
-    )
-    button_2.place(
-        x=195,
-        y=165.0,
-        width=155,
-        height=30.0
-    )
-    
     #인쇄용 파일 저장 버튼
-    button_1 = tk.Button(
+    SaveNewSheetsBtn = tk.Button(
         text="인쇄용 파일 저장",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: insert_page_number(int(entry_2_value.get()), file_path_var.get())
-        #,relief="flat"
+        command=lambda: insert_page_number(int(testee_num.get()), file_path_var.get())
     )
-    button_1.place(
+    SaveNewSheetsBtn.place(
         x=620,
-        y=263.0,
+        y=230,
         width=135,
         height=30.0
     )
 
-    widgets = [entry_2, button_2, button_1, file_path_label]
+    widgets = [testee_num_field, UploadExamSheetsBtn, file_path_label, SaveNewSheetsBtn]
 
 
 
@@ -265,15 +266,18 @@ def show_grade():
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-    entry_5 = tk.Text(
+    
+    test_name = tk.StringVar()
+    test_name_field = tk.Entry(
         bd=0,
         bg="white",  # 배경색 (흰색)
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=(FONT_PATH, 16 * -1)
+        font=(FONT_PATH, 16 * -1),
+        textvariable=test_name
     )
-    entry_5.place(
+    test_name_field.place(
         x=340, 
         y=50,
         width=140,
@@ -288,16 +292,19 @@ def show_grade():
         text="시험지 1부당 매수",
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
-    ) 
-    entry_4 = tk.Text(
+    )
+
+    copy_num = tk.StringVar()
+    copy_num_field = tk.Entry(
         bd=0,
         bg="white",  # 배경색 (흰색)
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=(FONT_PATH, 16 * -1)
+        font=(FONT_PATH, 16 * -1),
+        textvariable=copy_num
     )
-    entry_4.place(
+    copy_num_field.place(
         x=340, 
         y=85,
         width=140,
@@ -313,15 +320,18 @@ def show_grade():
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-    entry_3 = tk.Text(
+
+    total_qna_num = tk.StringVar()
+    total_qna_num_field = tk.Entry(
         bd=0,
         bg="white",  # 배경색 (흰색)
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=(FONT_PATH, 16 * -1)
+        font=(FONT_PATH, 16 * -1),
+        textvariable=total_qna_num
     )
-    entry_3.place(
+    total_qna_num_field.place(
         x=340, 
         y=120,
         width=140,
@@ -337,15 +347,18 @@ def show_grade():
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-    entry_2 = tk.Text(
+    
+    testee_num = tk.StringVar()
+    testee_num_field = tk.Entry(
         bd=0,
         bg="white",  # 배경색 (흰색)
         fg="#000716",  # 텍스트 색상
         highlightbackground="#d9d9d9",  # 테두리 색상
         highlightthickness=1,
-        font=(FONT_PATH, 16 * -1)
+        font=(FONT_PATH, 16 * -1),
+        textvariable=testee_num
     )
-    entry_2.place(
+    testee_num_field.place(
         x=340, 
         y=155,
         width=140,
@@ -363,33 +376,33 @@ def show_grade():
     )
 
     # 1-6. 객관식 체크박스 생성
-    choice_var = tk.IntVar()
-    choice_checkbox = tk.Checkbutton(
+    test_category_mul = tk.IntVar()
+    test_category_mul_checkbox = tk.Checkbutton(
         root,
         text="객관식",
-        variable=choice_var,
+        variable=test_category_mul,
         onvalue=1,
         offvalue=0,
         bg="white",  # 체크박스 텍스트 영역의 배경색을 변경
         activebackground="white",  # 마우스가 올려졌을 때 배경색을 변경하지 않음
     ) 
-    choice_checkbox.place(
+    test_category_mul_checkbox.place(
         x=340, 
         y=190
     )
  
     # 1-7. 단답식 체크박스 생성
-    short_answer_var = tk.IntVar()
-    short_answer_checkbox = tk.Checkbutton(
+    test_category_sub = tk.IntVar()
+    test_category_sub_checkbox = tk.Checkbutton(
         root,
         text="단답식",
-        variable=short_answer_var,
+        variable=test_category_sub,
         onvalue=1,
         offvalue=0,
         bg="white",  # 체크박스 텍스트 영역의 배경색을 변경
         activebackground="white",  # 마우스가 올려졌을 때 배경색을 변경하지 않음
     )
-    short_answer_checkbox.place(
+    test_category_sub_checkbox.place(
         x=420,
         y=190
     )
@@ -417,18 +430,18 @@ def show_grade():
     file_path_label.place(
         x=370,
         y=280.0, 
-        width=300,
+        width=390,
         height=30
     )
    
-    button_2 = tk.Button(
+    UploadExamSheetsBtn = tk.Button(
         text="시험지 파일 업로드",
         borderwidth=0,
         highlightthickness=0,
         command=browse_file,
         relief="flat"
     )
-    button_2.place(
+    UploadExamSheetsBtn.place(
         x=200,
         y=280.0,
         width=150,
@@ -446,6 +459,20 @@ def show_grade():
         font=(FONT_PATH, 14 * -1)
     )
 
+    UploadAnswerSheetsBtn = tk.Button(
+        text="답 파일 업로드",
+        borderwidth=0,
+        highlightthickness=0,
+        command=browse_file2,
+        relief="flat"
+    )
+    UploadAnswerSheetsBtn.place(
+        x=200,
+        y=400.0,
+        width=150,
+        height=30.0
+    )
+
     answersheet_path_var = tk.StringVar()
     
     answersheet_path_label=tk.Label(
@@ -458,23 +485,10 @@ def show_grade():
     answersheet_path_label.place(
         x=370,
         y=400.0, 
-        width=300,
+        width=390,
         height=30
     )
-    button_6 = tk.Button(
-        text="답 파일 업로드",
-        borderwidth=0,
-        highlightthickness=0,
-        command=browse_file2,
-        relief="flat"
-    )
-    button_6.place(
-        x=200,
-        y=400.0,
-        width=150,
-        height=30.0
-    )
-
+    
 
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
@@ -488,14 +502,14 @@ def show_grade():
 
     # 4-1. 채점하기 버튼
     ### 채점하기 누르면 서버에 연결됨 ###
-    button_1 = tk.Button(
+    StartGradingBtn = tk.Button(
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
         command=lambda: server_connect(file_path_var.get(), answersheet_path_var.get()), ### 서버 연결 함수 ###
         relief="flat"
     )
-    button_1.place(
+    StartGradingBtn.place(
         x=200,
         y=560,
         width=125,
@@ -506,16 +520,15 @@ def show_grade():
     progress_bar = ttk.Progressbar(root, orient="horizontal", length=260, mode="indeterminate")
     progress_bar.place(x=350, y=565)
 
-
     # 4-3. 채점 결과 확인하기 버튼
-    button_3 = tk.Button(
+    ViewGradingResultsBtn = tk.Button(
         text="채점 결과 확인하기",
         borderwidth=0,
         highlightthickness=0,
         command=show_result,
         relief="flat"
     ) 
-    button_3.place(
+    ViewGradingResultsBtn.place(
         x=630,
         y=560,
         width=125,
@@ -523,7 +536,7 @@ def show_grade():
     )
 
     ## home_widgets 리스트 정의 ##
-    widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar, button_6,answersheet_path_label]
+    widgets = [testee_num_field, total_qna_num_field, copy_num_field, test_name_field, test_category_mul_checkbox, test_category_sub_checkbox, UploadExamSheetsBtn, file_path_label, UploadAnswerSheetsBtn, answersheet_path_label, StartGradingBtn, progress_bar, ViewGradingResultsBtn]
 
 
 ######################################
@@ -574,12 +587,6 @@ def show_result():
     widgets = [button_1]
 
 
-
-##########################################################
-##########################################################
-
-
-
 # 메인 창 생성
 root = tk.Tk()
 root.title("POINTCHECKER")
@@ -597,9 +604,6 @@ x = (screen_width - window_width) // 2
 y = (screen_height - window_height) // 2
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
-# 왼쪽에 툴바 생성 
-#toolbar_frame = tk.Frame(root,bg="#FFDED7")
-#toolbar_frame.pack(side=tk.LEFT, fill=tk.Y)
 
 # 오른쪽에 캔버스 생성
 canvas_r = tk.Canvas(
@@ -622,7 +626,6 @@ home_button = tk.Button(root, image=photo2, command=show_grade, bg="#FFDED7", bo
 home_button.pack( padx=10, pady=10) 
 
 # 메인 화면 설정
-#show_grade()
 show_transfer()
 
 # 메인 루프 실행
