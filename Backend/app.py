@@ -42,10 +42,7 @@ def hello():
     access_date = access_now.strftime("%Y-%m-%d")
     access_time = access_now.strftime("%H-%M-%S")
     id = client_ip + "_" + access_date + "_" + access_time
-    return f'Hello World! <br><br>
-        Your IP: {client_ip} <br><br>
-        Now: {datetime.datetime.now()} <br><br>
-        id : {id}'
+    return f'Hello World! <br><br> Your IP: {client_ip} <br><br> Now: {datetime.datetime.now()} <br><br> id : {id}'
 
 
 @app.route("/upload", methods=["POST"])
