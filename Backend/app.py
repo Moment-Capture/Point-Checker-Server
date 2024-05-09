@@ -35,7 +35,8 @@ def allowed_answer(filename):
 
 @app.route("/")
 def hello():
-    return "Hello, World!"
+    client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    return f'Hello My Flask World! <br><br> Your IP: {client_ip}'
 
 
 @app.route("/upload", methods=["POST"])
