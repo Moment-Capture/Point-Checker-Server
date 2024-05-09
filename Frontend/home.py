@@ -542,7 +542,6 @@ def show_grade():
 #####################################
 ####### 채점 결과 확인하기 화면 #######
 #####################################
-
 def show_result():
     global widgets
     hide_widgets(widgets)
