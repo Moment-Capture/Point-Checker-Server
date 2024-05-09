@@ -57,10 +57,15 @@ def hide_widgets(widget_list):
 
 
 ### 서버 연결하는 함수 ###
-def server_connect(file_path, answer_path):
+def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     url = "http://107.23.189.114:8080/upload"
     files = {"file":open(file_path, "rb"),
-             "answer":open(answer_path, "rb")}
+             "answer":open(answer_path, "rb"),
+             "test_name":test_name,
+             "copy_num":copy_num,
+             "total_qna_num":total_qna_num,
+             "testee_num":testee_num,
+             "test_category":test_category}
     r = requests.post(url, files=files)
 
 
@@ -420,8 +425,7 @@ def show_grade():
     )
 
     # 2-1. 시험지 파일 업로드 버튼
-    file_path_var = tk.StringVar()
-    
+    file_path = tk.StringVar()   
     file_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -450,7 +454,6 @@ def show_grade():
         height=30.0
     )
 
-
     # 3. 시험지 답을 입력해주세요
     canvas_r.create_text(
         40,
@@ -475,8 +478,7 @@ def show_grade():
         height=30.0
     )
 
-    answersheet_path_var = tk.StringVar()
-    
+    answer_path = tk.StringVar()  
     answersheet_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -491,7 +493,6 @@ def show_grade():
         height=30
     )
     
-
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
         40.0,
@@ -508,7 +509,13 @@ def show_grade():
         text="채점하기",
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: server_connect(file_path_var.get(), answersheet_path_var.get()), ### 서버 연결 함수 ###
+        ### 서버 연결 함수 ###
+        command=lambda: server_connect(file_path.get(),
+                                       answer_path.get(),
+                                       test_name.get(),
+                                       copy_num.get(),
+                                       testee_num.get(),
+                                       [test_category_mul.get(), test_category_mul.sub()]),
         relief="flat"
     )
     StartGradingBtn.place(
@@ -544,7 +551,6 @@ def show_grade():
 #####################################
 ####### 채점 결과 확인하기 화면 #######
 #####################################
-
 def show_result():
     global widgets
     hide_widgets(widgets)
@@ -573,18 +579,16 @@ def show_result():
         height=30
     )
     
-
     #결과 확인용 임시 textarea
-
     T = tk.Text(root, height=40, width=80)
     T.place(
         x=200,
         y=60
     )
+
     #텍스트 삽입문 아래 큰따옴표 안에 원하는 텍스트 넣으면 됨
     T.insert(tk.END, "HELLO")
     
-
     ## widgets 리스트 정의 ##
     widgets = [button_1]
 
@@ -606,7 +610,6 @@ x = (screen_width - window_width) // 2
 y = (screen_height - window_height) // 2
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, x, y))
 
-
 # 오른쪽에 캔버스 생성
 canvas_r = tk.Canvas(
     root,
@@ -618,6 +621,7 @@ canvas_r = tk.Canvas(
     relief = "ridge"
 ) 
 canvas_r.pack(side=tk.RIGHT, padx=0, pady=0)
+
 # 툴바 버튼 생성 
 photo = PhotoImage(file = ASSETS_PATH / "btn_img/tool1.png")
 transfer_button = tk.Button(root, image=photo, command=show_transfer, bg="#FFDED7", borderwidth=-1)

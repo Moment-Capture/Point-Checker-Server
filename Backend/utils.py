@@ -1,11 +1,14 @@
 import os
 import shutil
+import easyocr
+import datetime
 
 import numpy as np
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
+from flask import request
 
 from pdf2image import convert_from_path
 
@@ -233,14 +236,29 @@ def makeIdFolder(upload_path):
 
 
 # df에 testee df 합치기
-def concatTesteeDf(df, testee_df):
-    # for df_idx, df_row in df.iterrows():
-    #     df_num = df_row["num"]
-    #     if df_num == 0:
-    #         continue
-    #     for ans_idx, ans_row in answer_df.iterrows():
-    #         if (int(ans_row["correct_answer"]) == int(df_num)):
-    #             df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
-    #             break
-    
+def concatTesteeDf(df, testee_id, testee_df):
+    for testee_df_idx, testee_df_row in testee_df.iterrows():
+        df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
+  
     return df
+
+
+# id 생성
+def getId():
+    client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    access_now = datetime.datetime.now()
+    access_date = access_now.strftime("%Y-%m-%d")
+    access_time = access_now.strftime("%H-%M-%S")
+    id = client_ip + "_" + access_date + "_" + access_time
+    return id
+
+
+# 각 jpg에 적힌 코드 인식해서 이름 매칭
+# testee jpg df 생성
+# - testee_jpg_df = pd.DataFrame(columns=["file", "id", "page", "name"])
+# - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
+# 식별코드: id - page (ex. 3-2라면, id=3, page=2)
+def testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df):
+    ## 구현 해야 함 ##
+    ## 구현 해야 함 ##
+    pass

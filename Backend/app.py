@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, url_for
 
 import os
 import shutil
+import datetime
 import pandas as pd
 
 from pathlib import Path
@@ -11,7 +12,7 @@ from main import pointchecker
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
-from utils import print_full, print_intro, print_outro, convertPdfToJpg, convertExcelToDf, concatAnswer, makeFolder
+from utils import *
 
 app = Flask(__name__)
 
@@ -35,11 +36,13 @@ def allowed_answer(filename):
 
 @app.route("/")
 def hello():
-    return "Hello, World!"
+    # id 생성 규칙 - 클라이언트 ip + 접속시간
+    id = getId()
+    return f'Hello World! <br><br> id : {id}'
 
 
 @app.route("/upload", methods=["POST"])
-def upload_pdf():
+def upload_files():
     ## upload 폴더 생성 ##
     try:
         if not os.path.exists(UPLOAD_FOLDER):
@@ -49,7 +52,9 @@ def upload_pdf():
     ## upload 폴더 생성 ##
 
     if request.method == "POST":
-        id_path = UPLOAD_FOLDER + "/id"
+        # id 생성 규칙 - 클라이언트 ip + 접속시간
+        id = getId()
+        id_path = UPLOAD_FOLDER + "/" + id
         
         ## id 폴더 생성 ##
         try:
@@ -74,33 +79,42 @@ def upload_pdf():
         answer_path = os.path.join(id_path, answer_name)
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
+
+        test_name = files["test_name"]
+        copy_num = files["copy_num"]
+        total_qna_num = files["total_qna_num"]
+        testee_num = files["testee_num"]
+        test_category = files["test_category"]
         
         print("파일 업로드 성공")
-
-        # df = pd.DataFrame()
-        # df = getFinalDf(id_path)
-        # json_data = df.to_json(orient="records")
-        # return json_data, 200
     
-    return "Success", 200
+    return redirect(url_for("plural_check",
+                            id=id,
+                            test_name=test_name,
+                            copy_num=copy_num,
+                            total_qna_num=total_qna_num,
+                            testee_num=testee_num,
+                            test_category=test_category))
         
 
 # 다인용
-@app.route("/many")
-def view_demo():
-    id_path = UPLOAD_FOLDER + "/id"
-    num = 1
+@app.route("/plural")
+def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
+    id_path = UPLOAD_FOLDER + "/" + id
 
     df = pd.DataFrame()
-    df = pointchecker(id_path, num)
+    df = pointchecker(id_path, test_name, copy_num, total_qna_num, testee_num, test_category)
+    if len(df) == 0:
+        return "Error Occured", 200
     json_data = df.to_json(orient="records")
     return json_data, 200
 
 
 # 1인용
 @app.route("/single")
-def view_test():
-    id_path = UPLOAD_FOLDER + "/single"
+def single_check():
+    id = getId()
+    id_path = UPLOAD_FOLDER + "/" + id
     jpg_path = id_path + "/jpg"
     temp_path = id_path + "/temp"
     mul_path = temp_path + "/mul"
