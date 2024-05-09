@@ -53,13 +53,7 @@ def upload_files():
 
     if request.method == "POST":
         # id 생성 규칙 - 클라이언트 ip + 접속시간
-        client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-        access_now = datetime.datetime.now()
-        access_date = access_now.strftime("%Y-%m-%d")
-        access_time = access_now.strftime("%H-%M-%S")
-
-        id = client_ip + "_" + access_date + "_" + access_time
-        print(id)
+        id = getId()
         id_path = UPLOAD_FOLDER + "/" + id
         
         ## id 폴더 생성 ##
@@ -119,7 +113,8 @@ def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_catego
 # 1인용
 @app.route("/single")
 def single_check():
-    id_path = UPLOAD_FOLDER + "/single"
+    id = getId()
+    id_path = UPLOAD_FOLDER + "/" + id
     jpg_path = id_path + "/jpg"
     temp_path = id_path + "/temp"
     mul_path = temp_path + "/mul"
