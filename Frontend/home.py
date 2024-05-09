@@ -448,7 +448,6 @@ def show_grade():
         height=30.0
     )
 
-
     # 3. 시험지 답을 입력해주세요
     canvas_r.create_text(
         40,
@@ -489,7 +488,6 @@ def show_grade():
         height=30
     )
     
-
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
         40.0,
