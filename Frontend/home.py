@@ -527,9 +527,9 @@ def show_grade():
     widgets = [entry_2,entry_3,entry_4,entry_5,choice_checkbox, short_answer_checkbox,button_3, button_2, button_1, file_path_label,progress_bar, button_6,answersheet_path_label]
 
 
-#####################################
+######################################
 ####### 채점 결과 확인하기 화면 #######
-#####################################
+######################################
 
 def show_result():
     global widgets
