@@ -46,8 +46,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # jpg에 적힌 코드 인식해서 testee 구분
     ## 구현 해야 함 ##
-    # testee jpg df 생성 - name은 page가 1일 때만 인식
-    # 식별코드: id - page (ex. 3-2라면, id=3, page=2)
     testee_jpg_df = pd.DataFrame(columns=["file", "id", "page", "name"])
     testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df)
     ## 구현 해야 함 ##

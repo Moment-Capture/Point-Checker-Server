@@ -254,7 +254,11 @@ def getId():
 
 
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
-## 구현 해야 함 ##
+# testee jpg df 생성
+# - testee_jpg_df = pd.DataFrame(columns=["file", "id", "page", "name"])
+# - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
+# 식별코드: id - page (ex. 3-2라면, id=3, page=2)
 def testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df):
+    ## 구현 해야 함 ##
+    ## 구현 해야 함 ##
     pass
-## 구현 해야 함 ##
