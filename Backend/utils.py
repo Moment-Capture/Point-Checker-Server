@@ -1,5 +1,6 @@
 import os
 import shutil
+import easyocr
 import datetime
 
 import numpy as np
