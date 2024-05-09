@@ -44,6 +44,7 @@ def pointchecker(upload_path, num):
     # xlsx 파일 df로 변환
     answer_df = convertExcelToDf(answer_file_path_list, path)
 
+    # answer df에 값이 존재하는지 검사
     if len(answer_df) == 0:
         print("answer_df empty")
         return None
