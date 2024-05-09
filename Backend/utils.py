@@ -1,11 +1,13 @@
 import os
 import shutil
+import datetime
 
 import numpy as np
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
+from flask import request
 
 from pdf2image import convert_from_path
 
@@ -238,6 +240,16 @@ def concatTesteeDf(df, testee_id, testee_df):
         df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
   
     return df
+
+
+# id 생성
+def getId():
+    client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    access_now = datetime.datetime.now()
+    access_date = access_now.strftime("%Y-%m-%d")
+    access_time = access_now.strftime("%H-%M-%S")
+    id = client_ip + "_" + access_date + "_" + access_time
+    return id
 
 
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
