@@ -20,24 +20,28 @@ def pointchecker(upload_path, num):
     # 파일 생성
     makeIdFolder(path)
 
-    # pdf 파일 jpg로 변환
+    # pdf 파일 탐지
     original_pdf_file_path_list = []
     original_pdf_file_path_list = os_sorted(Path(path).glob('*.pdf'))
     
+    # pdf 파일 있는지 검사
     if len(original_pdf_file_path_list) == 0:
         print("original pdf file path list is empty")
         return None
     
+    # pdf 파일 jpg로 변환
     convertPdfToJpg(original_pdf_file_path_list, jpg_path)
 
-    # xlsx 파일 df로 변환
+    # xlsx 파일 탐지
     answer_file_path_list = []
     answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
     
+    # xlsx 파일 있는지 검사
     if len(answer_file_path_list) == 0:
         print("answer file path list is empty")
         return None
     
+    # xlsx 파일 df로 변환
     answer_df = convertExcelToDf(answer_file_path_list, path)
 
     if len(answer_df) == 0:
