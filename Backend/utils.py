@@ -233,14 +233,8 @@ def makeIdFolder(upload_path):
 
 
 # df에 testee df 합치기
-def concatTesteeDf(df, testee_df):
-    # for df_idx, df_row in df.iterrows():
-    #     df_num = df_row["num"]
-    #     if df_num == 0:
-    #         continue
-    #     for ans_idx, ans_row in answer_df.iterrows():
-    #         if (int(ans_row["correct_answer"]) == int(df_num)):
-    #             df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
-    #             break
-    
+def concatTesteeDf(df, testee_id, testee_df):
+    for testee_df_idx, testee_df_row in testee_df.iterrows():
+        df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
+  
     return df

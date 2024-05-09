@@ -45,16 +45,18 @@ def pointchecker(upload_path, num):
         return None
 
     # 데이터프레임 생성
-    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+    df = pd.DataFrame(columns=["testee", "file", "num", "testee_answer", "correct_answer"])
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(num):
         # 응시자별 폴더 생성
-        testee_path = temp_path + "/testee" + str(i)
+        testee_id = "testee" + str(i)
+        testee_path = temp_path + "/" + testee_id
         makeTesteeFolder(testee_path, num)
 
         # 응시자별 폴더로 jpg 나누기
         ## 구현 해야 함 ##
+        
         ## 구현 해야 함 ##
 
         # 응시자별 df 생성
@@ -64,9 +66,7 @@ def pointchecker(upload_path, num):
         testee_df = concatAnswer(testee_df, answer_df)
 
         # 전체 df와 합치기
-        ## 구현 해야 함 ##
-        concatTesteeDf(df, testee_df)
-        ## 구현 해야 함 ##
+        concatTesteeDf(df, testee_id, testee_df)
 
         # 응시자별 폴더 삭제
         deleteFolder(testee_path)
