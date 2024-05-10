@@ -88,13 +88,23 @@ def upload_files():
         
         print("파일 업로드 성공")
     
-    return redirect(url_for("plural_check",
-                            id=id,
-                            test_name=test_name,
-                            copy_num=copy_num,
-                            total_qna_num=total_qna_num,
-                            testee_num=testee_num,
-                            test_category=test_category))
+    if copy_num == 1:
+        return redirect(url_for("single_check",
+                                id=id,
+                                test_name=test_name,
+                                copy_num=copy_num,
+                                total_qna_num=total_qna_num,
+                                testee_num=testee_num,
+                                test_category=test_category))
+    
+    else: 
+        return redirect(url_for("plural_check",
+                                id=id,
+                                test_name=test_name,
+                                copy_num=copy_num,
+                                total_qna_num=total_qna_num,
+                                testee_num=testee_num,
+                                test_category=test_category))
         
 
 # 다인용
@@ -112,8 +122,7 @@ def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_catego
 
 # 1인용
 @app.route("/single")
-def single_check():
-    id = getId()
+def single_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
     id_path = UPLOAD_FOLDER + "/" + id
     jpg_path = id_path + "/jpg"
     temp_path = id_path + "/temp"
