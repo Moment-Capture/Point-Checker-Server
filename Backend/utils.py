@@ -258,9 +258,9 @@ def getId():
 
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
 # testee jpg df 생성
-# - testee_jpg_df = pd.DataFrame(columns=["file", "num_id", "page"])
+# - testee_jpg_df = pd.DataFrame(columns=["file", "testee_id", "page"])
 # - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
-# 식별코드: id - page (ex. 3-2라면, num_id=3, page=2)
+# 식별코드: id - page (ex. 3-2라면, testee_id=3, page=2)
 
 ### 오른쪽 상단 id 인식 함수 ###
 def read_id_in_image(img):
@@ -279,13 +279,13 @@ def read_id_in_image(img):
     return None
 
 
-### 텍스트에서 num_id와 page를 추출하는 함수 ###
+### 텍스트에서 testee_id와 page를 추출하는 함수 ###
 def extract_id(text):
     if text:
         text_split = text[0].split('-')
-        num_id = text_split[0].strip()
+        testee_id = text_split[0].strip()
         page = text_split[1].strip() if len(text_split) > 1 else None
-        return num_id, page
+        return testee_id, page
     else:
         return None, None
 
@@ -312,12 +312,12 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # easyOCR 사용
         reader = easyocr.Reader(['ko', 'en'], gpu=False)
         text = reader.readtext(image_np, detail=0)
-        num_id, page = extract_id(text)
+        testee_id, page = extract_id(text)
 
         # id가 None이 아닌 경우 num_id와 id를 id_match에 딕셔너리로 추가
         if id is not None:
-            id_match[num_id] = id
+            id_match[testee_id] = id
 
-        testee_jpg_df.append((file, num_id, page))
+        testee_jpg_df.append((file, testee_id, page))
 
     return testee_jpg_df, id_match

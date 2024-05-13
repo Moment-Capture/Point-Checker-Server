@@ -65,8 +65,8 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         return None
 
     # jpg에 적힌 코드 인식해서 testee 구분
-    testee_jpg_df = pd.DataFrame(columns=["file", "num_id", "page"])
-    id_match = {} #id_match는 num_id와 id를 연결하는 딕셔너리
+    testee_jpg_df = pd.DataFrame(columns=["file", "testee_id", "page"])
+    id_match = {} #id_match는 testee_id와 id를 연결하는 딕셔너리
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
 
     # xlsx 파일 탐지
@@ -87,7 +87,8 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         return None
 
     # 데이터프레임 생성
-    df = pd.DataFrame(columns=["testee", "file", "num", "testee_answer", "correct_answer"])
+    df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
+    df.set_index(["testee_id", "file"], inplace=True)
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(testee_num):
@@ -99,7 +100,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         # 응시자별 폴더로 jpg 나누기
         ## 구현 해야 함 ##
         for idx, row in testee_jpg_df.iterrows():
-            if row["num_id"] == i:
+            if row["testee_id"] == i:
                 testee_jpg_path = row["file"]
                 testee_jpg_name = os.path.basename(testee_jpg_path)
                 testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
