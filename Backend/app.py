@@ -114,13 +114,16 @@ def upload_files():
     #                             testee_num=testee_num,
     #                             test_category=test_category))
 
-    return redirect(url_for("plural_check",
-                            id=id, 
-                            test_name=test_name,
-                            copy_num=copy_num,
-                            total_qna_num=total_qna_num,
-                            testee_num=testee_num,
-                            test_category=test_category))
+    # return redirect(url_for("plural_check",
+    #                         id=id, 
+    #                         test_name=test_name,
+    #                         copy_num=copy_num,
+    #                         total_qna_num=total_qna_num,
+    #                         testee_num=testee_num,
+    #                         test_category=test_category))
+
+    return redirect(url_for("single_check", id=id))
+
         
 
 # 다인용
@@ -145,7 +148,8 @@ def plural_check():
 
 # 1인용
 @app.route("/single")
-def single_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
+def single_check():
+    id = request.args.get("id", type=str)
     id_path = UPLOAD_FOLDER + "/" + id
     jpg_path = id_path + "/jpg"
     temp_path = id_path + "/temp"
