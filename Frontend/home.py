@@ -48,7 +48,7 @@ button_style = {
 widgets = []
 entry_columns = []
 file_path_var = None
-answersheet_path_var = None
+answer_path_var = None
 
 ### 위젯 숨기는 함수 ###
 def hide_widgets(widget_list):
@@ -133,7 +133,7 @@ def show_popup():
 #답안지 파일용
 def browse_file2():
     file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
-    answersheet_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
+    answer_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
 
 
 
@@ -249,7 +249,7 @@ def show_transfer():
 ####### 채점하기 화면 #######
 #############################
 def show_grade():
-    global widgets, file_path_var, answersheet_path_var
+    global widgets, file_path_var, answer_path_var
     hide_widgets(widgets)
     canvas_r.delete("all")  # 캔버스 초기화
 
@@ -477,15 +477,15 @@ def show_grade():
         height=30.0
     )
 
-    answer_path = tk.StringVar()  
-    answersheet_path_label=tk.Label(
+    answer_path_var = tk.StringVar()  
+    answer_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
         fg="#000716",
         highlightthickness=0,
-        textvariable=answersheet_path_var
+        textvariable=answer_path_var
         )
-    answersheet_path_label.place(
+    answer_path_label.place(
         x=370,
         y=400.0, 
         width=390,
@@ -509,8 +509,8 @@ def show_grade():
         borderwidth=0,
         highlightthickness=0,
         ### 서버 연결 함수 ###
-        command=lambda: server_connect(file_path.get(),
-                                       answer_path.get(),
+        command=lambda: server_connect(file_path_var.get(),
+                                       answer_path_var.get(),
                                        test_name.get(),
                                        copy_num.get(),
                                        total_qna_num.get(),
@@ -545,7 +545,7 @@ def show_grade():
     )
 
     ## home_widgets 리스트 정의 ##
-    widgets = [testee_num_field, total_qna_num_field, copy_num_field, test_name_field, test_category_mul_checkbox, test_category_sub_checkbox, UploadExamSheetsBtn, file_path_label, UploadAnswerSheetsBtn, answersheet_path_label, StartGradingBtn, progress_bar, ViewGradingResultsBtn]
+    widgets = [testee_num_field, total_qna_num_field, copy_num_field, test_name_field, test_category_mul_checkbox, test_category_sub_checkbox, UploadExamSheetsBtn, file_path_label, UploadAnswerSheetsBtn, answer_path_label, StartGradingBtn, progress_bar, ViewGradingResultsBtn]
 
 
 #####################################
