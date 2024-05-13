@@ -41,6 +41,10 @@ def hello():
     id = getId()
     return f'Hello World! <br><br> id : {id}'
 
+@app.route("/id/<id>")
+def hello(id):
+    return f'Good Bye! <br><br> id : {id}'
+
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_files():
@@ -121,7 +125,14 @@ def upload_files():
 
 # 다인용
 @app.route("/plural", methods=["GET"])
-def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
+def plural_check():
+    id = request.args.get("id", type=str)
+    test_name = request.args.get("test_name", type=int)
+    copy_num = request.args.get("copy_num", type=int)
+    total_qna_num = request.args.get("total_qna_num", type=int)
+    testee_num = request.args.get("testee_num", type=int)
+    test_category = request.args.get("test_category", type=list)
+
     id_path = UPLOAD_FOLDER + "/" + id
 
     df = pd.DataFrame()
