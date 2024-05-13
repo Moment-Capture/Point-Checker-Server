@@ -124,11 +124,6 @@ def insert_page_number(num_students, file_path):
     page_width = pdf_document[0].rect.width
     page_height = pdf_document[0].rect.height
 
-    # if (page_width > page_height):
-    #     pdfRotate(file_path)
-    #     page_width = pdf_document[0].rect.width
-    #     page_height = pdf_document[0].rect.height
-
     print(page_width)
     print(page_height)
     print()
