@@ -81,8 +81,10 @@ def upload_files():
             answer.save(answer_path)
 
         datas = request.form
+        print(datas)
 
-        data = datas["data"]
+        data = datas.get("data")
+        print(data)
 
         test_name = data["test_name"]
         print(test_name)
