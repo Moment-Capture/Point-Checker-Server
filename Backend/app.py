@@ -66,7 +66,6 @@ def upload_files():
         ## id 폴더 생성 ##
 
         files = request.files
-        print(files)
 
         pdf = files["pdf"]
         pdf_name = pdf.filename
@@ -81,18 +80,12 @@ def upload_files():
             answer.save(answer_path)
 
         datas = request.form
-        print(datas)
 
         data = datas.get("data")
         data = json.loads(data)
-        print(data)
-
-        print()
 
         test_name = data["test_name"]
-        print(test_name)
         copy_num = data["copy_num"]
-        print(copy_num)
         total_qna_num = data["total_qna_num"]
         testee_num = data["testee_num"]
         test_category = data["test_category"]
@@ -117,13 +110,7 @@ def upload_files():
     #                             testee_num=testee_num,
     #                             test_category=test_category))
 
-    return redirect(url_for("plural_check",
-                            id=id,
-                            test_name=test_name,
-                            copy_num=copy_num,
-                            total_qna_num=total_qna_num,
-                            testee_num=testee_num,
-                            test_category=test_category))
+    return redirect(url_for("plural_check", id=id, test_name=test_name, copy_num=copy_num, total_qna_num=total_qna_num, testee_num=testee_num, test_category=test_category))
         
 
 # 다인용
