@@ -84,8 +84,10 @@ def upload_files():
 
         print(data)
 
-        test_name = data["test_name"]
+        test_name = data.get("test_name")
+        print(test_name)
         copy_num = data["copy_num"]
+        print(copy_num)
         total_qna_num = data["total_qna_num"]
         testee_num = data["testee_num"]
         test_category = data["test_category"]
