@@ -514,7 +514,7 @@ def show_grade():
                                        test_name.get(),
                                        copy_num.get(),
                                        testee_num.get(),
-                                       [test_category_mul.get(), test_category_mul.sub()]),
+                                       [test_category_mul.get(), test_category_sub.get()]),
         relief="flat"
     )
     StartGradingBtn.place(
