@@ -97,6 +97,8 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         testee_path = temp_path + "/" + testee_id
         makeTesteeFolder(testee_path)
 
+        print(testee_id)
+
         # 응시자별 폴더로 jpg 나누기
         ## 구현 해야 함 ##
         for idx, row in testee_jpg_df.iterrows():
@@ -109,6 +111,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 응시자별 df 생성
         testee_df = getTesteeDf(testee_path)
+        print(testee_df)
 
         # 정답 df와 합치기
         testee_df = concatAnswer(testee_df, answer_df)
