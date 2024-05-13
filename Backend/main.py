@@ -92,7 +92,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     df.set_index(["testee_id", "file"], inplace=True)
 
     # 응시자 수만큼 해당 과정 반복
-    for i in range(testee_num):
+    for i in range(1, testee_num+1):
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
         testee_path = temp_path + "/" + testee_id
