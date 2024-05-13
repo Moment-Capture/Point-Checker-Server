@@ -100,9 +100,8 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
 
 def categorize_qna(path):
     # 경로 정의
-    temp_path = path + "/temp"
-    mul_path = temp_path + "/mul"
-    sub_path = temp_path + "/sub"
+    mul_path = path + "/mul"
+    sub_path = path + "/sub"
     save_name = ""
 
     model_path = BE_PATH + "/models"
@@ -136,7 +135,6 @@ def categorize_qna(path):
         if boxes is not None:
             for box, cls in zip(boxes, clss):
                 qna = cropBox(box, image)
-                print(names[int(cls)])
 
                 if (names[int(cls)] == "q_mark" or names[int(cls)] == "q_period" or names[int(cls)] == "s_period"):
                     continue
