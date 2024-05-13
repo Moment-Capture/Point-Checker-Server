@@ -11,6 +11,7 @@ from natsort import os_sorted
 from flask import request
 
 from pdf2image import convert_from_path
+from PIL import Image
 
 
 # 인트로 출력
@@ -253,12 +254,68 @@ def getId():
     return id
 
 
+### 오른쪽 상단 id 인식 함수 ###
+def read_id_in_image(img):
+  x1, y1, x2, y2 = (620, 30, 750, 65)
+  cropped_img = img.crop((x1, y1, x2, y2))
+  image_np = np.array(cropped_img)
+  
+  #easyocr 사용
+  reader = easyocr.Reader(['ko', 'en'], gpu=False)
+  text = reader.readtext(image_np, detail=0)
+
+  # id가 있다면 id 반환, 없으면 none 반환
+  if text:
+    return text
+  else:
+    return None
+
+
+### 텍스트에서 num_id와 page를 추출하는 함수 ###
+def extract_id(text):
+    if text:
+        text_split = text[0].split('-')
+        num_id = text_split[0].strip()
+        page = text_split[1].strip() if len(text_split) > 1 else None
+        return num_id, page
+    else:
+        return None, None
+
+### 텍스트 부분 잘라내기 함수 (메인) ###
+
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
 # testee jpg df 생성
-# - testee_jpg_df = pd.DataFrame(columns=["file", "id", "page", "name"])
+# - testee_jpg_df = pd.DataFrame(columns=["file", "num_id", "page"])
 # - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
-# 식별코드: id - page (ex. 3-2라면, id=3, page=2)
-def testeeCodeRecognition(jpg_path, jpg_file_path_list, testee_jpg_df):
-    ## 구현 해야 함 ##
-    ## 구현 해야 함 ##
-    pass
+# 식별코드: id - page (ex. 3-2라면, num_id=3, page=2)
+
+def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
+    # id_match 딕셔너리 초기화
+    id_match = dict()
+
+    # 폴더 내의 모든 파일에 대해 반복
+    for file in jpg_file_path_list:
+        # 이미지 파일 열기
+        img = Image.open(file)
+        img = img.resize((794,1123),Image.LANCZOS) #인식 위치를 같게 만들기 위한 이미지 규격화.
+
+        #오른쪽 상단 id 인식
+        id = read_id_in_image(img)
+
+        # 왼쪽 상단 num_id와 page 인식
+        x1, y1, x2, y2 = (30, 30, 165, 70)
+        cropped_img = img.crop((x1, y1, x2, y2))
+        image_np = np.array(cropped_img)
+
+        # easyOCR 사용
+        reader = easyocr.Reader(['ko', 'en'], gpu=False)
+        text = reader.readtext(image_np, detail=0)
+        num_id, page = extract_id(text)
+
+        # id가 None이 아닌 경우 num_id와 id를 id_match에 딕셔너리로 추가
+        if id is not None:
+            id_match[num_id] = id
+
+        testee_jpg_df.append((file, num_id, page))
+
+    return testee_jpg_df, id_match
