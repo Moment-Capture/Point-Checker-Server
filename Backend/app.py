@@ -69,7 +69,6 @@ def upload_files():
         file = files["file"]
         file_name = file.filename
         file_path = os.path.join(id_path, file_name)
-        print(file_name)
         print(file_path)
         if file and allowed_file(file_name):
             file.save(file_path)
@@ -80,13 +79,16 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        test_name = files["test_name"].filename
-        copy_num = files["copy_num"].filename
-        total_qna_num = files["total_qna_num"].filename
-        testee_num = files["testee_num"].filename
-        test_category = files["test_category"].filename
+        test_name = files["test_name"]
+        copy_num = files["copy_num"]
+        total_qna_num = files["total_qna_num"]
+        testee_num = files["testee_num"]
+        test_category = files["test_category"]
         
         print("파일 업로드 성공")
+        
+        print(file_name)
+        print(answer_name)
 
         print(id)
         print(test_name)
