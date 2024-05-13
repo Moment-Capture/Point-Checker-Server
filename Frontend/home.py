@@ -65,11 +65,11 @@ def int_to_string(test_category):
             cate = "1"
 
 ### 서버 연결하는 함수 ###
-def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
+def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     url = "http://107.23.189.114:8080/upload"
-    
-    files = {
-        'file':open(file_path, "rb"),
+
+    file = {
+        'pdf':open(pdf_path, "rb"),
         'answer':open(answer_path, "rb")
     }
     
@@ -81,9 +81,12 @@ def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, t
         'test_category':test_category
     }
 
-
+    files = {
+        'data':data,
+        'file':file
+    }
     
-    response = requests.post(url, files=files, json=data)
+    response = requests.post(url, files=files)
 
     print(response)
 
