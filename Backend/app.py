@@ -84,7 +84,7 @@ def upload_files():
         print(datas)
 
         data = datas.get("data")
-        data = dict(data)
+        data = json.loads(data)
         print(data)
 
         print()
