@@ -7,8 +7,8 @@ from tkinter import *
 
 # import gc, time
 import os
+import json
 import requests
-import fitz
 
 
 FILE_PATH = Path(__file__)
@@ -71,11 +71,11 @@ def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, t
     files = { 'file':open(file_path, "rb"),
              'answer':open(answer_path, "rb")}
     
-    data = { 'test_name':test_name,
-             'copy_num':copy_num,
-             'total_qna_num':total_qna_num,
-             'testee_num':testee_num,
-             'test_category':test_category }
+    data = json.dumps({'test_name':test_name,
+            'copy_num':copy_num,
+            'total_qna_num':total_qna_num,
+            'testee_num':testee_num,
+            'test_category':test_category })
     
     response = requests.post(url, files=files, json=data)
 
