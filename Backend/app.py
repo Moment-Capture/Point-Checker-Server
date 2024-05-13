@@ -80,7 +80,7 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = request.data
+        data = request.get_json()
 
         print(data)
 
