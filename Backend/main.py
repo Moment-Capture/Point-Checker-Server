@@ -11,6 +11,26 @@ from sub import detect_subjective
 from utils import *
 
 
+def getTesteeDf(testee_path):
+    # 경로 정의
+    path = testee_path
+
+    # 문제 인식 및 채점 진행
+    categorize_qna(path)
+    mul_df = detect_multiple(path)
+    sub_df = detect_subjective(path)
+
+    # mul과 sub 통합을 위한 df 생성
+    df = pd.concat([mul_df, sub_df], axis=0)
+    print_full(df)
+
+    # df 정리해서 testee_df로 반환
+    df = dfToFinalDf(df)
+    print_full(df)
+
+    return df
+
+
 def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     # 경로 정의
     path = str(Path(upload_path))
@@ -93,23 +113,3 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 응시자별 폴더 삭제
         deleteFolder(testee_path)
-
-
-def getTesteeDf(testee_path):
-    # 경로 정의
-    path = testee_path
-
-    # 문제 인식 및 채점 진행
-    categorize_qna(path)
-    mul_df = detect_multiple(path)
-    sub_df = detect_subjective(path)
-
-    # mul과 sub 통합을 위한 df 생성
-    df = pd.concat([mul_df, sub_df], axis=0)
-    print_full(df)
-
-    # df 정리해서 testee_df로 반환
-    df = dfToFinalDf(df)
-    print_full(df)
-
-    return df
