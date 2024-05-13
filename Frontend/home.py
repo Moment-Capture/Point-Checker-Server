@@ -56,9 +56,19 @@ def hide_widgets(widget_list):
         widget.place_forget()
 
 
+### test_category 숫자 변환 ###
+def int_to_string(test_category):
+    for cate in test_category:
+        if cate == 0:
+            cate = "0"
+        else:
+            cate = "1"
+
 ### 서버 연결하는 함수 ###
 def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     url = "http://107.23.189.114:8080/upload"
+
+    print(test_name, copy_num, total_qna_num, testee_num, test_category)
     files = {"file":open(file_path, "rb"),
              "answer":open(answer_path, "rb"),
              "test_name":test_name,
@@ -382,7 +392,7 @@ def show_grade():
     )
 
     # 1-6. 객관식 체크박스 생성
-    test_category_mul = tk.StringVar()
+    test_category_mul = tk.IntVar(value=0)
     test_category_mul_checkbox = tk.Checkbutton(
         root,
         text="객관식",
@@ -398,7 +408,7 @@ def show_grade():
     )
  
     # 1-7. 단답식 체크박스 생성
-    test_category_sub = tk.StringVar()
+    test_category_sub = tk.IntVar(value=0)
     test_category_sub_checkbox = tk.Checkbutton(
         root,
         text="단답식",
@@ -515,7 +525,7 @@ def show_grade():
                                        copy_num.get(),
                                        total_qna_num.get(),
                                        testee_num.get(),
-                                       [test_category_mul.get(), test_category_sub.get()]),
+                                       [str(test_category_mul.get()), str(test_category_sub.get())]),
         relief="flat"
     )
     StartGradingBtn.place(

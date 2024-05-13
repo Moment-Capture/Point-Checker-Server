@@ -89,11 +89,11 @@ def upload_files():
         print("파일 업로드 성공")
 
         print(id)
-        print(file_name)
-        print(answer_name)
         print(test_name)
-        print(copy_num, total_qna_num, testee_num)
-        print(test_category)
+        print(copy_num)
+        print(total_qna_num)
+        print(testee_num)
+        print(test_category[0], test_category[1])
     
     # if copy_num == 1:
     #     return redirect(url_for("single_check",
