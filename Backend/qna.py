@@ -136,6 +136,7 @@ def categorize_qna(path):
         if boxes is not None:
             for box, cls in zip(boxes, clss):
                 qna = cropBox(box, image)
+                print(names[int(cls)])
 
                 if (names[int(cls)] == "q_mark" or names[int(cls)] == "q_period" or names[int(cls)] == "s_period"):
                     continue
