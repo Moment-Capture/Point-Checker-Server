@@ -69,7 +69,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     id_match = {} #id_match는 num_id와 id를 연결하는 딕셔너리
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
 
-
     # xlsx 파일 탐지
     answer_file_path_list = []
     answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
@@ -95,11 +94,16 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
         testee_path = temp_path + "/" + testee_id
-        makeTesteeFolder(testee_path, testee_num)
+        makeTesteeFolder(testee_path)
 
         # 응시자별 폴더로 jpg 나누기
         ## 구현 해야 함 ##
-        
+        for idx, row in testee_jpg_df.iterrows():
+            if row["num_id"] == i:
+                testee_jpg_path = row["file"]
+                testee_jpg_name = os.path.basename(testee_jpg_path)
+                testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
+                shutil.copyfile(testee_jpg_path, testee_jpg_copy_path)
         ## 구현 해야 함 ##
 
         # 응시자별 df 생성
