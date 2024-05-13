@@ -11,6 +11,8 @@ import fitz
 import json
 import requests
 
+import aspose.pdf as ap
+
 
 FILE_PATH = Path(__file__)
 OUTPUT_PATH = FILE_PATH.parent
@@ -50,6 +52,29 @@ widgets = []
 entry_columns = []
 file_path_var = None
 answer_path_var = None
+
+
+### pdf 방향 바꾸는 함수 ###
+def pdfRotate(pdf_path):
+    license = ap.License()
+    license.set_license("Aspose.Total.lic")
+
+    doc = ap.Document(pdf_path)
+
+    for page in doc.pages:
+        r = page.media_box
+        newHeight = r.width
+        newWidth = r.height
+        newLLX = r.llx
+
+        newLLY = r.lly + (r.height - newHeight)
+        page.media_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
+        page.crop_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
+
+        page.rotate = ap.Rotation.ON90
+    
+    doc.save(pdf_path)
+
 
 ### 위젯 숨기는 함수 ###
 def hide_widgets(widget_list):
@@ -102,8 +127,15 @@ def insert_page_number(num_students, file_path):
     # Get page width and height
     page_width = pdf_document[0].rect.width
     page_height = pdf_document[0].rect.height
+
+    if (page_width > page_height):
+        pdfRotate(file_path)
+        page_width = pdf_document[0].rect.width
+        page_height = pdf_document[0].rect.height
+
     print(page_width)
     print(page_height)
+
     # Convert start and end points to coordinates relative to top-right corner
     start_point = (page_width - 180, 65)
     end_point = (page_width - 60, 65)
