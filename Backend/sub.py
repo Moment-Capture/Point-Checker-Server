@@ -13,15 +13,15 @@ BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 def detect_subjective(path):
     # 경로 정의
-    save_path = path + "/temp"
-    sub_save_path = save_path + "/sub"
+    temp_path = path + "/temp"
+    sub_path = temp_path + "/sub"
 
     model_path = BE_PATH + "/models"
     subjective_path = model_path + "/subjective/weights/best.pt"
 
     # 입력 파일 정렬
-    images = os_sorted(Path(sub_save_path).glob('*.jpg'))
-    deleteDuplicateFiles(sub_save_path, images)
+    images = os_sorted(Path(sub_path).glob('*.jpg'))
+    deleteDuplicateFiles(sub_path, images)
 
     # Yolov8 사용
     model_sub = YOLO(subjective_path)

@@ -13,14 +13,14 @@ BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 def detect_multiple(path):
     # 경로 정의
-    save_path = path + "/temp"
-    mul_save_path = save_path + "/mul"
+    temp_path = path + "/temp"
+    mul_path = temp_path + "/mul"
 
     model_path = BE_PATH + "/models"
     multiple_path = model_path + "/multiple/weights/best.pt"
 
     # 입력 파일 정렬
-    images = os_sorted(Path(mul_save_path).glob('*.jpg'))
+    images = os_sorted(Path(mul_path).glob('*.jpg'))
 
     # Yolov8 사용
     model_mul = YOLO(multiple_path)
