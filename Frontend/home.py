@@ -67,16 +67,14 @@ def int_to_string(test_category):
 ### 서버 연결하는 함수 ###
 def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     url = "http://107.23.189.114:8080/upload"
-
-    print(test_name, copy_num, total_qna_num, testee_num, test_category)
     files = {"file":open(file_path, "rb"),
-             "answer":open(answer_path, "rb"),
-             "test_name":test_name,
+             "answer":open(answer_path, "rb")}
+    data = {"test_name":test_name,
              "copy_num":copy_num,
              "total_qna_num":total_qna_num,
              "testee_num":testee_num,
              "test_category":test_category}
-    r = requests.post(url, files=files)
+    r = requests.post(url, files=files, data=data)
 
 
 
