@@ -68,18 +68,20 @@ def upload_files():
         files = request.files
 
         file = files["file"]
-        file_name = file.filename
-        file_path = os.path.join(id_path, file_name)
-        if file and allowed_file(file_name):
-            file.save(file_path)
+
+        pdf = file["pdf"]
+        pdf_name = pdf.filename
+        pdf_path = os.path.join(id_path, pdf_name)
+        if file and allowed_file(pdf_name):
+            file.save(pdf_path)
         
-        answer = files["answer"]
+        answer = file["answer"]
         answer_name = answer.filename
         answer_path = os.path.join(id_path, answer_name)
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = json.loads(request.form.get('data'))
+        data = files["data"]
 
         print(data)
 
@@ -90,13 +92,6 @@ def upload_files():
         test_category = data["test_category"]
         
         print("파일 업로드 성공")
-        
-        print(file_name)
-        print(answer_name)
-
-        print(id)
-        
-        print(data)
     
     # if copy_num == 1:
     #     return redirect(url_for("single_check",
