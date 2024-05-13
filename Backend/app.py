@@ -42,7 +42,7 @@ def hello():
     return f'Hello World! <br><br> id : {id}'
 
 
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["GET", "POST"])
 def upload_files():
     ## upload 폴더 생성 ##
     try:
@@ -111,7 +111,7 @@ def upload_files():
     #                             test_category=test_category))
 
     return redirect(url_for("plural_check",
-                            id=id,
+                            id=id, 
                             test_name=test_name,
                             copy_num=copy_num,
                             total_qna_num=total_qna_num,
