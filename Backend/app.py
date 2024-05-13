@@ -88,7 +88,7 @@ def upload_files():
 
         print()
 
-        test_name = data["test_name"]
+        test_name = data.get("test_name")
         print(test_name)
         copy_num = data["copy_num"]
         print(copy_num)
