@@ -263,13 +263,12 @@ def getId():
 # 식별코드: id - page (ex. 3-2라면, testee_id=3, page=2)
 
 ### 오른쪽 상단 id 인식 함수 ###
-def read_id_in_image(img):
+def read_id_in_image(img, reader):
   x1, y1, x2, y2 = (620, 30, 750, 65)
   cropped_img = img.crop((x1, y1, x2, y2))
   image_np = np.array(cropped_img)
   
   #easyocr 사용
-  reader = easyocr.Reader(['ko', 'en'], gpu=False)
   text = reader.readtext(image_np, detail=0)
 
   # id가 있다면 id 반환, 없으면 none 반환
@@ -292,6 +291,9 @@ def extract_id(text):
 
 ### 텍스트 부분 잘라내기 함수 (메인) ###
 def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
+    # easyOCR 사용
+    reader = easyocr.Reader(['ko', 'en'])
+    
     # id_match 딕셔너리 초기화
     id_match = dict()
 
@@ -302,7 +304,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         img = img.resize((794,1123),Image.LANCZOS) #인식 위치를 같게 만들기 위한 이미지 규격화.
 
         #오른쪽 상단 id 인식
-        id = read_id_in_image(img)
+        id = read_id_in_image(img, reader)
 
         # 왼쪽 상단 num_id와 page 인식
         x1, y1, x2, y2 = (30, 30, 165, 70)
@@ -310,7 +312,6 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         image_np = np.array(cropped_img)
 
         # easyOCR 사용
-        reader = easyocr.Reader(['ko', 'en'])
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extract_id(text)
 
