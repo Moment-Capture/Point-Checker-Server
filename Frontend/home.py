@@ -73,13 +73,15 @@ def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, t
         'answer':open(answer_path, "rb")
     }
     
-    data = json.dumps({
+    data = {
         'test_name':test_name,
         'copy_num':copy_num,
         'total_qna_num':total_qna_num,
         'testee_num':testee_num,
         'test_category':test_category
-    })
+    }
+
+
     
     response = requests.post(url, files=files, data=data)
 
