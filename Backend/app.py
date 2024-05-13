@@ -54,8 +54,8 @@ def upload_files():
 
     if request.method == "POST":
         # id 생성 규칙 - 클라이언트 ip + 접속시간
-        id_ = getId()
-        id_path = UPLOAD_FOLDER + "/" + id_
+        id = getId()
+        id_path = UPLOAD_FOLDER + "/" + id
         
         ## id 폴더 생성 ##
         try:
@@ -84,11 +84,11 @@ def upload_files():
         data = datas.get("data")
         data = json.loads(data)
 
-        test_name_ = data["test_name"]
-        copy_num_ = data["copy_num"]
-        total_qna_num_ = data["total_qna_num"]
-        testee_num_ = data["testee_num"]
-        test_category_ = data["test_category"]
+        test_name = data["test_name"]
+        copy_num = data["copy_num"]
+        total_qna_num = data["total_qna_num"]
+        testee_num = data["testee_num"]
+        test_category = data["test_category"]
         
         print("파일 업로드 성공")
     
@@ -111,16 +111,16 @@ def upload_files():
     #                             test_category=test_category))
 
     return redirect(url_for("plural_check",
-                            id=id_,
-                            test_name=test_name_,
-                            copy_num=copy_num_,
-                            total_qna_num=total_qna_num_,
-                            testee_num=testee_num_,
-                            test_category=test_category_))
+                            id=id,
+                            test_name=test_name,
+                            copy_num=copy_num,
+                            total_qna_num=total_qna_num,
+                            testee_num=testee_num,
+                            test_category=test_category))
         
 
 # 다인용
-@app.route("/plural")
+@app.route("/plural", methods=["GET"])
 def plural_check(id, test_name, copy_num, total_qna_num, testee_num, test_category):
     id_path = UPLOAD_FOLDER + "/" + id
 
