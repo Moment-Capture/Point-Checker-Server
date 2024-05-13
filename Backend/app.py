@@ -80,11 +80,11 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = request.form
+        datas = request.form
 
-        print(data)
+        data = datas["data"]
 
-        test_name = data.get("test_name")
+        test_name = data["test_name"]
         print(test_name)
         copy_num = data["copy_num"]
         print(copy_num)
