@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for
 
 import os
+import json
 import shutil
 import datetime
 import pandas as pd
@@ -79,7 +80,7 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = request.data
+        data = json.loads(request.data)
 
         test_name = data["test_name"]
         copy_num = data["copy_num"]
