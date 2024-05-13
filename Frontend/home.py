@@ -68,16 +68,20 @@ def int_to_string(test_category):
 def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     url = "http://107.23.189.114:8080/upload"
     
-    files = { 'file':open(file_path, "rb"),
-             'answer':open(answer_path, "rb")}
+    files = {
+        'file':open(file_path, "rb"),
+        'answer':open(answer_path, "rb")
+    }
     
-    data = json.dumps({'test_name':test_name,
-            'copy_num':copy_num,
-            'total_qna_num':total_qna_num,
-            'testee_num':testee_num,
-            'test_category':test_category })
+    data = json.dumps({
+        'test_name':test_name,
+        'copy_num':copy_num,
+        'total_qna_num':total_qna_num,
+        'testee_num':testee_num,
+        'test_category':test_category
+    })
     
-    response = requests.post(url, files=files, json=data)
+    response = requests.post(url, files=files, data=data)
 
     print(response)
 

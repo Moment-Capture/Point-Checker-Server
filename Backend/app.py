@@ -79,7 +79,7 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = json.loads(request.json)
+        data = json.loads(request.form.get('data'))
 
         print(data)
 
