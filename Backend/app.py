@@ -66,6 +66,8 @@ def upload_files():
 
         files = request.files
 
+        print(files)
+
         file = files["file"]
         file_name = file.filename
         file_path = os.path.join(id_path, file_name)
