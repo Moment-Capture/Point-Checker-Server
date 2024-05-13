@@ -13,8 +13,7 @@ BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 def detect_subjective(path):
     # 경로 정의
-    temp_path = path + "/temp"
-    sub_path = temp_path + "/sub"
+    sub_path = path + "/sub"
 
     model_path = BE_PATH + "/models"
     subjective_path = model_path + "/subjective/weights/best.pt"

@@ -13,8 +13,7 @@ BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 def detect_multiple(path):
     # 경로 정의
-    temp_path = path + "/temp"
-    mul_path = temp_path + "/mul"
+    mul_path = path + "/mul"
 
     model_path = BE_PATH + "/models"
     multiple_path = model_path + "/multiple/weights/best.pt"
