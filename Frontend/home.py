@@ -513,6 +513,7 @@ def show_grade():
                                        answer_path.get(),
                                        test_name.get(),
                                        copy_num.get(),
+                                       total_qna_num.get(),
                                        testee_num.get(),
                                        [test_category_mul.get(), test_category_sub.get()]),
         relief="flat"
