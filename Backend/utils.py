@@ -318,6 +318,6 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         if id is not None:
             id_match[testee_id] = id
 
-        testee_jpg_df.append((file, testee_id, page))
+        testee_jpg_df.loc[len(testee_jpg_df)] = [file, testee_id, page]
 
     return testee_jpg_df, id_match
