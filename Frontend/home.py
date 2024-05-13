@@ -83,7 +83,7 @@ def server_connect(file_path, answer_path, test_name, copy_num, total_qna_num, t
 
 
     
-    response = requests.post(url, files=files, data=data)
+    response = requests.post(url, files=files, json=data)
 
     print(response)
 
