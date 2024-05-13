@@ -314,6 +314,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # easyOCR 사용
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extract_id(text)
+        print(text)
 
         # id가 None이 아닌 경우 testee_id와 id를 id_match에 딕셔너리로 추가
         if id is not None:
