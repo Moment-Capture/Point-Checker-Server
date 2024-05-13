@@ -43,6 +43,7 @@ def hello():
 
 @app.route("/id/<id>")
 def bye(id):
+    id = request.args.get("id", type=str)
     return f'Good Bye! <br><br> id : {id}'
 
 
@@ -114,15 +115,16 @@ def upload_files():
     #                             testee_num=testee_num,
     #                             test_category=test_category))
 
-    # return redirect(url_for("plural_check",
-    #                         id=id, 
-    #                         test_name=test_name,
-    #                         copy_num=copy_num,
-    #                         total_qna_num=total_qna_num,
-    #                         testee_num=testee_num,
-    #                         test_category=test_category))
+    # return redirect(url_for("single_check", id=id))
 
-    return redirect(url_for("single_check", id=id))
+    return redirect(url_for("plural_check",
+                            id=id, 
+                            test_name=test_name,
+                            copy_num=copy_num,
+                            total_qna_num=total_qna_num,
+                            testee_num=testee_num,
+                            test_category=test_category))
+
 
         
 
