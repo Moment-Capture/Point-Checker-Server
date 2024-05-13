@@ -107,7 +107,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         print(testee_jpg_df)
         for idx, row in testee_jpg_df.iterrows():
             print(row["testee_id"])
-            if row["testee_id"] == i:
+            if row["testee_id"] == str(i):
                 print(i)
                 testee_jpg_path = row["file"]
                 print(testee_jpg_path)
