@@ -120,7 +120,10 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         testee_df = concatAnswer(testee_df, answer_df)
 
         # 전체 df와 합치기
-        concatTesteeDf(df, testee_id, testee_df)
+        df = concatTesteeDf(df, testee_id, testee_df)
+        print(df)
+
+        df.to_excel(path+"/final_df.xlsx")
 
         # 응시자별 폴더 삭제
         deleteFolder(testee_path)
