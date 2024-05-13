@@ -104,7 +104,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
                 testee_jpg_path = row["file"]
                 testee_jpg_name = os.path.basename(testee_jpg_path)
                 testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
-                shutil.copyfile(testee_jpg_path, testee_jpg_copy_path)
+                shutil.move(testee_jpg_path, testee_jpg_copy_path)
         ## 구현 해야 함 ##
 
         # 응시자별 df 생성
