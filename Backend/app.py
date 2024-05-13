@@ -80,7 +80,9 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = json.loads(request.text)
+        data = request.data
+
+        print(data)
 
         test_name = data["test_name"]
         copy_num = data["copy_num"]
