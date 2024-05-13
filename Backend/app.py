@@ -68,15 +68,11 @@ def upload_files():
         files = request.files
         print(files)
 
-        file = files["file"]
-
-        print(file)
-
         pdf = files["pdf"]
         pdf_name = pdf.filename
         pdf_path = os.path.join(id_path, pdf_name)
-        if file and allowed_file(pdf_name):
-            file.save(pdf_path)
+        if pdf and allowed_file(pdf_name):
+            pdf.save(pdf_path)
         
         answer = files["answer"]
         answer_name = answer.filename
@@ -84,7 +80,7 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = files["data"]
+        data = request.data
 
         print(data)
 
