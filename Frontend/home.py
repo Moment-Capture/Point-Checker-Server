@@ -56,9 +56,6 @@ answer_path_var = None
 
 ### pdf 방향 바꾸는 함수 ###
 def pdfRotate(pdf_path):
-    license = ap.License()
-    license.set_license("Aspose.Total.lic")
-
     doc = ap.Document(pdf_path)
 
     for page in doc.pages:
@@ -70,7 +67,6 @@ def pdfRotate(pdf_path):
         newLLY = r.lly + (r.height - newHeight)
         page.media_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
         page.crop_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
-
         page.rotate = ap.Rotation.ON90
     
     doc.save(pdf_path)
@@ -128,17 +124,21 @@ def insert_page_number(num_students, file_path):
     page_width = pdf_document[0].rect.width
     page_height = pdf_document[0].rect.height
 
-    if (page_width > page_height):
-        pdfRotate(file_path)
-        page_width = pdf_document[0].rect.width
-        page_height = pdf_document[0].rect.height
+    # if (page_width > page_height):
+    #     pdfRotate(file_path)
+    #     page_width = pdf_document[0].rect.width
+    #     page_height = pdf_document[0].rect.height
 
     print(page_width)
     print(page_height)
+    print()
 
     # Convert start and end points to coordinates relative to top-right corner
     start_point = (page_width - 180, 65)
     end_point = (page_width - 60, 65)
+
+    print(start_point)
+    print(end_point)
 
     for i in range(0, num_students):
         output_pdf_path = os.path.splitext(file_path)[0] + f"_{i+1}.pdf"
@@ -147,7 +147,7 @@ def insert_page_number(num_students, file_path):
         #첫 장에 이름 적는 칸
         page = pdf_document[0]
         text = "ID : "
-        page.insert_text((page_width-220, 60), text, fontsize=16,fontname="courier")
+        page.insert_text((page_width-220, 60), text, fontsize=16, fontname="courier")
         page.draw_line(start_point, end_point)
 
         for j in range(0, num_pages):
@@ -161,7 +161,7 @@ def insert_page_number(num_students, file_path):
             page = pdf_document[j]
 
             # Start editing the page
-            page.insert_text(insert_position, text, fontsize=18,fontname="courier")
+            page.insert_text(insert_position, text, fontsize=18, fontname="courier")
 
         # Save the changes to a new PDF
         pdf_document.save(output_pdf_path)
