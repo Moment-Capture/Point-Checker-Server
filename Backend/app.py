@@ -66,8 +66,11 @@ def upload_files():
         ## id 폴더 생성 ##
 
         files = request.files
+        print(files)
 
         file = files["file"]
+
+        print(file)
 
         pdf = file["pdf"]
         pdf_name = pdf.filename
