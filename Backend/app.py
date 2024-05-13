@@ -70,7 +70,6 @@ def upload_files():
         file = files["file"]
         file_name = file.filename
         file_path = os.path.join(id_path, file_name)
-        print(file_path)
         if file and allowed_file(file_name):
             file.save(file_path)
         
@@ -80,7 +79,7 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        data = request.data
+        data = json.loads(request.json)
 
         print(data)
 
