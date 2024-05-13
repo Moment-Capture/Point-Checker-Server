@@ -55,7 +55,7 @@ def upload_files():
     if request.method == "POST":
         # id 생성 규칙 - 클라이언트 ip + 접속시간
         id_ = getId()
-        id_path = UPLOAD_FOLDER + "/" + id
+        id_path = UPLOAD_FOLDER + "/" + id_
         
         ## id 폴더 생성 ##
         try:
