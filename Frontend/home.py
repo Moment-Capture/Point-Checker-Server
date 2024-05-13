@@ -7,6 +7,7 @@ from tkinter import *
 
 # import gc, time
 import os
+import fitz
 import json
 import requests
 
