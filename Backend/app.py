@@ -72,13 +72,13 @@ def upload_files():
 
         print(file)
 
-        pdf = file["pdf"]
+        pdf = files["pdf"]
         pdf_name = pdf.filename
         pdf_path = os.path.join(id_path, pdf_name)
         if file and allowed_file(pdf_name):
             file.save(pdf_path)
         
-        answer = file["answer"]
+        answer = files["answer"]
         answer_name = answer.filename
         answer_path = os.path.join(id_path, answer_name)
         if answer and allowed_answer(answer_name):
