@@ -211,7 +211,6 @@ def show_transfer():
     )
 
     #시험지 파일 경로를 전역변수로 사용
-
     file_path_var = tk.StringVar()
 
     file_path_label=tk.Label(

@@ -254,6 +254,14 @@ def getId():
     return id
 
 
+### 텍스트 부분 잘라내기 함수 ###
+
+# 각 jpg에 적힌 코드 인식해서 이름 매칭
+# testee jpg df 생성
+# - testee_jpg_df = pd.DataFrame(columns=["file", "num_id", "page"])
+# - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
+# 식별코드: id - page (ex. 3-2라면, num_id=3, page=2)
+
 ### 오른쪽 상단 id 인식 함수 ###
 def read_id_in_image(img):
   x1, y1, x2, y2 = (620, 30, 750, 65)
@@ -281,14 +289,8 @@ def extract_id(text):
     else:
         return None, None
 
+
 ### 텍스트 부분 잘라내기 함수 (메인) ###
-
-# 각 jpg에 적힌 코드 인식해서 이름 매칭
-# testee jpg df 생성
-# - testee_jpg_df = pd.DataFrame(columns=["file", "num_id", "page"])
-# - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
-# 식별코드: id - page (ex. 3-2라면, num_id=3, page=2)
-
 def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     # id_match 딕셔너리 초기화
     id_match = dict()
