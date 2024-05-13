@@ -382,7 +382,7 @@ def show_grade():
     )
 
     # 1-6. 객관식 체크박스 생성
-    test_category_mul = tk.IntVar()
+    test_category_mul = tk.StringVar()
     test_category_mul_checkbox = tk.Checkbutton(
         root,
         text="객관식",
@@ -398,7 +398,7 @@ def show_grade():
     )
  
     # 1-7. 단답식 체크박스 생성
-    test_category_sub = tk.IntVar()
+    test_category_sub = tk.StringVar()
     test_category_sub_checkbox = tk.Checkbutton(
         root,
         text="단답식",

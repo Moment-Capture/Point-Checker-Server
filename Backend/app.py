@@ -87,6 +87,13 @@ def upload_files():
         test_category = files["test_category"]
         
         print("파일 업로드 성공")
+
+        print(id)
+        print(file_name)
+        print(answer_name)
+        print(test_name)
+        print(copy_num, total_qna_num, testee_num)
+        print(test_category)
     
     # if copy_num == 1:
     #     return redirect(url_for("single_check",
