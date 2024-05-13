@@ -42,7 +42,7 @@ def hello():
     return f'Hello World! <br><br> id : {id}'
 
 @app.route("/id/<id>")
-def hello(id):
+def bye(id):
     return f'Good Bye! <br><br> id : {id}'
 
 
