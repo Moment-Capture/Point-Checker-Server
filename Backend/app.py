@@ -83,8 +83,10 @@ def upload_files():
         datas = request.form
         print(datas)
 
-        data = datas.getlist("data")
+        data = datas.get("data")
         print(data)
+
+        print()
 
         test_name = data["test_name"]
         print(test_name)
