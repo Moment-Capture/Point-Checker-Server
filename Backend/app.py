@@ -64,7 +64,7 @@ def upload_files():
             pass
         ## id 폴더 생성 ##
 
-        files = request.form
+        files = request.files
 
         file = files["file"]
         file_name = file.filename
@@ -79,13 +79,13 @@ def upload_files():
         if answer and allowed_answer(answer_name):
             answer.save(answer_path)
 
-        datas = request.data
+        data = request.data
 
-        test_name = datas["test_name"]
-        copy_num = datas["copy_num"]
-        total_qna_num = datas["total_qna_num"]
-        testee_num = datas["testee_num"]
-        test_category = datas["test_category"]
+        test_name = data["test_name"]
+        copy_num = data["copy_num"]
+        total_qna_num = data["total_qna_num"]
+        testee_num = data["testee_num"]
+        test_category = data["test_category"]
         
         print("파일 업로드 성공")
         
@@ -93,11 +93,8 @@ def upload_files():
         print(answer_name)
 
         print(id)
-        print(test_name)
-        print(copy_num)
-        print(total_qna_num)
-        print(testee_num)
-        print(test_category[0], test_category[1])
+        
+        print(data)
     
     # if copy_num == 1:
     #     return redirect(url_for("single_check",
