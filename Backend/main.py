@@ -11,7 +11,37 @@ from sub import detect_subjective
 from utils import *
 
 
-def getTesteeDf(testee_path):
+def getMulDf(testee_path):
+    # 경로 정의
+    path = testee_path
+
+    # 문제 인식 및 채점 진행
+    categorize_qna(path)
+    mul_df = detect_multiple(path)
+
+    # df 정리해서 testee_df로 반환
+    df = dfToFinalDf(mul_df)
+    print_full(df)
+
+    return df
+
+
+def getSubDf(testee_path):
+    # 경로 정의
+    path = testee_path
+
+    # 문제 인식 및 채점 진행
+    categorize_qna(path)
+    sub_df = detect_subjective(path)
+
+    # df 정리해서 testee_df로 반환
+    df = dfToFinalDf(sub_df)
+    print_full(df)
+
+    return df
+
+
+def getMulSubDf(testee_path):
     # 경로 정의
     path = testee_path
 
@@ -36,6 +66,10 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     path = str(Path(upload_path))
     jpg_path = path + "/jpg"
     temp_path = path + "/temp"
+
+    # is_mul, is_sub 정의
+    is_mul = int(test_category[0])
+    is_sub = int(test_category[1])
 
     # 파일 생성
     makeIdFolder(path)
@@ -87,9 +121,13 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         print("answer df is empty")
         return None
 
-    # 데이터프레임 생성
+    # df 생성
     df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
     df.set_index(["testee_id", "file"], inplace=True)
+
+    # df 생성
+    testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+    testee_df.set_index(["file"], inplace=True)
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):
@@ -111,7 +149,14 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
                 shutil.move(testee_jpg_path, testee_jpg_copy_path)
 
         # 응시자별 df 생성
-        testee_df = getTesteeDf(testee_path)
+
+        if is_mul and is_sub:
+            testee_df = getMulSubDf(testee_path)
+        elif is_mul:
+            testee_df = getMulDf(testee_path)
+        elif is_sub:
+            testee_df = getSubDf(testee_path)
+
         print(testee_df)
 
         # 정답 df와 합치기
