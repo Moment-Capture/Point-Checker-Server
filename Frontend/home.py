@@ -107,7 +107,7 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
 
     response = requests.post(url, files=files)
     data = response.text
-    df = pd.json_normalize(data)
+    df = pd.read_json(data)
 
     print(response.text)
 
