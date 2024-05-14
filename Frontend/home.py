@@ -105,7 +105,7 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
     files = {
         'pdf':open(pdf_path, "rb"),
         'answer':open(answer_path, "rb"),
-        'data' : (None, json.dumps(data), 'application/json')
+        'data':(None, json.dumps(data), 'application/json')
     }
 
     global df
