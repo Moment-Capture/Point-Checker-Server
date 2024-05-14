@@ -119,7 +119,7 @@ def upload_files():
     #                         testee_num=testee_num,
     #                         test_category=test_category))
 
-    return redirect(url_for("mul_check", id=id))
+    return single(url_for("mul_check", id=id))
 
 
         
