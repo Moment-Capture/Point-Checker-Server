@@ -152,9 +152,11 @@ def concatAnswer(df, answer_df):
 
 # df에 testee df 합치기
 def concatTesteeDf(df, testee_id, testee_df):
-    print(df.head())
+    print()
     print(testee_id)
     print(testee_df)
+    print()
+    
     for testee_df_idx, testee_df_row in testee_df.iterrows():
         print(testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"])
         df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]

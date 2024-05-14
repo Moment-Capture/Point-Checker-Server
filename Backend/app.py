@@ -174,8 +174,8 @@ def single_check():
     start = time.time()
     categorize_qna(id_path)
     end = time.time()
-    print("categorize_qna finished")
-    print(f"{end - start:.2f} sec")
+    
+    print("\ncategorize_qna eta: " + f"{end - start:.2f} sec")
     
     mul_df = detect_multiple(id_path)
     mul_df.sort_values(by=["num"], inplace=True)
