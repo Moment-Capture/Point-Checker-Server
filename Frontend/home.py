@@ -14,6 +14,8 @@ import requests
 import pandas as pd
 import aspose.pdf as ap
 
+from io import StringIO
+
 
 FILE_PATH = Path(__file__)
 OUTPUT_PATH = FILE_PATH.parent
@@ -106,8 +108,10 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
     }
 
     response = requests.post(url, files=files)
-    data = response.text
-    df = pd.read_json(data)
+    data = json.loads(response.text)
+    print(data)
+    print(response.json)
+    df = pd.json_normalize(data)
 
     print(df)
 
