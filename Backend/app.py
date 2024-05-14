@@ -140,11 +140,20 @@ def plural_check():
 
     id_path = UPLOAD_FOLDER + "/" + id
 
+    start = time.time()
     df = pd.DataFrame()
     df = pointchecker(id_path, test_name, copy_num, total_qna_num, testee_num, test_category)
+    end = time.time()
+
+    eta = start - end
+
+    print("eta: " + f"{eta:.2f} sec")
+    
     if len(df) == 0:
         return "Error Occured", 200
+    
     json_data = df.to_json(orient="records")
+    
     return json_data, 200
 
 

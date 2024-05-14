@@ -151,10 +151,13 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
-        df.set_index(["testee_id", "file"], inplace=True)
-        print(df)
+    
+    df.set_index(["testee_id", "file"], inplace=True)
+    df.to_excel(path+"/final_df.xlsx")
 
-        df.to_excel(path+"/final_df.xlsx")
+    print(df)
 
-        # 응시자별 폴더 삭제
-        deleteFolder(testee_path)
+    # 응시자별 폴더 삭제
+    deleteFolder(testee_path)
+
+    return df
