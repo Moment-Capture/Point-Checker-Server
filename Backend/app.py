@@ -205,7 +205,7 @@ def single_check():
     return json_data, 200
 
 
-# 1인용
+# mul_test
 @app.route("/mul_test")
 def mul_check():
     id = "222.110.177.99_2024-05-14_05-38-33"
