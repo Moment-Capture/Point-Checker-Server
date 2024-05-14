@@ -144,15 +144,16 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
             if is_sub:
                 testee_df = getSubDf(testee_path)
 
-        print(testee_df)
-
         # 정답 df와 합치기
         testee_df = concatAnswer(testee_df, answer_df)
+        testee_df.sort_values(by=["num"], inplace=True)
+
+        print(testee_df)
 
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
     
-    df.set_index(["testee_id", "file"], inplace=True)
+    df.set_index(["testee_id", "file"], inplace=True, drop=False)
     df.to_excel(path+"/final_df.xlsx")
 
     print(df)

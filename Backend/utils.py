@@ -164,7 +164,7 @@ def dfToFinalDf(df):
     final_df = pd.DataFrame()
     # final_df = df[df.testee_answer != 0]
     final_df = df
-    final_df = final_df.drop(["file"], axis=1)
+    # final_df = final_df.drop(["file"], axis=1)
     # final_df = final_df[final_df.correct_answer != 0]
     final_df = final_df.set_index(keys=["num"], drop=True)
     final_df = final_df.sort_index(ascending=True)
@@ -316,7 +316,6 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # easyOCR 사용
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extract_id(text)
-        print(text)
 
         # id가 None이 아닌 경우 testee_id와 id를 id_match에 딕셔너리로 추가
         if id is not None:

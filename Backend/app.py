@@ -145,9 +145,9 @@ def plural_check():
     df = pointchecker(id_path, test_name, copy_num, total_qna_num, testee_num, test_category)
     end = time.time()
 
-    eta = start - end
+    point_eta = end - start
 
-    print("eta: " + f"{eta:.2f} sec")
+    print("point_eta: " + f"{point_eta:.2f} sec")
     
     if len(df) == 0:
         return "Error Occured", 200
