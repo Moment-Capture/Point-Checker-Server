@@ -210,8 +210,29 @@ def single_check():
 def mul_check():
     id = request.args.get("id", type=str)
     id_path = UPLOAD_FOLDER + "/" + id
+    mul_path = id_path + "/mul"
+
+    ## 결과 저장 폴더 생성 ##
+    makeFolder(id_path)
+    makeFolder(mul_path)
+    ## 결과 저장 폴더 생성 ##
 
     print_intro()
+
+    original_pdf_file_path_list = []
+    original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
+    convertPdfToJpg(original_pdf_file_path_list, id_path)
+    
+    df = pd.DataFrame()
+    mul_df = pd.DataFrame()
+
+    final_df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
+
+    start = time.time()
+    categorize_qna(id_path)
+    end = time.time()
+    
+    print("\ncategorize_qna eta: " + f"{end - start:.2f} sec")
     
     mul_df = detect_multiple(id_path)
     mul_df.sort_values(by=["num"], inplace=True)
