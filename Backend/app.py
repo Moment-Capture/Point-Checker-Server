@@ -169,7 +169,6 @@ def single_check():
     sub_df = pd.DataFrame()
 
     final_df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
-    final_df.set_index(["testee_id", "file"], inplace=True)
 
     start = time.time()
     categorize_qna(id_path)
@@ -194,6 +193,7 @@ def single_check():
     print_full(df)
 
     final_df = concatTesteeDf(final_df, id, df)
+    final_df.set_index(["testee_id", "file"], inplace=True)
     print()
     print_full(final_df)
 
