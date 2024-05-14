@@ -206,7 +206,7 @@ def single_check():
 
 # 1인용
 @app.route("/mul_test")
-def single_check():
+def mul_check():
     id = "222.110.177.99_2024-05-14_05-38-33"
     id_path = UPLOAD_FOLDER + "/" + id
 
