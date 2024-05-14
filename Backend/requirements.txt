@@ -3,7 +3,7 @@ python
 pip
 
 opencv
-poppler
+poppler-utils 
 
 <pip install>
 numpy
@@ -13,9 +13,8 @@ pathlib
 natsort
 
 pdf2image
-
 openpyxl
+python-poppler
 
 utlralytics
-
 easyocr
