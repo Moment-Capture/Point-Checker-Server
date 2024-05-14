@@ -19,11 +19,7 @@ def getMulDf(testee_path):
     categorize_qna(path)
     mul_df = detect_multiple(path)
 
-    # df 정리해서 testee_df로 반환
-    df = dfToFinalDf(mul_df)
-    print_full(df)
-
-    return df
+    return mul_df
 
 
 def getSubDf(testee_path):
@@ -34,11 +30,7 @@ def getSubDf(testee_path):
     categorize_qna(path)
     sub_df = detect_subjective(path)
 
-    # df 정리해서 testee_df로 반환
-    df = dfToFinalDf(sub_df)
-    print_full(df)
-
-    return df
+    return sub_df
 
 
 def getMulSubDf(testee_path):
@@ -51,12 +43,7 @@ def getMulSubDf(testee_path):
     sub_df = detect_subjective(path)
 
     # mul과 sub 통합을 위한 df 생성
-    df = pd.concat([mul_df, sub_df], axis=0)
-    print_full(df)
-
-    # df 정리해서 testee_df로 반환
-    df = dfToFinalDf(df)
-    print_full(df)
+    df = pd.concat([mul_df, sub_df], axis=0, ignore_index=True)
 
     return df
 
@@ -151,10 +138,11 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         if is_mul and is_sub:
             testee_df = getMulSubDf(testee_path)
-        elif is_mul:
-            testee_df = getMulDf(testee_path)
-        elif is_sub:
-            testee_df = getSubDf(testee_path)
+        else:
+            if is_mul:
+                testee_df = getMulDf(testee_path)
+            if is_sub:
+                testee_df = getSubDf(testee_path)
 
         print(testee_df)
 
