@@ -27,7 +27,6 @@ def detect_multiple(path):
     model_mul = YOLO(multiple_path)
     results = model_mul(source=images, save=False, save_crop=False)
     names = model_mul.names
-    print(names)
 
     # easyocr 사용
     reader = easyocr.Reader(['ko', 'en'], gpu=False)

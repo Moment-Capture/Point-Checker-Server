@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for
 
 import os
+import time
 import json
 import shutil
 import datetime
@@ -170,8 +171,11 @@ def single_check():
     final_df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
     final_df.set_index(["testee_id", "file"], inplace=True)
 
+    start = time.time()
     categorize_qna(id_path)
+    end = time.time()
     print("categorize_qna finished")
+    print(f"{end - start:.2f} sec")
     
     mul_df = detect_multiple(id_path)
     mul_df.sort_values(by=["num"], inplace=True)
