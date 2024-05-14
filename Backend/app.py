@@ -186,14 +186,10 @@ def single_check():
 
     df = pd.concat([mul_df, sub_df], axis=0, ignore_index=True)
     df.sort_values(by=["num"], inplace=True)
-    df = dfToFinalDf(df)
     print()
     print_full(df)
 
-    final_df = concatTesteeDf(final_df, id, df)
-    final_df.set_index(["testee_id", "file"], inplace=True)
-    print()
-    print_full(final_df)
+    final_df = dfToFinalDf(df)
 
     final_df.to_excel(excel_writer=id_path+"/df.xlsx")
 
