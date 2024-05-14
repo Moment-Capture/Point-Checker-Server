@@ -111,7 +111,7 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
     data = json.loads(response.text)
     print(data)
     df = pd.json_normalize(data)
-
+    df.set_index(["testee_id", "file"], inplace=True, drop=False)
     print(df)
 
 
