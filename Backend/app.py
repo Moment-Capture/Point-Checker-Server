@@ -97,7 +97,7 @@ def upload_files():
         
         print("파일 업로드 성공")
     
-    if copy_num == 1:
+    if testee_num == 1:
         return redirect(url_for("single_check",
                                 id=id))
     
