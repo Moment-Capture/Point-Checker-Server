@@ -127,7 +127,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # df 생성
     testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
-    testee_df.set_index(["file"], inplace=True)
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):

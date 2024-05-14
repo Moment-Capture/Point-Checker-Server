@@ -137,7 +137,6 @@ def plural_check():
     total_qna_num = request.args.get("total_qna_num", type=int)
     testee_num = request.args.get("testee_num", type=int)
     test_category = request.args.getlist("test_category")
-    print(test_category)
 
     id_path = UPLOAD_FOLDER + "/" + id
 
