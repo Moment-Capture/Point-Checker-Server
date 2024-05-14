@@ -150,6 +150,14 @@ def concatAnswer(df, answer_df):
     return df
 
 
+# df에 testee df 합치기
+def concatTesteeDf(df, testee_id, testee_df):
+    for testee_df_idx, testee_df_row in testee_df.iterrows():
+        df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
+  
+    return df
+
+
 #df를 최종 출력 형태로 변환
 def dfToFinalDf(df):
     final_df = pd.DataFrame()
@@ -234,14 +242,6 @@ def makeIdFolder(upload_path):
 
     # 해당 id 밑의 temp 폴더 생성
     makeFolder(temp_path)
-
-
-# df에 testee df 합치기
-def concatTesteeDf(df, testee_id, testee_df):
-    for testee_df_idx, testee_df_row in testee_df.iterrows():
-        df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
-  
-    return df
 
 
 # id 생성

@@ -159,10 +159,6 @@ def single_check():
 
     print_intro()
 
-    answer_file_path_list = []
-    answer_file_path_list = os_sorted(Path(id_path).glob('*.xlsx'))
-    answer_df = convertExcelToDf(answer_file_path_list, id_path)
-
     original_pdf_file_path_list = []
     original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
     convertPdfToJpg(original_pdf_file_path_list, id_path)
@@ -170,8 +166,9 @@ def single_check():
     df = pd.DataFrame()
     mul_df = pd.DataFrame()
     sub_df = pd.DataFrame()
-    answer_df = pd.DataFrame()
-    final_df = pd.DataFrame()
+
+    final_df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
+    final_df.set_index(["testee_id", "file"], inplace=True)
 
     categorize_qna(id_path)
     
@@ -190,10 +187,9 @@ def single_check():
     print()
     print_full(df)
 
-    answer_df = convertExcelToDf(answer_file_path_list, id_path)
-    final_df = concatAnswer(df, answer_df)
+    final_df = concatTesteeDf(final_df, id, df)
     print()
-    print_full(final_df)
+    print_full(df)
 
     final_df.to_excel(excel_writer=id_path+"/df.xlsx")
 
