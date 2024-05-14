@@ -171,16 +171,21 @@ def single_check():
     start = time.time()
     categorize_qna(id_path)
     end = time.time()
+    qna_eta = end - start
     
-    print("\ncategorize_qna eta: " + f"{end - start:.2f} sec")
-    
+    start = time.time()
     mul_df = detect_multiple(id_path)
     mul_df.sort_values(by=["num"], inplace=True)
+    end = time.time()
+    mul_eta = end - start
     print()
     print_full(mul_df)
     
+    start = time.time()
     sub_df = detect_subjective(id_path)
     sub_df.sort_values(by=["num"], inplace=True)
+    end = time.time()
+    sub_eta = end - start
     print()
     print_full(sub_df)
 
@@ -191,6 +196,10 @@ def single_check():
     print_full(final_df)
 
     final_df.to_excel(excel_writer=id_path+"/df.xlsx")
+
+    print("qna_eta: " + f"{qna_eta:.2f} sec")
+    print("mul_eta: " + f"{mul_eta:.2f} sec")
+    print("sub_eta: " + f"{sub_eta:.2f} sec")
 
     print_outro()
 

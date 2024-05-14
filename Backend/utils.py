@@ -163,6 +163,7 @@ def concatTesteeDf(df, testee_id, testee_df):
 def dfToFinalDf(df):
     final_df = pd.DataFrame()
     # final_df = df[df.testee_answer != 0]
+    final_df = df
     final_df = final_df.drop(["file"], axis=1)
     # final_df = final_df[final_df.correct_answer != 0]
     final_df = final_df.set_index(keys=["num"], drop=True)
