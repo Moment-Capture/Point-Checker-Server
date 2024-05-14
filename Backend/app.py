@@ -217,18 +217,13 @@ def mul_check():
     mul_df.sort_values(by=["num"], inplace=True)
     print()
     print_full(mul_df)
-    
-    sub_df = detect_subjective(id_path)
-    sub_df.sort_values(by=["num"], inplace=True)
-    print()
-    print_full(sub_df)
 
-    df = pd.concat([mul_df, sub_df], axis=0)
+    df = mul_df
     df.sort_values(by=["num"], inplace=True)
     print()
     print_full(df)
 
-    final_df = concatTesteeDf(final_df, id, df)
+    final_df = dfToFinalDf(df)
     print()
     print_full(df)
 
