@@ -194,7 +194,7 @@ def single_check():
 
     final_df = concatTesteeDf(final_df, id, df)
     print()
-    print_full(df)
+    print_full(final_df)
 
     final_df.to_excel(excel_writer=id_path+"/df.xlsx")
 
