@@ -5,7 +5,7 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from utils import cropBox, label_to_int
+from utils import cropBox, label_to_int, deleteDuplicateFiles
 
 
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
@@ -18,8 +18,15 @@ def detect_multiple(path):
     model_path = BE_PATH + "/models"
     multiple_path = model_path + "/multiple/weights/best.pt"
 
+    # 결과 저장을 위한 df 선언
+    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+
     # 입력 파일 정렬
     images = os_sorted(Path(mul_path).glob('*.jpg'))
+    deleteDuplicateFiles(mul_path, images)
+
+    if len(images) == 0:
+        return df
 
     # Yolov8 사용
     model_mul = YOLO(multiple_path)
@@ -28,9 +35,6 @@ def detect_multiple(path):
 
     # easyocr 사용
     reader = easyocr.Reader(['ko', 'en'], gpu=False)
-
-    # 결과 저장을 위한 df 선언
-    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
 
     for result in results:
         boxes = result.boxes.xyxy.tolist()

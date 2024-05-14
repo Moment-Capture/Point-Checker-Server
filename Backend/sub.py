@@ -18,9 +18,15 @@ def detect_subjective(path):
     model_path = BE_PATH + "/models"
     subjective_path = model_path + "/subjective/weights/best.pt"
 
+    # 결과 저장을 위한 df 선언
+    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+
     # 입력 파일 정렬
     images = os_sorted(Path(sub_path).glob('*.jpg'))
     deleteDuplicateFiles(sub_path, images)
+
+    if len(images) == 0:
+        return df
 
     # Yolov8 사용
     model_sub = YOLO(subjective_path)
@@ -29,9 +35,6 @@ def detect_subjective(path):
 
     # easyocr 사용
     reader = easyocr.Reader(['ko', 'en'])
-
-    # 결과 저장을 위한 df 선언
-    df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
 
     # 파일 리스트 생성
     files = []
