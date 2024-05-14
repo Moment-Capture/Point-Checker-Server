@@ -1,3 +1,4 @@
 requests
 PyMuPDF
 aspose-pdf
+pandas
