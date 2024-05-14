@@ -97,33 +97,28 @@ def upload_files():
         
         print("파일 업로드 성공")
     
-    # if copy_num == 1:
-    #     return redirect(url_for("single_check",
-    #                             id=id,
-    #                             test_name=test_name,
-    #                             copy_num=copy_num,
-    #                             total_qna_num=total_qna_num,
-    #                             testee_num=testee_num,
-    #                             test_category=test_category))
+    if copy_num == 1:
+        return redirect(url_for("single_check",
+                                id=id))
     
-    # else: 
-    #     return redirect(url_for("plural_check",
-    #                             id=id,
-    #                             test_name=test_name,
-    #                             copy_num=copy_num,
-    #                             total_qna_num=total_qna_num,
-    #                             testee_num=testee_num,
-    #                             test_category=test_category))
+    else: 
+        return redirect(url_for("plural_check",
+                                id=id,
+                                test_name=test_name,
+                                copy_num=copy_num,
+                                total_qna_num=total_qna_num,
+                                testee_num=testee_num,
+                                test_category=test_category))
 
     # return redirect(url_for("single_check", id=id))
 
-    return redirect(url_for("plural_check",
-                            id=id, 
-                            test_name=test_name,
-                            copy_num=copy_num,
-                            total_qna_num=total_qna_num,
-                            testee_num=testee_num,
-                            test_category=test_category))
+    # return redirect(url_for("plural_check",
+    #                         id=id, 
+    #                         test_name=test_name,
+    #                         copy_num=copy_num,
+    #                         total_qna_num=total_qna_num,
+    #                         testee_num=testee_num,
+    #                         test_category=test_category))
 
 
         
@@ -153,22 +148,11 @@ def plural_check():
 def single_check():
     id = request.args.get("id", type=str)
     id_path = UPLOAD_FOLDER + "/" + id
-    jpg_path = id_path + "/jpg"
-    temp_path = id_path + "/temp"
-    mul_path = temp_path + "/mul"
-    sub_path = temp_path + "/sub"
+    mul_path = id_path + "/mul"
+    sub_path = id_path + "/sub"
 
     ## 결과 저장 폴더 생성 ##
     makeFolder(id_path)
-    makeFolder(jpg_path)
-    
-    try:
-        if (os.path.exists(temp_path)):
-            shutil.rmtree(temp_path)
-        os.mkdir(temp_path)
-    except:
-        pass
-
     makeFolder(mul_path)
     makeFolder(sub_path)
     ## 결과 저장 폴더 생성 ##
@@ -181,7 +165,7 @@ def single_check():
 
     original_pdf_file_path_list = []
     original_pdf_file_path_list = os_sorted(Path(id_path).glob('*.pdf'))
-    convertPdfToJpg(original_pdf_file_path_list, jpg_path)
+    convertPdfToJpg(original_pdf_file_path_list, id_path)
     
     df = pd.DataFrame()
     mul_df = pd.DataFrame()
