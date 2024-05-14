@@ -204,5 +204,40 @@ def single_check():
     return json_data, 200
 
 
+# 1인용
+@app.route("/mul_test")
+def single_check():
+    id = "222.110.177.99_2024-05-14_05-38-33"
+    id_path = UPLOAD_FOLDER + "/" + id
+
+    print_intro()
+    
+    mul_df = detect_multiple(id_path)
+    mul_df.sort_values(by=["num"], inplace=True)
+    print()
+    print_full(mul_df)
+    
+    sub_df = detect_subjective(id_path)
+    sub_df.sort_values(by=["num"], inplace=True)
+    print()
+    print_full(sub_df)
+
+    df = pd.concat([mul_df, sub_df], axis=0)
+    df.sort_values(by=["num"], inplace=True)
+    print()
+    print_full(df)
+
+    final_df = concatTesteeDf(final_df, id, df)
+    print()
+    print_full(df)
+
+    final_df.to_excel(excel_writer=id_path+"/df.xlsx")
+
+    print_outro()
+
+    json_data = final_df.to_json(orient="records")
+    return json_data, 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
