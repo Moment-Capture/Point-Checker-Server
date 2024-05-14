@@ -110,7 +110,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # df 생성
     df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
-    df.set_index(["testee_id", "file"], inplace=True)
+    # df.set_index(["testee_id", "file"], inplace=True)
 
     # df 생성
     testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
@@ -151,6 +151,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
+        df.set_index(["testee_id", "file"], inplace=True)
         print(df)
 
         df.to_excel(path+"/final_df.xlsx")
