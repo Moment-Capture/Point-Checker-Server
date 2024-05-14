@@ -1,16 +1,18 @@
+<sudo apt-get install>
 python
 pip
 
+opencv
+poppler
+
+<pip install>
 numpy
 pandas
 
 pathlib
 natsort
 
-opencv
-
 pdf2image
-poppler
 
 openpyxl
 
