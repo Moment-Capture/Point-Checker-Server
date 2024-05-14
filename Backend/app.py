@@ -97,20 +97,18 @@ def upload_files():
         
         print("파일 업로드 성공")
     
-    if testee_num == 1:
-        return redirect(url_for("single_check",
-                                id=id))
+    # if testee_num == 1:
+    #     return redirect(url_for("single_check",
+    #                             id=id))
     
-    else: 
-        return redirect(url_for("plural_check",
-                                id=id,
-                                test_name=test_name,
-                                copy_num=copy_num,
-                                total_qna_num=total_qna_num,
-                                testee_num=testee_num,
-                                test_category=test_category))
-
-    # return redirect(url_for("single_check", id=id))
+    # else: 
+    #     return redirect(url_for("plural_check",
+    #                             id=id,
+    #                             test_name=test_name,
+    #                             copy_num=copy_num,
+    #                             total_qna_num=total_qna_num,
+    #                             testee_num=testee_num,
+    #                             test_category=test_category))
 
     # return redirect(url_for("plural_check",
     #                         id=id, 
@@ -119,6 +117,8 @@ def upload_files():
     #                         total_qna_num=total_qna_num,
     #                         testee_num=testee_num,
     #                         test_category=test_category))
+
+    return redirect(url_for("single_check", id=id))
 
 
         
