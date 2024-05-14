@@ -120,9 +120,7 @@ def upload_files():
     #                         test_category=test_category))
 
     return redirect(url_for("single_check", id=id))
-
-
-        
+     
 
 # 다인용
 @app.route("/plural", methods=["GET"])
@@ -186,7 +184,7 @@ def single_check():
     print()
     print_full(sub_df)
 
-    df = pd.concat([mul_df, sub_df], axis=0)
+    df = pd.concat([mul_df, sub_df], axis=0, ignore_index=True)
     df.sort_values(by=["num"], inplace=True)
     df = dfToFinalDf(df)
     print()
