@@ -55,6 +55,7 @@ widgets = []
 entry_columns = []
 file_path_var = None
 answer_path_var = None
+df = pd.DataFrame()
 
 
 ### pdf 방향 바꾸는 함수 ###
@@ -107,9 +108,9 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
         'data' : (None, json.dumps(data), 'application/json')
     }
 
+    global df
     response = requests.post(url, files=files)
     data = json.loads(response.text)
-    print(data)
     df = pd.json_normalize(data)
     df.set_index(["testee_id", "file"], inplace=True, drop=False)
     print(df)
@@ -639,7 +640,7 @@ def show_result():
     )
 
     #텍스트 삽입문 아래 큰따옴표 안에 원하는 텍스트 넣으면 됨
-    T.insert(tk.END, "HELLO")
+    T.insert(tk.END, df)
     
     ## widgets 리스트 정의 ##
     widgets = [button_1]
