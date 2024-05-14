@@ -171,6 +171,7 @@ def single_check():
     final_df.set_index(["testee_id", "file"], inplace=True)
 
     categorize_qna(id_path)
+    print("categorize_qna finished")
     
     mul_df = detect_multiple(id_path)
     mul_df.sort_values(by=["num"], inplace=True)
