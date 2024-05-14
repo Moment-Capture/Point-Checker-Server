@@ -119,7 +119,7 @@ def upload_files():
     #                         testee_num=testee_num,
     #                         test_category=test_category))
 
-    return redirect(url_for("single_check", id=id))
+    return redirect(url_for("mul_check", id=id))
 
 
         
@@ -208,7 +208,7 @@ def single_check():
 # mul_test
 @app.route("/mul_test")
 def mul_check():
-    id = "222.110.177.99_2024-05-14_05-38-33"
+    id = request.args.get("id", type=str)
     id_path = UPLOAD_FOLDER + "/" + id
 
     print_intro()
