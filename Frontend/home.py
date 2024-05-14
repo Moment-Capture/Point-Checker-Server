@@ -11,6 +11,7 @@ import fitz
 import json
 import requests
 
+import pandas as pd
 import aspose.pdf as ap
 
 
@@ -105,6 +106,8 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
     }
 
     response = requests.post(url, files=files)
+    data = response.text
+    df = pd.json_normalize(data)
 
     print(response.text)
 
