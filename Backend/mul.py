@@ -21,6 +21,8 @@ def detect_multiple(path):
     # 입력 파일 정렬
     images = os_sorted(Path(mul_path).glob('*.jpg'))
 
+    print(images = os_sorted(Path(mul_path).glob('*.jpg')))
+
     # Yolov8 사용
     model_mul = YOLO(multiple_path)
     results = model_mul(source=images, save=False, save_crop=False, name='mul_test')
