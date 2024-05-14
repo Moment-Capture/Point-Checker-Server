@@ -189,6 +189,7 @@ def single_check():
 
     df = pd.concat([mul_df, sub_df], axis=0)
     df.sort_values(by=["num"], inplace=True)
+    df = dfToFinalDf(df)
     print()
     print_full(df)
 
