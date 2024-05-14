@@ -135,6 +135,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
                 shutil.move(testee_jpg_path, testee_jpg_copy_path)
 
         # 응시자별 df 생성
+        testee_df = pd.DataFrame()
 
         if is_mul and is_sub:
             testee_df = getMulSubDf(testee_path)
@@ -148,12 +149,9 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         testee_df = concatAnswer(testee_df, answer_df)
         testee_df.sort_values(by=["num"], inplace=True)
 
-        print(testee_df)
-
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
-    
-    df.set_index(["testee_id", "file"], inplace=True, drop=False)
+
     df.to_excel(path+"/final_df.xlsx")
 
     print(df)
