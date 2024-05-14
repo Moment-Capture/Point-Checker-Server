@@ -34,7 +34,7 @@ def detect_multiple(path):
     names = model_mul.names
 
     # easyocr 사용
-    reader = easyocr.Reader(['ko', 'en'], gpu=False)
+    reader = easyocr.Reader(['ko', 'en'])
 
     for result in results:
         boxes = result.boxes.xyxy.tolist()
