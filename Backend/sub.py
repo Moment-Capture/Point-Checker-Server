@@ -76,7 +76,8 @@ def detect_subjective(path, reader):
                     # tamilocr 사용
                     ocr_text = OCR().predict(img)
                     text = getText(ocr_text)
-                    answer = int(text)
+                    if text:
+                        answer = int(text)
             
             new_row = {"file" : file, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
