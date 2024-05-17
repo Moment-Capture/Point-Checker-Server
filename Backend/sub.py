@@ -10,7 +10,7 @@ from ultralytics import YOLO
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
-from utils import cropBox, deleteDuplicateFiles, getText
+from utils import cropBox, deleteDuplicateFiles, getText, getString
 
 
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
@@ -76,7 +76,7 @@ def detect_subjective(path, reader):
                     
                     # tamilocr 사용
                     ocr_text = OCR().predict(img)
-                    text = getText(ocr_text)
+                    text = getString(ocr_text)
                     if text:
                         answer = int(text)
             

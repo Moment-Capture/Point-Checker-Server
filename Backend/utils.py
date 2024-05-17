@@ -275,6 +275,14 @@ def getText(ocr_text):
     return text
 
 
+def getString(ocr_text):
+    text = ""
+    for txt in ocr_text:
+        for t in txt:
+            text += t
+    return text
+
+
 ### 텍스트 부분 잘라내기 함수 ###
 
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
