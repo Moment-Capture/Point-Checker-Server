@@ -321,7 +321,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     for file in jpg_file_path_list:
         # 이미지 파일 열기
         img = Image.open(file)
-        img = img.resize((794,1123),Image.LANCZOS) #인식 위치를 같게 만들기 위한 이미지 규격화.
+        img = img.resize((794,1123),Image.LANCZOS) # 인식 위치를 같게 만들기 위한 이미지 규격화.
 
         # 왼쪽 상단 num_id와 page 인식
         x1, y1, x2, y2 = (30, 30, 165, 70)
@@ -332,9 +332,11 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extractTesteeId(text)
 
+        print(testee_id, page)
+
         #오른쪽 상단 testee_name 인식
-        # testee_id가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
-        if testee_id == "1":
+        # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
+        if page == "1":
             testee_name = readTesteeName(img, reader)
             id_match[testee_id] = testee_name
 
