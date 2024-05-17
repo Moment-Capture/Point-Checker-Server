@@ -137,7 +137,6 @@ def convertExcelToDf(file_path_list, path):
             break
     
     df = pd.read_excel(file_path, names=["num", "correct_answer"], engine='openpyxl')
-    print(df)
     return df
 
 
