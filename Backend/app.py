@@ -148,7 +148,7 @@ def plural_check():
     point_eta = end - start
 
     print()
-    print(df)
+    print(df.set_index(keys=["testee_id", "file"], drop=True))
     print()
     print("point_eta: " + f"{point_eta:.2f} sec")
     
