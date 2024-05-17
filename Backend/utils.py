@@ -264,7 +264,7 @@ def getId():
 # 식별코드: id - page (ex. 3-2라면, testee_id=3, page=2)
 
 ### 오른쪽 상단 id 인식 함수 ###
-def read_id_in_image(img, reader):
+def readIdInImage(img, reader):
   x1, y1, x2, y2 = (620, 30, 750, 65)
   cropped_img = img.crop((x1, y1, x2, y2))
   image_np = np.array(cropped_img)
@@ -280,7 +280,7 @@ def read_id_in_image(img, reader):
 
 
 ### 텍스트에서 testee_id와 page를 추출하는 함수 ###
-def extract_id(text):
+def extractId(text):
     if text:
         text_split = text[0].split('-')
         testee_id = text_split[0].strip()
@@ -305,7 +305,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         img = img.resize((794,1123),Image.LANCZOS) #인식 위치를 같게 만들기 위한 이미지 규격화.
 
         #오른쪽 상단 id 인식
-        id = read_id_in_image(img, reader)
+        id = readIdInImage(img, reader)
 
         # 왼쪽 상단 num_id와 page 인식
         x1, y1, x2, y2 = (30, 30, 165, 70)
@@ -314,7 +314,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
 
         # easyOCR 사용
         text = reader.readtext(image_np, detail=0)
-        testee_id, page = extract_id(text)
+        testee_id, page = extractId(text)
 
         # id가 None이 아닌 경우 testee_id와 id를 id_match에 딕셔너리로 추가
         if id is not None:
