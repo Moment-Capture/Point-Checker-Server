@@ -5,8 +5,8 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from models import tamil_ocr
-from models.tamil_ocr import ocr_tamil
+from models import tamil_ocr as tamil_ocr
+from models.tamil_ocr import ocr_tamil as ocr_tamil
 from models.tamil_ocr.ocr_tamil import ocr
 
 from utils import cropBox, deleteDuplicateFiles
