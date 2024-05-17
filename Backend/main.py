@@ -61,6 +61,11 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     # 파일 생성
     makeIdFolder(path)
 
+    # df, testee_df 생성
+    df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
+    # df.set_index(["testee_id", "file"], inplace=True)
+    testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+
     # pdf 파일 탐지
     original_pdf_file_path_list = []
     original_pdf_file_path_list = os_sorted(Path(path).glob('*.pdf'))
@@ -68,7 +73,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     # pdf 파일 있는지 검사
     if len(original_pdf_file_path_list) == 0:
         print("original pdf file path list is empty")
-        return None
+        return df
     
     # pdf 파일 jpg로 변환
     convertPdfToJpg(original_pdf_file_path_list, jpg_path)
@@ -79,7 +84,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     if len(jpg_file_path_list) == 0:
         print("jpg file path list is empty")
-        return None
+        return df
     
     # if len(jpg_file_path_list) != copy_num * testee_num:
     #     print("some jpg files are missing")
@@ -98,7 +103,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     # xlsx 파일 있는지 검사
     if len(answer_file_path_list) == 0:
         print("answer file path list is empty")
-        return None
+        return df
     
     # xlsx 파일 df로 변환
     answer_df = convertExcelToDf(answer_file_path_list, path)
@@ -106,14 +111,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     # answer df에 값이 존재하는지 검사
     if len(answer_df) == 0:
         print("answer df is empty")
-        return None
-
-    # df 생성
-    df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
-    # df.set_index(["testee_id", "file"], inplace=True)
-
-    # df 생성
-    testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+        return df
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):
