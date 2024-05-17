@@ -50,7 +50,7 @@ def detect_subjective(path, reader):
 
         if boxes is not None:
             # 변수 초기화
-            qna_num = 0
+            qna_num = ""
             answer = ""
 
             # 문항 번호 감지 & checked 영역 감지
@@ -64,7 +64,8 @@ def detect_subjective(path, reader):
                     # easyocr 사용
                     ocr_text = reader.readtext(img, detail=0)
                     text = getText(ocr_text)
-                    qna_num = int(text)
+                    if text:
+                        qna_num = int(text)
                 
                 # 적힌 단답 answer 감지
                 else:
