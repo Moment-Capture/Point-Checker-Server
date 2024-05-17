@@ -1,9 +1,14 @@
+import os
 import easyocr
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
+
+import sys
+sys.path.append(os.path.dirname(os.path.abspath("/home/ubuntu/Point-Checker/Backend/models/tamil_ocr/ocr_tamil/ocr.py")))
+from ocr import OCR
 
 from utils import cropBox, deleteDuplicateFiles
 
@@ -55,18 +60,31 @@ def detect_subjective(path):
             for box, cls in zip(boxes, clss):                
                 # 일단 객관식 답안이 숫자로 적힐 경우만 상정
                 img = cropBox(box, image)
-                text = reader.readtext(img, detail = 0, allowlist="0123456789")
-                if len(text) != 0:
-                    # 문항 번호 num 감지
-                    if (names[int(cls)] == "num"):
-                        qna_num = int(text[0])
-                    # 적힌 단답 answer 감지
-                    else:
-                        # 이미 있는 파일의 경우 건너뛰기
-                        if file in files:
-                            continue
-                        files.append(file)
-                        answer = int(text[0])
+                
+                ocr_text = OCR().predict(img)
+                text = ""
+                
+                for txt in ocr_text:
+                    for t in txt:
+                        if (t.isdigit()):
+                            text += t
+                        elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/'):
+                            text += '1'
+                
+                if (len(text) == 0):
+                    continue
+                
+                # 문항 번호 num 감지
+                if (names[int(cls)] == "num"):
+                    qna_num = int(text)
+                
+                # 적힌 단답 answer 감지
+                else:
+                    # 이미 있는 파일의 경우 건너뛰기
+                    if file in files:
+                        continue
+                    files.append(file)
+                    answer = int(text)
             
             new_row = {"file" : file, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
