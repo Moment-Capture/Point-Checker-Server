@@ -306,7 +306,7 @@ def extractTesteeId(text):
         page = text_split[1].strip() if len(text_split) > 1 else None
         return testee_id, page
     else:
-        return None, None
+        return "", ""
 
 
 ### 텍스트 부분 잘라내기 함수 (메인) ###
@@ -334,7 +334,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
 
         #오른쪽 상단 testee_name 인식
         # testee_id가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
-        if testee_id == 1:
+        if testee_id == "1":
             testee_name = readTesteeName(img, reader)
             id_match[testee_id] = testee_name
 
