@@ -274,8 +274,8 @@ def getText(ocr_text):
                 text += t
             elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/'):
                 text += '1'
-    if text == "qq":
-        text = '8'
+            elif (t == 'q'):
+                text += '9'
     return text
 
 
