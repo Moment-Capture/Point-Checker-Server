@@ -359,7 +359,9 @@ def testeeIdJpgDf(df, testee_jpg_df, id_match):
     # df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
     for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
         testee_id = testee_jpg_df_row["testee_id"]
-        testee_name = id_match[testee_id]
+        testee_name = ""
+        if testee_id != "":
+            testee_name = id_match[testee_id]
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
         df.loc[len(df)] = [testee_id, testee_name, file, page]
