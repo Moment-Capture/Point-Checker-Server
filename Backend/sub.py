@@ -1,9 +1,13 @@
+import os
+import sys
 import easyocr
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
+
+sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr"))
 
 from models import tamil_ocr as tamil_ocr
 from models.tamil_ocr import ocr_tamil as ocr_tamil
@@ -60,7 +64,7 @@ def detect_subjective(path):
                 # 일단 객관식 답안이 숫자로 적힐 경우만 상정
                 img = cropBox(box, image)
                 
-                ocr_text = OCR().predict(img)
+                ocr_text = ocr.OCR().predict(img)
                 text = ""
                 
                 for txt in ocr_text:
