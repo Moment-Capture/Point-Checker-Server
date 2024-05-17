@@ -290,7 +290,7 @@ def readTesteeName(img, reader):
   
   # easyocr 사용
   text = ""
-  ocr_text = OCR().predict(img)
+  ocr_text = OCR().predict(image_np)
   text = getText(ocr_text)
   print(text)
 
