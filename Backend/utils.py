@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import easyocr
 import datetime
@@ -12,6 +13,9 @@ from flask import request
 
 from pdf2image import convert_from_path
 from PIL import Image
+
+sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
+from ocr_tamil.ocr import OCR
 
 
 # 인트로 출력
@@ -286,9 +290,9 @@ def readTesteeName(img, reader):
   
   # easyocr 사용
   text = ""
-  ocr_text = reader.readtext(image_np, detail=0)
-  print(ocr_text)
-  text = ocr_text[0]
+  ocr_text = OCR().predict(img)
+  text = getText(ocr_text)
+  print(text)
 
   # id가 있다면 id 반환, 없으면 none 반환
   return text
