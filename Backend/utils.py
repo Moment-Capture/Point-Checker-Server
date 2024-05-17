@@ -126,7 +126,7 @@ def convertPdfToJpg(file_path_list, path):
 # df으로 변환
 def convertExcelToDf(file_path_list, path):
     file_path = path
-    df = pd.DataFrame()
+    df = pd.DataFrame(columns=["num", "correct_answer"])
 
     if len(file_path_list) == 0:
         print("excel not found")
