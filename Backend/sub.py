@@ -7,8 +7,8 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil/ocr.py"))
-from ocr import OCR
+sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
+from ocr_tamil.ocr import OCR
 
 
 from utils import cropBox, deleteDuplicateFiles
