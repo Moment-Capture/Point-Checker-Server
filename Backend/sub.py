@@ -47,6 +47,7 @@ def detect_subjective(path, reader):
 
         image = result.orig_img
         file = result.path
+        file_name = os.basename(file)
 
         if boxes is not None:
             # 변수 초기화
@@ -80,7 +81,7 @@ def detect_subjective(path, reader):
                     if text:
                         answer = int(text)
             
-            new_row = {"file" : file, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
+            new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
     return df

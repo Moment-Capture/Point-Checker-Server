@@ -45,6 +45,7 @@ def detect_multiple(path, reader):
 
         image = result.orig_img
         file = result.path
+        file_name = os.basename(file)
 
         if boxes is not None:
             # 변수 초기화
@@ -71,9 +72,9 @@ def detect_multiple(path, reader):
                     check_list.append(check)           
             
             if (len(check_list) > 1):
-                new_row = {"file" : file, "num" : qna_num, "testee_answer" : check_list, "correct_answer" : 0}
+                new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check_list, "correct_answer" : 0}
             else:
-                new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
+                new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
             # new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
