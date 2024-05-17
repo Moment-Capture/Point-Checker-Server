@@ -15,9 +15,12 @@ def getMulDf(testee_path):
     # 경로 정의
     path = testee_path
 
+    # easyocr 사용
+    reader = easyocr.Reader(['ko', 'en'])
+
     # 문제 인식 및 채점 진행
     categorize_qna(path)
-    mul_df = detect_multiple(path)
+    mul_df = detect_multiple(path, reader)
 
     return mul_df
 
@@ -26,9 +29,12 @@ def getSubDf(testee_path):
     # 경로 정의
     path = testee_path
 
+    # easyocr 사용
+    reader = easyocr.Reader(['ko', 'en'])
+
     # 문제 인식 및 채점 진행
     categorize_qna(path)
-    sub_df = detect_subjective(path)
+    sub_df = detect_subjective(path, reader)
 
     return sub_df
 
