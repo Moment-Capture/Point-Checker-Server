@@ -149,7 +149,7 @@ def plural_check():
 
     print("point_eta: " + f"{point_eta:.2f} sec")
     
-    if len(df) == 0:
+    if df == None:
         return "Error Occured", 200
     
     json_data = df.to_json(orient="records")
