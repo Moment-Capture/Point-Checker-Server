@@ -182,7 +182,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
-        
         end = time.time()
         testee_eta = end - start
         print()
