@@ -5,7 +5,7 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from utils import cropBox, label_to_int, deleteDuplicateFiles
+from utils import cropBox, labelToInt, deleteDuplicateFiles
 
 
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
@@ -47,6 +47,7 @@ def detect_multiple(path):
             # 변수 초기화
             qna_num = 0
             check = 0
+            check_list = []
 
             # 문항 번호 감지 & checked 영역 감지
             for box, cls in zip(boxes, clss):
@@ -57,11 +58,16 @@ def detect_multiple(path):
                     if len(text) != 0:
                         qna_num = int(text[0])
                         continue
-                
                 # 체크한 선지 번호 check 감지
-                check = label_to_int(names[int(cls)])            
+                else:
+                    check = labelToInt(names[int(cls)])
+                    check_list.append(check)           
             
-            new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
+            if (len(check_list) > 1):
+                new_row = {"file" : file, "num" : qna_num, "testee_answer" : check_list, "correct_answer" : 0}
+            else:
+                new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
+            # new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
     return df

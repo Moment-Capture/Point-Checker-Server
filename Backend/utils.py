@@ -172,7 +172,7 @@ def dfToFinalDf(df):
 
 
 # 입력 받은 label을 int로 변환
-def label_to_int(label):
+def labelToInt(label):
     if label == "check1":
         return 1
     elif label == "check2":
