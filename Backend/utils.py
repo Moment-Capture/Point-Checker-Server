@@ -287,7 +287,7 @@ def readTesteeName(img, reader):
   # easyocr 사용
   text = ""
   ocr_text = reader.readtext(image_np, detail=0)
-  text = getText(ocr_text)
+  text = ocr_text[0]
 
   # id가 있다면 id 반환, 없으면 none 반환
   return text
