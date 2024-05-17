@@ -115,6 +115,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         return df
     
     # xlsx 파일 df로 변환
+    answer_df = pd.DataFrame()
     answer_df = convertExcelToDf(answer_file_path_list, path)
     print(answer_df)
 
