@@ -77,7 +77,7 @@ def detect_subjective(path, reader):
                     
                     # tamilocr 사용
                     ocr_text = OCR().predict(img)
-                    text = getString(ocr_text)
+                    text = getText(ocr_text)
                     if text:
                         answer = text
             
