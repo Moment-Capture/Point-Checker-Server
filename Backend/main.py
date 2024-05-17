@@ -178,7 +178,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
                 testee_df = getSubDf(testee_path)
 
         # 정답 df와 합치기
-        testee_df = concatAnswer(testee_df, answer_df)
+        # testee_df = concatAnswer(testee_df, answer_df)
         testee_df.sort_values(by=["num"], inplace=True)
 
         # 전체 df와 합치기
