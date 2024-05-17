@@ -8,6 +8,7 @@ poppler-utils
 <pip install>
 numpy
 pandas
+pyarrow
 
 pathlib
 natsort

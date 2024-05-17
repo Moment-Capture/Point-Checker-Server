@@ -81,9 +81,9 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         print("jpg file path list is empty")
         return None
     
-    if len(jpg_file_path_list) != copy_num * testee_num:
-        print("some jpg files are missing")
-        return None
+    # if len(jpg_file_path_list) != copy_num * testee_num:
+    #     print("some jpg files are missing")
+    #     return None
 
     # jpg에 적힌 코드 인식해서 testee 구분
     testee_jpg_df = pd.DataFrame(columns=["file", "testee_id", "page"])
