@@ -332,7 +332,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         testee_id, page = extractId(text)
 
         # id가 None이 아닌 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
-        if id is not None:
+        if testee_name is not None:
             id_match[testee_id] = testee_name
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [file, testee_id, page]
