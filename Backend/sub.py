@@ -50,7 +50,7 @@ def detect_subjective(path, reader):
 
         if boxes is not None:
             # 변수 초기화
-            qna_num = "-1"
+            qna_num = -1
             answer = ""
 
             # 문항 번호 감지 & checked 영역 감지

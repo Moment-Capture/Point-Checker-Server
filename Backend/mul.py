@@ -48,7 +48,7 @@ def detect_multiple(path, reader):
 
         if boxes is not None:
             # 변수 초기화
-            qna_num = "-1"
+            qna_num = -1
             check = ""
             check_list = []
 
