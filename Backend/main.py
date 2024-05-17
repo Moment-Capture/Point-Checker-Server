@@ -37,10 +37,13 @@ def getMulSubDf(testee_path):
     # 경로 정의
     path = testee_path
 
+    # easyocr 사용
+    reader = easyocr.Reader(['ko', 'en'])
+
     # 문제 인식 및 채점 진행
     categorize_qna(path)
-    mul_df = detect_multiple(path)
-    sub_df = detect_subjective(path)
+    mul_df = detect_multiple(path, reader)
+    sub_df = detect_subjective(path, reader)
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0, ignore_index=True)
@@ -87,7 +90,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         return df
     
     # if len(jpg_file_path_list) != copy_num * testee_num:
-    #     print("some jpg files are missing")
+    #     print("some jpg files are missing or entered incorrect information")
     #     return None
 
     # jpg에 적힌 코드 인식해서 testee 구분
@@ -124,7 +127,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         print(testee_id)
 
         # 응시자별 폴더로 jpg 나누기
-        print(testee_jpg_df)
         for idx, row in testee_jpg_df.iterrows():
             if row["testee_id"] == str(i):
                 testee_jpg_path = row["file"]

@@ -10,8 +10,7 @@ from ultralytics import YOLO
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
-
-from utils import cropBox, deleteDuplicateFiles
+from utils import cropBox, deleteDuplicateFiles, getText
 
 
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
@@ -39,9 +38,6 @@ def detect_subjective(path):
     results = model_sub(source=images, save=False, save_crop=False, name='sub_test')
     names = model_sub.names
 
-    # easyocr 사용
-    reader = easyocr.Reader(['ko', 'en'])
-
     # 파일 리스트 생성
     files = []
 
@@ -63,20 +59,13 @@ def detect_subjective(path):
                 img = cropBox(box, image)
                 
                 ocr_text = OCR().predict(img)
-                text = ""
+                text = getText(ocr_text)
                 
-                for txt in ocr_text:
-                    for t in txt:
-                        if (t.isdigit()):
-                            text += t
-                        elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/'):
-                            text += '1'
-                
-                if (len(text) == 0):
+                if len(text) == 0:
                     continue
                 
                 # 문항 번호 num 감지
-                if (names[int(cls)] == "num"):
+                if names[int(cls)] == "num":
                     qna_num = int(text)
                 
                 # 적힌 단답 answer 감지

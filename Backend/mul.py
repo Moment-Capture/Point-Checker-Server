@@ -1,17 +1,23 @@
-import easyocr
+import os
+import sys
+
+# import easyocr
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-from utils import cropBox, labelToInt, deleteDuplicateFiles
+sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
+from ocr_tamil.ocr import OCR
+
+from utils import cropBox, labelToInt, deleteDuplicateFiles, getText
 
 
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
-def detect_multiple(path):
+def detect_multiple(path, reader):
     # 경로 정의
     mul_path = path + "/mul"
 
@@ -33,9 +39,6 @@ def detect_multiple(path):
     results = model_mul(source=images, save=False, save_crop=False)
     names = model_mul.names
 
-    # easyocr 사용
-    reader = easyocr.Reader(['ko', 'en'])
-
     for result in results:
         boxes = result.boxes.xyxy.tolist()
         clss = result.boxes.cls.cpu().tolist()
@@ -51,13 +54,18 @@ def detect_multiple(path):
 
             # 문항 번호 감지 & checked 영역 감지
             for box, cls in zip(boxes, clss):
+                img = cropBox(box, image)
+                
+                ocr_text = OCR().predict(img)
+                text = getText(ocr_text)
+
+                if len(text) == 0:
+                    continue
+                
                 # 문항 번호 num 감지
                 if (names[int(cls)] == "num"):
-                    img = cropBox(box, image)
-                    text = reader.readtext(img, detail = 0, allowlist="0123456789")
-                    if len(text) != 0:
-                        qna_num = int(text[0])
-                        continue
+                    qna_num = int(text)
+                
                 # 체크한 선지 번호 check 감지
                 else:
                     check = labelToInt(names[int(cls)])

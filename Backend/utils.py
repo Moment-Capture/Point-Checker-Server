@@ -255,6 +255,17 @@ def getId():
     return id
 
 
+def getText(ocr_text):
+    text = ""
+    for txt in ocr_text:
+        for t in txt:
+            if (t.isdigit()):
+                text += t
+            elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/'):
+                text += '1'
+    return text
+
+
 ### 텍스트 부분 잘라내기 함수 ###
 
 # 각 jpg에 적힌 코드 인식해서 이름 매칭
