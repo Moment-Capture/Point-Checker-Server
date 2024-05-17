@@ -42,8 +42,8 @@ def getMulSubDf(testee_path):
 
     # 문제 인식 및 채점 진행
     categorize_qna(path)
-    mul_df = detect_multiple(path, reader)
-    sub_df = detect_subjective(path, reader)
+    mul_df = detect_multiple(path)
+    sub_df = detect_subjective(path)
 
     # mul과 sub 통합을 위한 df 생성
     df = pd.concat([mul_df, sub_df], axis=0, ignore_index=True)
