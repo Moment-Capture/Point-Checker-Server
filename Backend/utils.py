@@ -284,14 +284,13 @@ def readTesteeName(img, reader):
   cropped_img = img.crop((x1, y1, x2, y2))
   image_np = np.array(cropped_img)
   
-  #easyocr 사용
-  text = reader.readtext(image_np, detail=0)
+  # easyocr 사용
+  text = ""
+  ocr_text = reader.readtext(image_np, detail=0)
+  text = getText(ocr_text)
 
   # id가 있다면 id 반환, 없으면 none 반환
-  if text:
-    return text
-  else:
-    return None
+  return text
 
 
 ### 텍스트에서 testee_id와 page를 추출하는 함수 ###

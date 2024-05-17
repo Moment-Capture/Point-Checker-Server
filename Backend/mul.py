@@ -59,6 +59,7 @@ def detect_multiple(path, reader):
                 
                 # 문항 번호 num 감지
                 if (names[int(cls)] == "num"):
+                    # easyocr 사용
                     ocr_text = reader.readtext(img, detail=0)
                     text = getText(ocr_text)
                     qna_num = int(text)
