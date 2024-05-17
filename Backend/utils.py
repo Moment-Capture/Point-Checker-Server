@@ -137,7 +137,7 @@ def convertExcelToDf(file_path_list, path):
             file_path = file
             file_name = os.path.basename(file_path)
             break
-    print(file_name)
+    
     df = pd.read_excel(file_path, names=["num", "correct_answer"], engine='openpyxl')
     return df
 
@@ -305,7 +305,6 @@ def readTesteeName(img, reader):
   text = ""
   ocr_text = OCR().predict(image_np)
   text = getText(ocr_text)
-  print(text)
 
   # id가 있다면 id 반환, 없으면 none 반환
   return text

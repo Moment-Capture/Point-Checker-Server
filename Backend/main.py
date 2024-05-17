@@ -121,7 +121,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     id_match = {} #id_match는 testee_id와 id를 연결하는 딕셔너리
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
     testee_jpg_df.to_excel(path + "/testee_jpg_df.xlsx")
-    print(id_match)
 
     testee_id_jpg_df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
     testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
@@ -149,6 +148,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):
+        start = time.time()
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
         testee_path = temp_path + "/" + testee_id
@@ -182,6 +182,11 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 전체 df와 합치기
         df = concatTesteeDf(df, testee_id, testee_df)
+        
+        end = time.time()
+        testee_eta = end - start
+        print()
+        print("testee_eta: " + f"{testee_eta:.2f} sec")
 
     df.to_excel(path+"/final_df.xlsx")
 
