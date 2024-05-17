@@ -17,7 +17,7 @@ from utils import cropBox, labelToInt, deleteDuplicateFiles, getText
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
-def detect_multiple(path, reader):
+def detect_multiple(path):
     # 경로 정의
     mul_path = path + "/mul"
 
