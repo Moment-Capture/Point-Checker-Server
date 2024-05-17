@@ -116,6 +116,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     
     # xlsx 파일 df로 변환
     answer_df = convertExcelToDf(answer_file_path_list, path)
+    print(answer_df)
 
     # answer df에 값이 존재하는지 검사
     if len(answer_df) == 0:

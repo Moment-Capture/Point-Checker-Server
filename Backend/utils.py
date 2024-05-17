@@ -136,7 +136,7 @@ def convertExcelToDf(file_path_list, path):
             file_path = file
             break
     
-    df = pd.read_excel(file_path, names=["num", "correct_answer"] ,engine='openpyxl')
+    df = pd.read_excel(file_path, names=["num", "correct_answer"] , engine='openpyxl')
     return df
 
 
@@ -147,7 +147,7 @@ def concatAnswer(df, answer_df):
         if df_num == 0:
             continue
         for ans_idx, ans_row in answer_df.iterrows():
-            if (int(ans_row["correct_answer"]) == int(df_num)):
+            if (df_num != "" and int(ans_row["correct_answer"]) == int(df_num)):
                 df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
                 break
     
