@@ -79,7 +79,7 @@ def detect_subjective(path, reader):
                     ocr_text = OCR().predict(img)
                     text = getString(ocr_text)
                     if text:
-                        answer = int(text)
+                        answer = text
             
             new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
