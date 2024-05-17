@@ -7,11 +7,9 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr"))
+sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil/ocr.py"))
+from ocr import OCR
 
-from models import tamil_ocr as tamil_ocr
-from models.tamil_ocr import ocr_tamil as ocr_tamil
-from models.tamil_ocr.ocr_tamil import ocr
 
 from utils import cropBox, deleteDuplicateFiles
 
@@ -64,7 +62,7 @@ def detect_subjective(path):
                 # 일단 객관식 답안이 숫자로 적힐 경우만 상정
                 img = cropBox(box, image)
                 
-                ocr_text = ocr.OCR().predict(img)
+                ocr_text = OCR().predict(img)
                 text = ""
                 
                 for txt in ocr_text:
