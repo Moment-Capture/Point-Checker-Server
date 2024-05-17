@@ -47,7 +47,7 @@ def detect_subjective(path, reader):
 
         image = result.orig_img
         file = result.path
-        file_name = os.basename(file)
+        file_name = os.path.basename(file)
 
         if boxes is not None:
             # 변수 초기화

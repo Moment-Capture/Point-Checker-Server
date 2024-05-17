@@ -126,6 +126,7 @@ def convertPdfToJpg(file_path_list, path):
 # df으로 변환
 def convertExcelToDf(file_path_list, path):
     file_path = path
+    file_name = ""
     df = pd.DataFrame(columns=["num", "correct_answer"])
 
     if len(file_path_list) == 0:
@@ -134,8 +135,9 @@ def convertExcelToDf(file_path_list, path):
     else:
         for file in file_path_list:
             file_path = file
+            file_name = os.path.basename(file_path)
             break
-    
+    print(file_name)
     df = pd.read_excel(file_path, names=["num", "correct_answer"], engine='openpyxl')
     return df
 
