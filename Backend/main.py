@@ -185,7 +185,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         df = concatTesteeDf(df, testee_id, testee_df)
         end = time.time()
         testee_eta = end - start
-        print()
         print("testee_eta: " + f"{testee_eta:.2f} sec")
 
     df.to_excel(path+"/final_df.xlsx")
