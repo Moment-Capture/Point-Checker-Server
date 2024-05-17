@@ -144,10 +144,10 @@ def convertExcelToDf(file_path_list, path):
 def concatAnswer(df, answer_df):
     for df_idx, df_row in df.iterrows():
         df_num = df_row["num"]
-        ans_num = ans_row["num"]
         if df_num == 0:
             continue
         for ans_idx, ans_row in answer_df.iterrows():
+            ans_num = ans_row["num"]
             if (df_num != "" and int(ans_num) == int(df_num)):
                 df.loc[df_idx, "correct_answer"] = ans_row["correct_answer"]
                 break
