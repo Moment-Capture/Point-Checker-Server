@@ -153,7 +153,11 @@ def concatAnswer(df, answer_df):
 # df에 testee df 합치기
 def concatTesteeDf(df, testee_id, testee_df):
     for testee_df_idx, testee_df_row in testee_df.iterrows():
-        df.loc[len(df)] = [testee_id, testee_df_row["file"], testee_df_row["num"], testee_df_row["testee_answer"], testee_df_row["correct_answer"]]
+        file = testee_df_row["file"]
+        num = testee_df_row["num"]
+        testee_answer = testee_df_row["testee_answer"]
+        correct_answer = testee_df_row["correct_answer"]
+        df.loc[len(df)] = [testee_id, file, num, testee_answer, correct_answer]
   
     return df
 
@@ -272,10 +276,10 @@ def getText(ocr_text):
 # testee jpg df 생성
 # - testee_jpg_df = pd.DataFrame(columns=["file", "testee_id", "page"])
 # - name은 page가 1일 때만 인식 (학생 이름은 각 시험지 첫 장에만 적혀 있기 때문임)
-# 식별코드: id - page (ex. 3-2라면, testee_id=3, page=2)
+# 식별코드: testee_id - page (ex. 3-2라면, testee_id=3, page=2)
 
-### 오른쪽 상단 id 인식 함수 ###
-def readIdInImage(img, reader):
+### 오른쪽 상단 testee_name 인식 함수 ###
+def readTesteeName(img, reader):
   x1, y1, x2, y2 = (620, 30, 750, 65)
   cropped_img = img.crop((x1, y1, x2, y2))
   image_np = np.array(cropped_img)
@@ -315,8 +319,8 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         img = Image.open(file)
         img = img.resize((794,1123),Image.LANCZOS) #인식 위치를 같게 만들기 위한 이미지 규격화.
 
-        #오른쪽 상단 id 인식
-        id = readIdInImage(img, reader)
+        #오른쪽 상단 testee_name 인식
+        testee_name = readTesteeName(img, reader)
 
         # 왼쪽 상단 num_id와 page 인식
         x1, y1, x2, y2 = (30, 30, 165, 70)
@@ -327,10 +331,22 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extractId(text)
 
-        # id가 None이 아닌 경우 testee_id와 id를 id_match에 딕셔너리로 추가
+        # id가 None이 아닌 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if id is not None:
-            id_match[testee_id] = id
+            id_match[testee_id] = testee_name
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [file, testee_id, page]
 
     return testee_jpg_df, id_match
+
+### testee_jpg_df에 사용자 이름 추가
+def testeeIdJpgDf(df, testee_jpg_df, id_match):
+    # df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
+    for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
+        testee_id = testee_jpg_df_row["testee_id"]
+        testee_name = id_match[testee_id]
+        file = testee_jpg_df_row["file"]
+        page = testee_jpg_df_row["page"]
+        df.loc[len(df)] = [testee_id, testee_name, file, page]
+
+    return df  

@@ -38,7 +38,7 @@ def getMulSubDf(testee_path):
     path = testee_path
 
     # easyocr 사용
-    reader = easyocr.Reader(['ko', 'en'])
+    # reader = easyocr.Reader(['ko', 'en'])
 
     # 문제 인식 및 채점 진행
     categorize_qna(path)
@@ -98,6 +98,11 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     id_match = {} #id_match는 testee_id와 id를 연결하는 딕셔너리
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
     testee_jpg_df.to_excel(path + "/testee_jpg_df.xlsx")
+
+    testee_id_jpg_df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
+    testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
+    display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["testee_id", "testee_name"], drop=True)
+    print(display_testeed_jpg_df)
 
     # xlsx 파일 탐지
     answer_file_path_list = []
