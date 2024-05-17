@@ -1,4 +1,3 @@
-import os
 import easyocr
 import pandas as pd
 
@@ -6,9 +5,9 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-import sys
-sys.path.append(os.path.dirname(os.path.abspath("/home/ubuntu/Point-Checker/Backend/models/tamil_ocr/ocr_tamil/ocr.py")))
-from ocr import OCR
+from models import tamil_ocr
+from models.tamil_ocr import ocr_tamil
+from models.tamil_ocr.ocr_tamil import ocr
 
 from utils import cropBox, deleteDuplicateFiles
 
