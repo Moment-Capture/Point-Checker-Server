@@ -332,8 +332,6 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         text = reader.readtext(image_np, detail=0)
         testee_id, page = extractTesteeId(text)
 
-        print(testee_id, page)
-
         #오른쪽 상단 testee_name 인식
         # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if page == "1":

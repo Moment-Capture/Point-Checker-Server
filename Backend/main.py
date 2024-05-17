@@ -102,7 +102,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     testee_id_jpg_df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
     testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
-    display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["testee_id", "testee_name"], drop=True)
+    display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["testee_id", "testee_name", "file"], drop=True)
     print(display_testeed_jpg_df)
 
     # xlsx 파일 탐지
