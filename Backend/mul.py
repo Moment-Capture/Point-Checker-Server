@@ -48,8 +48,8 @@ def detect_multiple(path, reader):
 
         if boxes is not None:
             # 변수 초기화
-            qna_num = 0
-            check = 0
+            qna_num = ""
+            check = ""
             check_list = []
 
             # 문항 번호 감지 & checked 영역 감지
@@ -62,7 +62,8 @@ def detect_multiple(path, reader):
                     # easyocr 사용
                     ocr_text = reader.readtext(img, detail=0)
                     text = getText(ocr_text)
-                    qna_num = int(text)
+                    if text:
+                        qna_num = int(text)
                 
                 # 체크한 선지 번호 check 감지
                 else:

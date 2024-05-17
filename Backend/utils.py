@@ -299,7 +299,7 @@ def readTesteeName(img, reader):
 
 
 ### 텍스트에서 testee_id와 page를 추출하는 함수 ###
-def extractId(text):
+def extractTesteeId(text):
     if text:
         text_split = text[0].split('-')
         testee_id = text_split[0].strip()
@@ -333,7 +333,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
 
         # easyOCR 사용
         text = reader.readtext(image_np, detail=0)
-        testee_id, page = extractId(text)
+        testee_id, page = extractTesteeId(text)
 
         # id가 None이 아닌 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if testee_name is not None:
