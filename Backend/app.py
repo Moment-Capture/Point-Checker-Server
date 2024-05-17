@@ -145,9 +145,11 @@ def plural_check():
     df = pd.DataFrame()
     df = pointchecker(id_path, test_name, copy_num, total_qna_num, testee_num, test_category)
     end = time.time()
-
     point_eta = end - start
 
+    print()
+    print(df)
+    print()
     print("point_eta: " + f"{point_eta:.2f} sec")
     
     if len(df) == 0:

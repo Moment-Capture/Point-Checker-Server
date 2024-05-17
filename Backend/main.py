@@ -33,12 +33,12 @@ def getSubDf(testee_path):
     return sub_df
 
 
-def getMulSubDf(testee_path):
+def getMulSubDf(testee_path, reader):
     # 경로 정의
     path = testee_path
 
     # easyocr 사용
-    # reader = easyocr.Reader(['ko', 'en'])
+    reader = easyocr.Reader(['ko', 'en'])
 
     # 문제 인식 및 채점 진행
     categorize_qna(path)
@@ -159,8 +159,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         df = concatTesteeDf(df, testee_id, testee_df)
 
     df.to_excel(path+"/final_df.xlsx")
-
-    print(df)
 
     # 응시자별 폴더 삭제
     deleteFolder(testee_path)

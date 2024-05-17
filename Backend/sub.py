@@ -16,7 +16,7 @@ from utils import cropBox, deleteDuplicateFiles, getText
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
-def detect_subjective(path):
+def detect_subjective(path, reader):
     # 경로 정의
     sub_path = path + "/sub"
 
@@ -57,15 +57,12 @@ def detect_subjective(path):
             for box, cls in zip(boxes, clss):                
                 # 일단 객관식 답안이 숫자로 적힐 경우만 상정
                 img = cropBox(box, image)
-                
-                ocr_text = OCR().predict(img)
-                text = getText(ocr_text)
-                
-                if len(text) == 0:
-                    continue
-                
+                text = ""
+
                 # 문항 번호 num 감지
                 if names[int(cls)] == "num":
+                    ocr_text = reader.readtext(img, detail=0)
+                    text = getText(ocr_text)
                     qna_num = int(text)
                 
                 # 적힌 단답 answer 감지
@@ -74,6 +71,9 @@ def detect_subjective(path):
                     if file in files:
                         continue
                     files.append(file)
+                    
+                    ocr_text = OCR().predict(img)
+                    text = getText(ocr_text)
                     answer = int(text)
             
             new_row = {"file" : file, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}

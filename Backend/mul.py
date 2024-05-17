@@ -17,7 +17,7 @@ from utils import cropBox, labelToInt, deleteDuplicateFiles, getText
 BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
-def detect_multiple(path):
+def detect_multiple(path, reader):
     # 경로 정의
     mul_path = path + "/mul"
 
@@ -55,15 +55,12 @@ def detect_multiple(path):
             # 문항 번호 감지 & checked 영역 감지
             for box, cls in zip(boxes, clss):
                 img = cropBox(box, image)
-                
-                ocr_text = OCR().predict(img)
-                text = getText(ocr_text)
-
-                if len(text) == 0:
-                    continue
+                text = ""
                 
                 # 문항 번호 num 감지
                 if (names[int(cls)] == "num"):
+                    ocr_text = reader.readtext(img, detail=0)
+                    text = getText(ocr_text)
                     qna_num = int(text)
                 
                 # 체크한 선지 번호 check 감지
