@@ -153,6 +153,3 @@ def categorize_qna(path):
 
                 elif (names[int(cls)] == "multiple_cropped"):
                     crop_match(cropped_qna_arr, qna, match_path, mul_save_idx, mul_path)
-                
-                elif (names[int(cls)] == "subjective_cropped"):
-                    crop_match(cropped_qna_arr, qna, match_path, sub_save_idx, sub_path)
