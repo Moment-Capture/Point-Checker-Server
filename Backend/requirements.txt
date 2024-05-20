@@ -1,11 +1,3 @@
-<sudo apt-get install>
-python
-pip
-
-opencv
-poppler-utils 
-
-<pip install>
 numpy
 pandas
 pyarrow
