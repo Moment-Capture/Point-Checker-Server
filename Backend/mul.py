@@ -1,7 +1,6 @@
 import os
 import sys
-
-# import easyocr
+import easyocr
 import pandas as pd
 
 from pathlib import Path
