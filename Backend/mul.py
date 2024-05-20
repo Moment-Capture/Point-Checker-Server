@@ -37,6 +37,7 @@ def detect_multiple(path, reader):
     model_mul = YOLO(multiple_path)
     results = model_mul(source=images, save=False, save_crop=False)
     names = model_mul.names
+    print(names)
 
     for result in results:
         boxes = result.boxes.xyxy.tolist()
