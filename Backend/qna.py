@@ -105,7 +105,7 @@ def categorize_qna(path):
     save_name = ""
 
     model_path = BE_PATH + "/models"
-    qna_path = model_path + "/categorize/weights/best.pt"
+    qna_path = model_path + "/qna/weights/best.pt"
     match_path = model_path + "/matching/weights/best.pt"
 
     # 입력 파일 정렬
