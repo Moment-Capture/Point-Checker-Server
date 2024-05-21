@@ -92,7 +92,7 @@ def int_to_string(test_category):
 
 ### 서버 연결하는 함수 ###
 def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
-    url = "http://54.226.37.180:8080/upload"
+    url = "http://13.125.91.116:8080/upload"
 
     data = {
         'test_name':test_name,
@@ -110,10 +110,10 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
 
     global df
     response = requests.post(url, files=files)
-    data = json.loads(response.text)
-    print(data)
+    json_data = json.loads(response.text)
+    print(json_data)
     
-    df = pd.json_normalize(data)
+    df = pd.json_normalize(json_data)
     df.drop(columns=["file"], inplace=True)
     df.set_index(["testee_id", "num"], inplace=True)
     print(df)

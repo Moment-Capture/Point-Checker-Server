@@ -48,7 +48,7 @@ def bye(id):
     return f'Good Bye! <br><br> id : {id}'
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload", methods=["POST"])
 def upload_files():
     ## upload 폴더 생성 ##
     try:
