@@ -34,7 +34,7 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
             name_crop_arr = [name_match, crop_obj]
             cropped_qna_arr.append(name_crop_arr)
     
-    if name_match == "" or name_match == "back_5":
+    if name_match == "etc" or name_match == "back_5":
         return
     elif name_match == "front_5":
         # 이미지 저장
