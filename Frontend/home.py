@@ -111,6 +111,8 @@ def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, te
     global df
     response = requests.post(url, files=files)
     data = json.loads(response.text)
+    print(data)
+    
     df = pd.json_normalize(data)
     df.drop(columns=["file"], inplace=True)
     df.set_index(["testee_id", "num"], inplace=True)
