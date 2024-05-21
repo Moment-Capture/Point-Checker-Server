@@ -1,4 +1,4 @@
 python
 python-pip
-opencv
+libopencv-dev
 poppler-utils 

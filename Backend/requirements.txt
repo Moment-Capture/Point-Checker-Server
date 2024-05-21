@@ -246,7 +246,7 @@ ufw==0.36.1
 ultralytics==8.2.15
 unattended-upgrades==0.1
 unidiff==0.5.5
-urllib3==2.2.0
+urllib3
 vine==5.1.0
 virtualenv==20.26.1
 w3lib==2.1.2
