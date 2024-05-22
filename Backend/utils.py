@@ -297,9 +297,11 @@ def getNumEasy(num, img, reader):
     
     if text:
         num = int(text)
+    else:
+        num = getNumTamil(num, img)
     
-    if num == -1:
-        getStringTamil(img)
+    # if num == -1:
+    #     num = getNumTamil(num, img)
     
     return num
 

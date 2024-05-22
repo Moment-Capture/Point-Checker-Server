@@ -60,8 +60,8 @@ def detect_subjective(path, reader):
                 # 문항 번호 num 감지
                 if names[int(cls)] == "num":
                     easy_num = getNumEasy(qna_num, img, reader)
-                    tamil_num = getNumTamil(qna_num, img)
-                    print("EasyOCR: " + str(easy_num) + ", OCR Tamil: " + str(tamil_num))
+                    # tamil_num = getNumTamil(qna_num, img)
+                    # print("EasyOCR: " + str(easy_num) + ", OCR Tamil: " + str(tamil_num))
                     
                     qna_num = easy_num
                 
