@@ -62,6 +62,17 @@ def upload_files():
         client_id = data["client_id"]
         id_path = UPLOAD_FOLDER + "/" + client_id
 
+        print(client_id)
+        print(id_path)
+
+        ## id 폴더 생성 ##
+        try:
+            if not os.path.exists(id_path):
+                os.mkdir(id_path)
+        except:
+            pass
+        ## id 폴더 생성 ##
+
         pdf = files["pdf"]
         pdf_name = pdf.filename
         pdf_path = os.path.join(id_path, pdf_name)
@@ -73,14 +84,6 @@ def upload_files():
         total_qna_num = data["total_qna_num"]
         testee_num = data["testee_num"]
         test_category = data["test_category"]
-
-        ## id 폴더 생성 ##
-        try:
-            if not os.path.exists(id_path):
-                os.mkdir(id_path)
-        except:
-            pass
-        ## id 폴더 생성 ##
         
         print(client_id)
         print("파일 업로드 성공")
