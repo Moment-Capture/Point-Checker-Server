@@ -78,12 +78,6 @@ def upload_files():
         pdf_path = os.path.join(id_path, pdf_name)
         if pdf and allowed_file(pdf_name):
             pdf.save(pdf_path)
-        
-        answer = files["answer"]
-        answer_name = answer.filename
-        answer_path = os.path.join(id_path, answer_name)
-        if answer and allowed_answer(answer_name):
-            answer.save(answer_path)
 
         datas = request.form
 

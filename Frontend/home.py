@@ -3,26 +3,21 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 from tkinter import *
-# from reportlab.pdfgen import canvas
 
-# import gc, time
 import os
 import fitz
-import json
-import requests
 
 import pandas as pd
-# import aspose.pdf as ap
 
 from io import StringIO
 
+from server import server_connect
+from path import *
 
-FILE_PATH = Path(__file__)
-OUTPUT_PATH = FILE_PATH.parent
+
 ASSETS_PATH = OUTPUT_PATH / "assets"
 FONT_PATH = "Malgun Gothic"
 ICON_PATH = ASSETS_PATH / "pointchecker.ico"
-
 
 
 ##########################################################
@@ -58,24 +53,6 @@ answer_path_var = None
 df = pd.DataFrame()
 
 
-### pdf 방향 바꾸는 함수 ###
-# def pdfRotate(pdf_path):
-#     doc = ap.Document(pdf_path)
-
-#     for page in doc.pages:
-#         r = page.media_box
-#         newHeight = r.width
-#         newWidth = r.height
-#         newLLX = r.llx
-
-#         newLLY = r.lly + (r.height - newHeight)
-#         page.media_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
-#         page.crop_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
-#         page.rotate = ap.Rotation.ON90
-    
-#     doc.save(pdf_path)
-
-
 ### 위젯 숨기는 함수 ###
 def hide_widgets(widget_list):
     for widget in widget_list:
@@ -89,35 +66,6 @@ def int_to_string(test_category):
             cate = "0"
         else:
             cate = "1"
-
-### 서버 연결하는 함수 ###
-def server_connect(pdf_path, answer_path, test_name, copy_num, total_qna_num, testee_num, test_category):
-    url = "http://13.125.91.116:8080/upload"
-
-    data = {
-        'test_name':test_name,
-        'copy_num':copy_num,
-        'total_qna_num':total_qna_num,
-        'testee_num':testee_num,
-        'test_category':test_category
-    }
-
-    files = {
-        'pdf':open(pdf_path, "rb"),
-        'answer':open(answer_path, "rb"),
-        'data':(None, json.dumps(data), 'application/json')
-    }
-
-    global df
-    response = requests.post(url, files=files)
-    json_data = json.loads(response.text)
-    print(json_data)
-    
-    df = pd.json_normalize(json_data)
-    df.drop(columns=["file"], inplace=True)
-    df.set_index(["testee_id", "num"], inplace=True)
-    print(df)
-
 
 
 ##1. 시험지 양식 적용 화면 함수##

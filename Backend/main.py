@@ -112,6 +112,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         print("jpg file path list is empty")
         return df
     
+    # 사용자가 입력한 정보에 맞게 분리됐는지 확인
     # if len(jpg_file_path_list) != copy_num * testee_num:
     #     print("some jpg files are missing or entered incorrect information")
     #     return None
@@ -126,26 +127,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
     display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["testee_id", "testee_name", "file"], drop=True)
     print(display_testeed_jpg_df)
-
-    # xlsx 파일 탐지
-    answer_file_path_list = []
-    answer_file_path_list = os_sorted(Path(path).glob('*.xlsx'))
-    
-    # xlsx 파일 있는지 검사
-    if len(answer_file_path_list) == 0:
-        print("answer file path list is empty")
-        return df
-    
-    # xlsx 파일 df로 변환
-    answer_df = pd.DataFrame()
-    answer_df = convertExcelToDf(answer_file_path_list, path)
-    print()
-    print(answer_df)
-
-    # answer df에 값이 존재하는지 검사
-    if len(answer_df) == 0:
-        print("answer df is empty")
-        return df
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):
@@ -177,12 +158,10 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
             if is_sub:
                 testee_df = getSubDf(testee_path)
 
-        # 정답 df와 합치기
-        testee_df = concatAnswer(testee_df, answer_df)
-        testee_df.sort_values(by=["num"], inplace=True)
-
         # 전체 df와 합치기
+        testee_df.sort_values(by=["num"], inplace=True)
         df = concatTesteeDf(df, testee_id, testee_df)
+        
         end = time.time()
         testee_eta = end - start
         print("testee_eta: " + f"{testee_eta:.2f} sec")
