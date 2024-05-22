@@ -514,7 +514,6 @@ def show_grade():
         highlightthickness=0,
         ### 서버 연결 함수 ###
         command=lambda: server_connect(file_path_var.get(),
-                                       answer_path_var.get(),
                                        test_name.get(),
                                        copy_num.get(),
                                        total_qna_num.get(),
