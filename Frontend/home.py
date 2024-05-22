@@ -684,8 +684,6 @@ def show_result():
     root2 = tk.Toplevel()
 
     data = global_vars.json_data
-    # f = open('data.json')
-    # data = json.load(f)
 
     print(data)
 
