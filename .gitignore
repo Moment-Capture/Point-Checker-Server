@@ -2,3 +2,5 @@
 Backend/models/Backend/models/tamil_ocr/
 Frontend/.DS_Store
 .DS_Store
+Frontend/__pycache__/server.cpython-312.pyc
+Frontend/__pycache__/path.cpython-312.pyc
