@@ -65,6 +65,7 @@ def detect_multiple(path, reader):
                     check_list.append(check)           
             
             if (len(check_list) > 1):
+                check_list.sort()
                 new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check_list, "correct_answer" : 0}
             else:
                 new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
