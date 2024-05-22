@@ -32,10 +32,15 @@ def hello():
     id = getId()
     return f'Hello World! <br><br> id : {id}'
 
-@app.route("/id/<id>")
-def bye(id):
-    id = request.args.get("id", type=str)
-    return f'Good Bye! <br><br> id : {id}'
+@app.route("/id/<id>", methods=["GET"])
+def get_json(client_id):
+    id_path = UPLOAD_FOLDER + "/" + client_id
+    json_path = id_path + "/" + "data.json"
+
+    with open(json_path) as f:
+        json_data = load(f)
+
+    return json_data, 200
 
 
 @app.route("/upload", methods=["POST"])
@@ -49,18 +54,6 @@ def upload_files():
     ## upload 폴더 생성 ##
 
     if request.method == "POST":
-        # id 생성 규칙 - 클라이언트 ip + 접속시간
-        id = getId()
-        id_path = UPLOAD_FOLDER + "/" + id
-        
-        ## id 폴더 생성 ##
-        try:
-            if not os.path.exists(id_path):
-                os.mkdir(id_path)
-        except:
-            pass
-        ## id 폴더 생성 ##
-
         files = request.files
 
         pdf = files["pdf"]
@@ -79,12 +72,23 @@ def upload_files():
         total_qna_num = data["total_qna_num"]
         testee_num = data["testee_num"]
         test_category = data["test_category"]
+
+        client_id = data["client_id"]
+        id_path = UPLOAD_FOLDER + "/" + client_id
+
+        ## id 폴더 생성 ##
+        try:
+            if not os.path.exists(id_path):
+                os.mkdir(id_path)
+        except:
+            pass
+        ## id 폴더 생성 ##
         
         print(id)
         print("파일 업로드 성공")
 
     return redirect(url_for("plural_check",
-                            id=id, 
+                            client_id=client_id, 
                             test_name=test_name,
                             copy_num=copy_num,
                             total_qna_num=total_qna_num,
@@ -95,14 +99,14 @@ def upload_files():
 # 다인용
 @app.route("/plural", methods=["GET"])
 def plural_check():
-    id = request.args.get("id", type=str)
+    client_id = request.args.get("client_id", type=str)
     test_name = request.args.get("test_name", type=int)
     copy_num = request.args.get("copy_num", type=int)
     total_qna_num = request.args.get("total_qna_num", type=int)
     testee_num = request.args.get("testee_num", type=int)
     test_category = request.args.getlist("test_category")
 
-    id_path = UPLOAD_FOLDER + "/" + id
+    id_path = UPLOAD_FOLDER + "/" + client_id
 
     start = time.time()
     df = pd.DataFrame()
@@ -119,6 +123,10 @@ def plural_check():
         return "Error Occured", 200
     
     json_data = df.to_json(orient="records")
+    json_path = id_path + "/" + "data.json"
+
+    with open(json_path, 'w') as f:
+        json.dump(json_data, f)
     
     return json_data, 200
 

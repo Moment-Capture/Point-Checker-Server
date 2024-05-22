@@ -12,6 +12,8 @@ from pandastable import Table
 
 from io import StringIO
 
+import global_vars
+
 from server import *
 from path import *
 
@@ -36,6 +38,13 @@ def relative_to_assets(path: str) -> Path:
 ##########################################################
 ### 함수 및 변수 ###
 
+## 전역변수 ##
+widgets = []
+entry_columns = []
+file_path_var = None
+answer_path_var = None
+
+
 ## 공통  ##
 
 ## 공통 버튼 스타일 ##
@@ -45,13 +54,6 @@ button_style = {
     "font": (FONT_PATH, 12),  # 폰트 및 크기
     "relief": RIDGE      # 외곽선 스타일
 }
-
-## 전역변수 ##
-widgets = []
-entry_columns = []
-file_path_var = None
-answer_path_var = None
-df = pd.DataFrame()
 
 
 ### 위젯 숨기는 함수 ###
@@ -139,6 +141,39 @@ def show_popup():
 def browse_file2():
     file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
     answer_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
+
+
+# ### 서버 연결하는 함수 ###
+# def server_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
+#     global df
+#     global json_data
+    
+#     url = "http://13.125.91.116:8080/upload"
+
+#     data = {
+#         'test_name':test_name,
+#         'copy_num':copy_num,
+#         'total_qna_num':total_qna_num,
+#         'testee_num':testee_num,
+#         'test_category':test_category
+#     }
+
+#     files = {
+#         'pdf':open(pdf_path, "rb"),
+#         'data':(None, json.dumps(data), 'application/json')
+#     }
+
+#     response = requests.post(url, files=files)
+#     json_data = json.loads(response.text)
+#     json_path = OUTPUT_PATH / "data.json"
+
+#     with open(json_path, 'w') as f:
+#         json.dump(json_data, f)
+    
+#     df = pd.json_normalize(json_data)
+#     df.drop(columns=["file"], inplace=True)
+#     df.set_index(["testee_id", "num"], inplace=True)
+#     print(df)
 
 
 
@@ -514,7 +549,7 @@ def show_grade():
         borderwidth=0,
         highlightthickness=0,
         ### 서버 연결 함수 ###
-        command=lambda: server_connect(file_path_var.get(),
+        command=lambda: start_connect(file_path_var.get(),
                                        test_name.get(),
                                        copy_num.get(),
                                        total_qna_num.get(),
@@ -538,7 +573,7 @@ def show_grade():
         text="채점 결과 확인하기",
         borderwidth=0,
         highlightthickness=0,
-        command=show_result(json_data),
+        command=lambda:show_result(),
         relief="flat"
     ) 
     ViewGradingResultsBtn.place(
@@ -601,7 +636,7 @@ def answer_to_dict(answer_path_var):
 # 서버에서 json data를 받아서 채점 결과 df 만드는 함수
 def json_to_df_for_tables(data):
     # 답 딕셔너리 가져오기
-    question_answer = answer_to_dict(answer_path_var)
+    question_answer = answer_to_dict(answer_path_var.get())
 
     # 필요한 정보 testee_id별 'num':'testee_answer'를 딕셔너리로 저장하는 함수 
     testee_answers = {}
@@ -644,11 +679,11 @@ def json_to_df_for_tables(data):
     return df
 
 
-def show_result(json_data):
+def show_result():
     # Initialize Tkinter
     root2 = tk.Tk()
 
-    data = json_data.load(json_data)
+    data = global_vars.json_data
 
     # Create the PandasViewer instance
     viewer = PandasViewer(root2, dataframe=json_to_df_for_tables(data))
