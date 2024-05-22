@@ -28,7 +28,7 @@ def detect_subjective(path, reader):
 
     # Yolov8 사용
     model_sub = YOLO(subjective_path)
-    results = model_sub(source=images, save=False, save_crop=False, name='sub_test')
+    results = model_sub(source=images, save=False, save_crop=False)
     names = model_sub.names
 
     # 파일 리스트 생성
