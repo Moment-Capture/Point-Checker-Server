@@ -317,7 +317,8 @@ def getAnswerTamil(answer, img):
         answer = text
     else:
         text = getString(ocr_text)
-        print("문항 감지 안 됨: " + text)
+        print("문항 감지 안 됨(text): " + text)
+        print("문항 감지 안 됨(text): " + ocr_text)
     
     return answer
 
