@@ -8,10 +8,11 @@ import os
 import fitz
 
 import pandas as pd
+from pandastable import Table
 
 from io import StringIO
 
-from server import server_connect
+from server import *
 from path import *
 
 
@@ -537,7 +538,7 @@ def show_grade():
         text="채점 결과 확인하기",
         borderwidth=0,
         highlightthickness=0,
-        command=show_result,
+        command=show_result(json_data),
         relief="flat"
     ) 
     ViewGradingResultsBtn.place(
@@ -554,47 +555,106 @@ def show_grade():
 #####################################
 ####### 채점 결과 확인하기 화면 #######
 #####################################
-def show_result():
-    global widgets
-    hide_widgets(widgets)
-    canvas_r.delete("all")  # 캔버스 초기화
 
-    # 1. 채점 결과 확인
-    canvas_r.create_text(
-        40.0,
-        20.0,
-        anchor="nw",
-        text="1. 채점 결과를 확인하세요.",
-        fill="#000000",
-        font=(FONT_PATH, 14 * -1)
-    )
-    button_1 = tk.Button(
-        text="채점 결과 다운로드",
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("clicked 채점 결과 다운로드"),
-        relief="flat"
-    )
-    button_1.place(
-        x=600,
-        y=20,
-        width=125,
-        height=30
-    )
-    
-    #결과 확인용 임시 textarea
-    T = tk.Text(root, height=40, width=80)
-    T.place(
-        x=200,
-        y=60
-    )
+#pandastable 띄우기
+class PandasViewer(tk.Frame):
+    def __init__(self, parent=None, dataframe=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.dataframe = dataframe
+        self.table = None
+        self.initialize()
 
-    #텍스트 삽입문 아래 큰따옴표 안에 원하는 텍스트 넣으면 됨
-    T.insert(tk.END, df)
-    
-    ## widgets 리스트 정의 ##
-    widgets = [button_1]
+    def initialize(self):
+        self.parent.title("채점 결과 확인")
+        
+        # PandasTable 프레임 생성
+        frame = tk.Frame(self.parent)
+        frame.pack(fill='both', expand=True)
 
+        # PandasTable table 생성
+        self.table = Table(frame, dataframe=self.dataframe, showtoolbar=False, showstatusbar=True, showindex=True, weight=1000, height=700)
+        self.table.show()
+
+        #excel로 저장하는 버튼 생성
+        export_button = tk.Button(self.parent, text="Export to Excel", command=self.export_to_excel)
+        export_button.pack(side = tk.RIGHT, padx=10, pady=10)
+
+    def export_to_excel(self):
+        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx")
+        if file_path:
+            self.dataframe.to_excel(file_path, index=True)
+
+
+# 답 파일을 딕셔너리로 바꾸는 함수
+def answer_to_dict(answer_path_var):
+    # 파라미터로 입력 받을 예정
+    file_path = answer_path_var
+
+    # 엑셀 파일 읽기
+    df_answer = pd.read_excel(file_path)
+    data_dict = {'answer': {str(key): str(value) for key, value in df_answer.set_index('문항번호')['정답'].to_dict().items()}}
+
+    return data_dict
+
+
+# 서버에서 json data를 받아서 채점 결과 df 만드는 함수
+def json_to_df_for_tables(data):
+    # 답 딕셔너리 가져오기
+    question_answer = answer_to_dict(answer_path_var)
+
+    # 필요한 정보 testee_id별 'num':'testee_answer'를 딕셔너리로 저장하는 함수 
+    testee_answers = {}
+
+    for entry in data:
+        testee_id = entry.get('testee_id')
+        num = str(entry.get('num'))
+        testee_answer = entry.get('testee_answer')
+        # 다중 정답일 경우 대괄호를 제외하고 문자열로 저장
+        if isinstance(testee_answer, list):
+            testee_answer = ','.join(map(str, testee_answer))
+        else:
+            testee_answer = str(testee_answer)
+
+        if testee_id not in testee_answers:
+            count_o = 0
+            count_x = 0
+            testee_answers[testee_id] = {}
+            testee_answers[testee_id+" O/X"] = {}
+        
+        testee_answers[testee_id][num] = testee_answer
+        # 문항번호가 누락되지 않은 문항에 대해서만 답 비교
+        if num != '-1':
+            if testee_answer == question_answer['answer'][num].replace(" ", ""):
+                count_o += 1
+                testee_answers[testee_id+" O/X"][num] = 'O'
+            else:
+                count_x += 1
+                testee_answers[testee_id+" O/X"][num] = 'X'
+
+        testee_answers[testee_id+" O/X"]['정답'] = str(count_o)
+
+        testee_answers[testee_id+" O/X"]['오답'] = str(count_x)
+
+        testee_answers[testee_id+" O/X"]['총 문항수'] = str(count_o+count_x)
+
+    # 답 딕셔너리와 응시자 답안 딕셔너리를 합쳐서 data로 삽입
+    df = pd.DataFrame.from_dict(data={**question_answer, **testee_answers}, orient='index', dtype='str')
+
+    return df
+
+
+def show_result(json_data):
+    # Initialize Tkinter
+    root2 = tk.Tk()
+
+    data = json_data.load(json_data)
+
+    # Create the PandasViewer instance
+    viewer = PandasViewer(root2, dataframe=json_to_df_for_tables(data))
+
+    # Run the Tkinter event loop
+    root.mainloop()
 
 # 메인 창 생성
 root = tk.Tk()
