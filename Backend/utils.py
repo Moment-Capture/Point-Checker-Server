@@ -267,7 +267,17 @@ def getId():
     return id
 
 
-def getText(ocr_text):
+# ocr_text에서 문자 전체 추출
+def getString(ocr_text):
+    text = ""
+    for txt in ocr_text:
+        for t in txt:
+            text += t
+    return text
+
+
+# ocr_text에서 숫자만 추출
+def getNumText(ocr_text):
     text = ""
     for txt in ocr_text:
         for t in txt:
@@ -280,12 +290,38 @@ def getText(ocr_text):
     return text
 
 
-def getString(ocr_text):
-    text = ""
-    for txt in ocr_text:
-        for t in txt:
-            text += t
-    return text
+# 문항 번호 반환 - EasyOCR
+def getNumEasy(num, img, reader):
+    ocr_text = reader.readtext(img, detail=0)
+    text = getNumText(ocr_text)
+    
+    if text:
+        num = int(text)
+    
+    if num == -1:
+        getStringTamil(img)
+    
+    return num
+
+
+# 문항 번호 반환 - OCR Tamil
+def getNumTamil(num, img):
+    ocr_text = OCR().predict(img)
+    text = getNumText(ocr_text)
+    
+    if text:
+        if isinstance(num, int):
+            num = int(text)
+    
+    return num
+
+
+# 문항 번호 반환 - OCR Tamil
+def getStringTamil(img):
+    ocr_text = OCR().predict(img)
+    text = getString(ocr_text)
+    
+    print("문항 감지 안 됨: " + text)
 
 
 ### 텍스트 부분 잘라내기 함수 ###

@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
 from path import *
-from utils import cropBox, deleteDuplicateFiles, getText, getString
+from utils import cropBox, deleteDuplicateFiles, getNumEasy, getNumTamil
 
 
 def detect_subjective(path, reader):
@@ -56,15 +56,14 @@ def detect_subjective(path, reader):
             for box, cls in zip(boxes, clss):                
                 # 일단 객관식 답안이 숫자로 적힐 경우만 상정
                 img = cropBox(box, image)
-                text = ""
 
                 # 문항 번호 num 감지
                 if names[int(cls)] == "num":
-                    # easyocr 사용
-                    ocr_text = reader.readtext(img, detail=0)
-                    text = getText(ocr_text)
-                    if text:
-                        qna_num = int(text)
+                    easy_num = getNumEasy(qna_num, img, reader)
+                    tamil_num = getNumTamil(qna_num, img)
+                    print("EasyOCR: " + easy_num + ", OCR Tamil: " + tamil_num)
+                    
+                    qna_num = easy_num
                 
                 # 적힌 단답 answer 감지
                 else:
@@ -74,10 +73,7 @@ def detect_subjective(path, reader):
                     files.append(file)
                     
                     # ocr tamil 사용
-                    ocr_text = OCR().predict(img)
-                    text = getText(ocr_text)
-                    if text:
-                        answer = int(text)
+                    answer = getNumTamil(answer, img)
             
             new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)

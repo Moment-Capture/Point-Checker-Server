@@ -7,11 +7,8 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
-sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
-from ocr_tamil.ocr import OCR
-
 from path import *
-from utils import cropBox, labelToInt, deleteDuplicateFiles, getText
+from utils import cropBox, labelToInt, deleteDuplicateFiles, getNumEasy, getNumTamil
 
 
 def detect_multiple(path, reader):
@@ -57,11 +54,10 @@ def detect_multiple(path, reader):
                 
                 # 문항 번호 num 감지
                 if (names[int(cls)] == "num"):
-                    # easyocr 사용
-                    ocr_text = reader.readtext(img, detail=0)
-                    text = getText(ocr_text)
-                    if text:
-                        qna_num = int(text)
+                    easy_num = getNumEasy(qna_num, img, reader)
+                    tamil_num = getNumTamil(qna_num, img)
+                    print("EasyOCR: " + easy_num + ", OCR Tamil: " + tamil_num)
+                    qna_num = easy_num
                 
                 # 체크한 선지 번호 check 감지
                 else:
@@ -72,7 +68,7 @@ def detect_multiple(path, reader):
                 new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check_list, "correct_answer" : 0}
             else:
                 new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
-            # new_row = {"file" : file, "num" : qna_num, "testee_answer" : check, "correct_answer" : 0}
+            
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
     return df
