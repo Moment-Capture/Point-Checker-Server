@@ -691,7 +691,7 @@ def show_result():
     viewer = PandasViewer(root2, dataframe=json_to_df_for_tables(data))
 
     # Run the Tkinter event loop
-    root.mainloop()
+    root2.mainloop()
 
 # 메인 창 생성
 root = tk.Tk()
