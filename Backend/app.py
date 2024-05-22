@@ -55,6 +55,12 @@ def upload_files():
 
     if request.method == "POST":
         files = request.files
+        datas = request.form
+        data = datas.get("data")
+        data = json.loads(data)
+
+        client_id = data["client_id"]
+        id_path = UPLOAD_FOLDER + "/" + client_id
 
         pdf = files["pdf"]
         pdf_name = pdf.filename
@@ -62,19 +68,11 @@ def upload_files():
         if pdf and allowed_file(pdf_name):
             pdf.save(pdf_path)
 
-        datas = request.form
-
-        data = datas.get("data")
-        data = json.loads(data)
-
         test_name = data["test_name"]
         copy_num = data["copy_num"]
         total_qna_num = data["total_qna_num"]
         testee_num = data["testee_num"]
         test_category = data["test_category"]
-
-        client_id = data["client_id"]
-        id_path = UPLOAD_FOLDER + "/" + client_id
 
         ## id 폴더 생성 ##
         try:
@@ -84,7 +82,7 @@ def upload_files():
             pass
         ## id 폴더 생성 ##
         
-        print(id)
+        print(client_id)
         print("파일 업로드 성공")
 
     return redirect(url_for("plural_check",

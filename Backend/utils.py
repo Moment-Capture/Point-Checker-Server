@@ -315,14 +315,15 @@ def getAnswerTamil(answer, img):
     
     if text:
         answer = text
-    else:
-        reader = easyocr.Reader(['ko', 'en'])
-        ocr_text = reader.readtext(img, detail=0)
-        text = getString(ocr_text)
-        print("문항 감지 안 됨(text): " + text)
-        print("문항 감지 안 됨(ocr_text):")
-        for ocr in ocr_text:
-            print(ocr)
+    
+    # else:
+    #     reader = easyocr.Reader(['ko', 'en'])
+    #     ocr_text = reader.readtext(img, detail=0)
+    #     text = getString(ocr_text)
+    #     print("문항 감지 안 됨(text): " + text)
+    #     print("문항 감지 안 됨(ocr_text):")
+    #     for ocr in ocr_text:
+    #         print(ocr)
     
     return answer
 

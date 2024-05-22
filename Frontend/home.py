@@ -685,6 +685,8 @@ def show_result():
 
     data = global_vars.json_data
 
+    print(data)
+
     # Create the PandasViewer instance
     viewer = PandasViewer(root2, dataframe=json_to_df_for_tables(data))
 

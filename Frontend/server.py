@@ -1,7 +1,9 @@
 import json
 import requests
+import datetime
 
 import pandas as pd
+import public_ip as ip
 
 import global_vars
 
@@ -11,6 +13,16 @@ url = "http://13.125.91.116:8080"
 
 def set_global(data):
     global_vars.json_data = data
+
+
+# id 생성
+def getId():
+    client_ip = ip.get()
+    access_now = datetime.datetime.now()
+    access_date = access_now.strftime("%Y-%m-%d")
+    access_time = access_now.strftime("%H-%M-%S")
+    client_id = client_ip + "_" + access_date + "_" + access_time
+    return client_id
 
 
 ### 서버 연결하는 함수 ###
