@@ -312,13 +312,23 @@ def getNumTamil(num, img):
     text = getNumText(ocr_text)
     
     if text:
-        if isinstance(num, int):
-            num = int(text)
+        num = int(text)
     
     return num
 
 
-# 문항 번호 반환 - OCR Tamil
+# 단답 답안 반환 - OCR Tamil
+def getAnswerTamil(answer, img):
+    ocr_text = OCR().predict(img)
+    text = getNumText(ocr_text)
+    
+    if text:
+        answer = text
+    
+    return answer
+
+
+# 감지 안 됨 - OCR Tamil
 def getStringTamil(img):
     ocr_text = OCR().predict(img)
     text = getString(ocr_text)

@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
 from path import *
-from utils import cropBox, deleteDuplicateFiles, getNumEasy, getNumTamil
+from utils import cropBox, deleteDuplicateFiles, getNumEasy, getNumTamil, getAnswerTamil
 
 
 def detect_subjective(path, reader):
@@ -73,7 +73,7 @@ def detect_subjective(path, reader):
                     files.append(file)
                     
                     # ocr tamil 사용
-                    answer = getNumTamil(answer, img)
+                    answer = getAnswerTamil(answer, img)
             
             new_row = {"file" : file_name, "num" : qna_num, "testee_answer" : answer, "correct_answer" : 0}
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
