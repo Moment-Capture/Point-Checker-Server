@@ -134,6 +134,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         start = time.time()
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
+        testee_name = id_match[testee_id]
         testee_path = temp_path + "/" + testee_id
         makeTesteeFolder(testee_path)
 
@@ -161,7 +162,10 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 전체 df와 합치기
         testee_df.sort_values(by=["num"], inplace=True)
-        df = concatTesteeDf(df, testee_id, testee_df)
+        if testee_name:
+            df = concatTesteeDf(df, testee_name, testee_df)
+        else:
+            df = concatTesteeDf(df, testee_id, testee_df)
 
         end = time.time()
         testee_eta = end - start
