@@ -12,7 +12,7 @@ import json
 import requests
 
 import pandas as pd
-import aspose.pdf as ap
+# import aspose.pdf as ap
 
 from io import StringIO
 
@@ -59,21 +59,21 @@ df = pd.DataFrame()
 
 
 ### pdf 방향 바꾸는 함수 ###
-def pdfRotate(pdf_path):
-    doc = ap.Document(pdf_path)
+# def pdfRotate(pdf_path):
+#     doc = ap.Document(pdf_path)
 
-    for page in doc.pages:
-        r = page.media_box
-        newHeight = r.width
-        newWidth = r.height
-        newLLX = r.llx
+#     for page in doc.pages:
+#         r = page.media_box
+#         newHeight = r.width
+#         newWidth = r.height
+#         newLLX = r.llx
 
-        newLLY = r.lly + (r.height - newHeight)
-        page.media_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
-        page.crop_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
-        page.rotate = ap.Rotation.ON90
+#         newLLY = r.lly + (r.height - newHeight)
+#         page.media_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
+#         page.crop_box = ap.Rectangle(newLLX, newLLY, newLLX + newWidth,newLLY + newHeight, True)
+#         page.rotate = ap.Rotation.ON90
     
-    doc.save(pdf_path)
+#     doc.save(pdf_path)
 
 
 ### 위젯 숨기는 함수 ###
