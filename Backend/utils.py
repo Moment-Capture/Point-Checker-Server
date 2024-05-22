@@ -267,15 +267,6 @@ def getId():
     return id
 
 
-# ocr_text에서 문자 전체 추출
-def getString(ocr_text):
-    text = ""
-    for txt in ocr_text:
-        for t in txt:
-            text += t
-    return text
-
-
 # ocr_text에서 숫자만 추출
 def getNumText(ocr_text):
     text = ""
@@ -324,8 +315,20 @@ def getAnswerTamil(answer, img):
     
     if text:
         answer = text
+    else:
+        text = getString(ocr_text)
+        print("문항 감지 안 됨: " + text)
     
     return answer
+
+
+# ocr_text에서 문자 전체 추출
+def getString(ocr_text):
+    text = ""
+    for txt in ocr_text:
+        for t in txt:
+            text += t
+    return text
 
 
 # 감지 안 됨 - OCR Tamil
