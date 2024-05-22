@@ -13,14 +13,9 @@ from pandastable import Table
 from io import StringIO
 
 import global_vars
+import path
 
 from server import *
-from path import *
-
-
-ASSETS_PATH = OUTPUT_PATH / "assets"
-FONT_PATH = "Malgun Gothic"
-ICON_PATH = ASSETS_PATH / "pointchecker.ico"
 
 
 ##########################################################
