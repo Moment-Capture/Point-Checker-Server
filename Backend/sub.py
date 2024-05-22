@@ -1,14 +1,9 @@
 import os
-import sys
-import easyocr
 import pandas as pd
 
 from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
-
-sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
-from ocr_tamil.ocr import OCR
 
 from path import *
 from utils import cropBox, deleteDuplicateFiles, getNumEasy, getNumTamil, getAnswerTamil
