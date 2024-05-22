@@ -627,7 +627,7 @@ def answer_to_dict(answer_path_var):
     file_path = answer_path_var
 
     # 엑셀 파일 읽기
-    df_answer = pd.read_excel(file_path)
+    df_answer = pd.read_excel(file_path, names=["문항번호", "정답"], engine='openpyxl')
     data_dict = {'answer': {str(key): str(value) for key, value in df_answer.set_index('문항번호')['정답'].to_dict().items()}}
 
     return data_dict
@@ -681,9 +681,11 @@ def json_to_df_for_tables(data):
 
 def show_result():
     # Initialize Tkinter
-    root2 = tk.Tk()
+    root2 = tk.Toplevel()
 
     data = global_vars.json_data
+    # f = open('data.json')
+    # data = json.load(f)
 
     print(data)
 
