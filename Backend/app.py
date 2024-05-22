@@ -85,7 +85,6 @@ def upload_files():
         testee_num = data["testee_num"]
         test_category = data["test_category"]
         
-        print(client_id)
         print("파일 업로드 성공")
 
     return redirect(url_for("plural_check",
