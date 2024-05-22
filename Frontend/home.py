@@ -608,7 +608,7 @@ class PandasViewer(tk.Frame):
         frame.pack(fill='both', expand=True)
 
         # PandasTable table 생성
-        self.table = Table(frame, dataframe=self.dataframe, showtoolbar=False, showstatusbar=True, showindex=True, weight=1000, height=700)
+        self.table = Table(frame, dataframe=self.dataframe, showtoolbar=False, showstatusbar=True, showindex=True, width=1000, height=700)
         self.table.show()
 
         #excel로 저장하는 버튼 생성
