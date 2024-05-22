@@ -292,6 +292,7 @@ def show_grade():
     global widgets, file_path_var, answer_path_var
     hide_widgets(widgets)
     canvas_r.delete("all")  # 캔버스 초기화
+    
 
     # 1. 시험정보를 입력하세요
     canvas_r.create_text(
@@ -532,6 +533,25 @@ def show_grade():
         height=30
     )
     
+    # 응시자수, 한부당 매수 확인 후 서버 전달
+    def check_entries_and_start_grading():
+        # 텍스트 필드가 모두 채워졌는지 확인
+        if testee_num.get() and copy_num.get() and file_path_var.get() and answer_path_var.get():
+            progress_bar.start(20)
+            
+            # 시험 정보가 모두 입력된 경우 채점 함수 호출
+            if (start_connect(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
+                        testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())])):
+                progress_bar.stop()
+                progress_bar['mode'] = 'determinate'
+                progress_bar["value"]=100
+                tk.messagebox.showinfo("채점 완료", "채점이 완료되었습니다.\n채점 결과 확인 버튼을 누르세요.")
+        else:
+            # 시험 정보가 모두 입력되지 않은 경우 안내창 표시
+            print("안채워짐")
+            tk.messagebox.showinfo("안내", "시험 정보를 입력하세요.")
+
+
     # 4. 채점 버튼을 클릭하세요
     canvas_r.create_text( 
         40.0,
@@ -549,12 +569,7 @@ def show_grade():
         borderwidth=0,
         highlightthickness=0,
         ### 서버 연결 함수 ###
-        command=lambda: start_connect(file_path_var.get(),
-                                       test_name.get(),
-                                       copy_num.get(),
-                                       total_qna_num.get(),
-                                       testee_num.get(),
-                                       [str(test_category_mul.get()), str(test_category_sub.get())]),
+        command=lambda: check_entries_and_start_grading(),
         relief="flat"
     )
     StartGradingBtn.place(
