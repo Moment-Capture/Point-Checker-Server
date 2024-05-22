@@ -56,7 +56,7 @@ def detect_multiple(path, reader):
                 if (names[int(cls)] == "num"):
                     easy_num = getNumEasy(qna_num, img, reader)
                     tamil_num = getNumTamil(qna_num, img)
-                    print("EasyOCR: " + easy_num + ", OCR Tamil: " + tamil_num)
+                    print("EasyOCR: " + str(easy_num) + ", OCR Tamil: " + str(tamil_num))
                     qna_num = easy_num
                 
                 # 체크한 선지 번호 check 감지
