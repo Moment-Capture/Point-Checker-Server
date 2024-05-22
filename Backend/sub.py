@@ -10,10 +10,8 @@ from ultralytics import YOLO
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
+from path import *
 from utils import cropBox, deleteDuplicateFiles, getText, getString
-
-
-BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
 def detect_subjective(path, reader):

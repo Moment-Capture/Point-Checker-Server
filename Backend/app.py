@@ -14,26 +14,16 @@ from main import pointchecker
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
+from path import *
 from utils import *
 
 app = Flask(__name__)
 
-CWD_PATH = os.getcwd()
-
-BE_PATH = "/home/ubuntu/Point-Checker/Backend"
-UPLOAD_FOLDER = BE_PATH + "/upload"
-
 ALLOWED_FILE_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg'])
-ALLOWED_ANSWER_EXTENSIONS = set(['xlsx'])
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_FILE_EXTENSIONS
-
-
-def allowed_answer(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_ANSWER_EXTENSIONS
 
 
 @app.route("/")
@@ -92,27 +82,6 @@ def upload_files():
         
         print(id)
         print("파일 업로드 성공")
-    
-    # if testee_num == 1:
-    #     return redirect(url_for("single_check",
-    #                             id=id))
-    
-    # else: 
-    #     return redirect(url_for("plural_check",
-    #                             id=id,
-    #                             test_name=test_name,
-    #                             copy_num=copy_num,
-    #                             total_qna_num=total_qna_num,
-    #                             testee_num=testee_num,
-    #                             test_category=test_category))
-
-    # return redirect(url_for("plural_check",
-    #                         id=id, 
-    #                         test_name=test_name,
-    #                         copy_num=copy_num,
-    #                         total_qna_num=total_qna_num,
-    #                         testee_num=testee_num,
-    #                         test_category=test_category))
 
     return redirect(url_for("plural_check",
                             id=id, 

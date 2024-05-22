@@ -9,6 +9,7 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
+from path import *
 from utils import *
 
 
@@ -161,7 +162,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         # 전체 df와 합치기
         testee_df.sort_values(by=["num"], inplace=True)
         df = concatTesteeDf(df, testee_id, testee_df)
-        
+
         end = time.time()
         testee_eta = end - start
         print("testee_eta: " + f"{testee_eta:.2f} sec")

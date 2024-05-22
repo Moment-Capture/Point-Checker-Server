@@ -4,10 +4,8 @@ from pathlib import Path
 from natsort import os_sorted
 from ultralytics import YOLO
 
+from path import *
 from utils import cropBox, concatImage
-
-
-BE_PATH = "/home/ubuntu/Point-Checker/Backend"
 
 
 def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_path):
