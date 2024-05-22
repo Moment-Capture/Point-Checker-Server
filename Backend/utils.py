@@ -341,7 +341,7 @@ def readTesteeName(img, reader):
   # tamilocr 사용
   text = ""
   ocr_text = OCR().predict(image_np)
-  text = getText(ocr_text)
+  text = getNumText(ocr_text)
 
   # id가 있다면 id 반환, 없으면 none 반환
   return text
