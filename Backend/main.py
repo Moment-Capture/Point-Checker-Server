@@ -89,9 +89,8 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     makeIdFolder(path)
 
     # df, testee_df 생성
-    df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer", "correct_answer"])
-    # df.set_index(["testee_id", "file"], inplace=True)
-    testee_df = pd.DataFrame(columns=["file", "num", "testee_answer", "correct_answer"])
+    df = pd.DataFrame(columns=["testee_id", "file", "num", "testee_answer"])
+    testee_df = pd.DataFrame(columns=["file", "num", "testee_answer"])
 
     # pdf 파일 탐지
     original_pdf_file_path_list = []
