@@ -13,14 +13,9 @@ from pandastable import Table
 from io import StringIO
 
 import global_vars
+import path
 
 from server import *
-from path import *
-
-
-ASSETS_PATH = OUTPUT_PATH / "assets"
-FONT_PATH = "Malgun Gothic"
-ICON_PATH = ASSETS_PATH / "pointchecker.ico"
 
 
 ##########################################################
@@ -623,7 +618,7 @@ class PandasViewer(tk.Frame):
         frame.pack(fill='both', expand=True)
 
         # PandasTable table 생성
-        self.table = Table(frame, dataframe=self.dataframe, showtoolbar=False, showstatusbar=True, showindex=True, weight=1000, height=700)
+        self.table = Table(frame, dataframe=self.dataframe, showtoolbar=False, showstatusbar=True, showindex=True, width=1000, height=700)
         self.table.show()
 
         #excel로 저장하는 버튼 생성
@@ -710,7 +705,7 @@ def show_result():
 
 # 메인 창 생성
 root = tk.Tk()
-root.title("POINTCHECKER")
+root.title("POINT CHECKER")
 root.geometry("800x660")
 root.resizable(False, False)
 root.configure(bg = "#FFDED7")#"#FFFFFF")

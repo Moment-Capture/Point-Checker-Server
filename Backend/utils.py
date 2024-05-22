@@ -164,8 +164,7 @@ def concatTesteeDf(df, testee_id, testee_df):
         file = testee_df_row["file"]
         num = testee_df_row["num"]
         testee_answer = testee_df_row["testee_answer"]
-        correct_answer = testee_df_row["correct_answer"]
-        df.loc[len(df)] = [testee_id, file, num, testee_answer, correct_answer]
+        df.loc[len(df)] = [testee_id, file, num, testee_answer]
   
     return df
 
@@ -173,10 +172,7 @@ def concatTesteeDf(df, testee_id, testee_df):
 #df를 최종 출력 형태로 변환
 def dfToFinalDf(df):
     final_df = pd.DataFrame()
-    # final_df = df[df.testee_answer != 0]
     final_df = df
-    # final_df = final_df.drop(["file"], axis=1)
-    # final_df = final_df[final_df.correct_answer != 0]
     final_df = final_df.set_index(keys=["num"], drop=True)
     final_df = final_df.sort_index(ascending=True)
     final_df = final_df.reset_index(drop=False)
