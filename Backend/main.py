@@ -156,19 +156,15 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     print()
     print_full(display_testeed_jpg_df)
     
-
     # 응시자 수만큼 해당 과정 반복
-    for i in range(1, testee_num+1):
+    for id_idx, id_row in id_match.iterrows():
         # 응시자별 폴더 생성
         start = time.time()
-
-        if not i in id_match.index:
-            continue
         
-        index_id = i
+        index_id = id_idx
         this_id = "testee_" + str(index_id)
-        testee_id = id_match.loc[index_id, "testee_id"]
-        testee_name = id_match.loc[index_id, "testee_name"]
+        testee_id = id_row["testee_id"]
+        testee_name = id_row["testee_name"]
 
         # if str(i) in id_match:
         #     testee_id = id_match[str(i)]
@@ -210,6 +206,62 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         end = time.time()
         testee_eta = end - start
         print("testee_eta: " + f"{testee_eta:.2f} sec")
+
+
+    # # 응시자 수만큼 해당 과정 반복
+    # for i in range(1, testee_num+1):
+    #     # 응시자별 폴더 생성
+    #     start = time.time()
+
+    #     if not i in id_match.index:
+    #         continue
+        
+    #     index_id = i
+    #     this_id = "testee_" + str(index_id)
+    #     testee_id = id_match.loc[index_id, "testee_id"]
+    #     testee_name = id_match.loc[index_id, "testee_name"]
+
+    #     # if str(i) in id_match:
+    #     #     testee_id = id_match[str(i)]
+    #     #     testee_name = id_match[str(i)][testee_id]
+
+    #     testee_path = temp_path + "/" + this_id
+    #     makeTesteeFolder(testee_path)
+
+    #     print()
+    #     print("testee_id: " + testee_id)
+    #     print()
+
+    #     # 응시자별 폴더로 jpg 나누기
+    #     for idx, row in testee_jpg_df.iterrows():
+    #         if row["index_id"] == index_id:
+    #             testee_jpg_path = row["file"]
+    #             testee_jpg_name = os.path.basename(testee_jpg_path)
+    #             testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
+    #             shutil.move(testee_jpg_path, testee_jpg_copy_path)
+
+    #     # 응시자별 df 생성
+    #     testee_df = pd.DataFrame()
+
+    #     if is_mul and is_sub:
+    #         testee_df = getMulSubDf(testee_path)
+    #     else:
+    #         if is_mul:
+    #             testee_df = getMulDf(testee_path)
+    #         if is_sub:
+    #             testee_df = getSubDf(testee_path)
+
+    #     # 전체 df와 합치기
+    #     testee_df.sort_values(by=["num"], inplace=True)
+    #     if testee_name:
+    #         df = concatTesteeDf(df, testee_name, testee_df)
+    #     else:
+    #         df = concatTesteeDf(df, this_id, testee_df)
+
+    #     end = time.time()
+    #     testee_eta = end - start
+    #     print("testee_eta: " + f"{testee_eta:.2f} sec")
+
 
     df.to_excel(path+"/final_df.xlsx")
 
