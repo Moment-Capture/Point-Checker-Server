@@ -732,12 +732,12 @@ canvas_r = tk.Canvas(
 ) 
 canvas_r.pack(side=tk.RIGHT, padx=0, pady=0)
 
-# 툴바 버튼 생성 
-photo = PhotoImage(file = ASSETS_PATH / "btn_img/tool1.png")
+# 툴바 버튼 생성
+photo = PhotoImage(file = relative_to_assets("btn_img/tool1.png"))
 transfer_button = tk.Button(root, image=photo, command=show_transfer, bg="#FFDED7", borderwidth=-1)
 transfer_button.pack(padx=10, pady=10)
 
-photo2 = PhotoImage(file = ASSETS_PATH / "btn_img/tool2.png")
+photo2 = PhotoImage(file = relative_to_assets("btn_img/tool2.png"))
 home_button = tk.Button(root, image=photo2, command=show_grade, bg="#FFDED7", borderwidth=-1) 
 home_button.pack( padx=10, pady=10) 
 
