@@ -92,7 +92,7 @@ def testeeIdJpgDf(df, testee_jpg_df, id_match):
         testee_id = testee_jpg_df_row["testee_id"]
         testee_name = ""
         if testee_id != "":
-            testee_name = id_match[testee_id]
+            testee_name = id_match[index_id][testee_id]
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
         df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
