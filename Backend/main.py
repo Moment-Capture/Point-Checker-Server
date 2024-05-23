@@ -147,9 +147,9 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
     testee_jpg_df.to_excel(jpg_path + "/testee_jpg_df.xlsx")
 
-    testee_id_jpg_df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
+    testee_id_jpg_df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
     testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
-    display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["testee_id", "testee_name", "file"], drop=True)
+    display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["index_id", "testee_id", "testee_name", "file"], drop=True)
     
     print()
     print(id_match)
@@ -159,24 +159,26 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # 응시자 수만큼 해당 과정 반복
     for i in range(1, testee_num+1):
-        start = time.time()
         # 응시자별 폴더 생성
-        testee_id = "testee" + str(i)
+        start = time.time()
         
+        index_id = "testee_" + str(i)
         testee_name = ""
-        if str(i) in testee_name:
-            testee_name = id_match[str(i)]
 
-        testee_path = temp_path + "/" + testee_id
+        if str(i) in id_match:
+            testee_id = id_match[str(i)]
+            testee_name = id_match[str(i)][testee_id]
+
+        testee_path = temp_path + "/" + index_id
         makeTesteeFolder(testee_path)
 
         print()
-        print(testee_id)
+        print(index_id)
         print()
 
         # 응시자별 폴더로 jpg 나누기
         for idx, row in testee_jpg_df.iterrows():
-            if row["testee_id"] == str(i):
+            if row["indext_id"] == str(i):
                 testee_jpg_path = row["file"]
                 testee_jpg_name = os.path.basename(testee_jpg_path)
                 testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
@@ -198,7 +200,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         if testee_name:
             df = concatTesteeDf(df, testee_name, testee_df)
         else:
-            df = concatTesteeDf(df, testee_id, testee_df)
+            df = concatTesteeDf(df, index_id, testee_df)
 
         end = time.time()
         testee_eta = end - start

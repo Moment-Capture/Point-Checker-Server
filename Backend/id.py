@@ -4,6 +4,8 @@ import easyocr
 
 import numpy as np
 
+from PIL import Image
+
 from utils import *
 
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
@@ -52,11 +54,14 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     # id_match 딕셔너리 초기화
     id_match = dict()
 
+    # index_id
+    index_id = 1
+
     # 폴더 내의 모든 파일에 대해 반복
     for file in jpg_file_path_list:
         # 이미지 파일 열기
         img = Image.open(file)
-        img = img.resize((794,1123),Image.LANCZOS) # 인식 위치를 같게 만들기 위한 이미지 규격화.
+        img = img.resize((794,1123), Image.LANCZOS) # 인식 위치를 같게 만들기 위한 이미지 규격화.
 
         # 왼쪽 상단 num_id와 page 인식
         x1, y1, x2, y2 = (35, 35, 160, 90)
@@ -71,22 +76,24 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if page == "1":
             testee_name = readTesteeName(img, reader)
-            id_match[testee_id] = testee_name
+            id_match[index_id] = {testee_id : testee_name}
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [file, testee_id, page]
+        index_id += 1
 
     return testee_jpg_df, id_match
 
 ### testee_jpg_df에 사용자 이름 추가
 def testeeIdJpgDf(df, testee_jpg_df, id_match):
-    # df = pd.DataFrame(columns=["testee_id", "testee_name", "file", "page"])
+    # df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
     for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
+        index_id = testee_jpg_df_row["index_id"]
         testee_id = testee_jpg_df_row["testee_id"]
         testee_name = ""
         if testee_id != "":
             testee_name = id_match[testee_id]
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
-        df.loc[len(df)] = [testee_id, testee_name, file, page]
+        df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
 
     return df  
