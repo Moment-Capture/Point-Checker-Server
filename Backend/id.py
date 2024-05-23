@@ -79,7 +79,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
             testee_name = readTesteeName(img, reader)
             id_match[index_id] = {testee_id : testee_name}
 
-        testee_jpg_df.loc[len(testee_jpg_df)] = [file, testee_id, page]
+        testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
         index_id += 1
 
     return testee_jpg_df, id_match
