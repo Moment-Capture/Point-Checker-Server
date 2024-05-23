@@ -138,7 +138,11 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         start = time.time()
         # 응시자별 폴더 생성
         testee_id = "testee" + str(i)
-        testee_name = id_match[str(i)]
+        
+        testee_name = ""
+        if str(i) in testee_name:
+            testee_name = id_match[str(i)]
+
         testee_path = temp_path + "/" + testee_id
         makeTesteeFolder(testee_path)
 
