@@ -9,9 +9,10 @@ from natsort import os_sorted
 from qna import categorize_qna
 from mul import detect_multiple
 from sub import detect_subjective
+
 from path import *
 from utils import *
-
+from id import *
 
 def getMulDf(testee_path):
     # 경로 정의
