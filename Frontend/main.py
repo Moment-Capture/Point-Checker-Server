@@ -16,10 +16,6 @@ from pandastable import Table
 
 from io import StringIO
 
-import global_vars
-from path import *
-from server import *
-
 ##########################################################
 ##########################################################
 ### import global_vars
@@ -56,7 +52,8 @@ TOOL2_PATH = relative_to_btn_img("tool2.png")
 url = "http://13.125.91.116:8080"
 
 def set_global(data):
-    global_vars.json_data = data
+    global json_data
+    json_data = data
 
 
 ## id 생성 ##
@@ -71,6 +68,7 @@ def getId():
 
 ## 서버 연결하는 함수 ##
 def start_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
+    global json_data
     response = post_server(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category)
     json_data = json.loads(response.text)
     
@@ -215,39 +213,6 @@ def show_popup():
 def browse_file2():
     file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
     answer_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
-
-
-# ### 서버 연결하는 함수 ###
-# def server_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
-#     global df
-#     global json_data
-    
-#     url = "http://13.125.91.116:8080/upload"
-
-#     data = {
-#         'test_name':test_name,
-#         'copy_num':copy_num,
-#         'total_qna_num':total_qna_num,
-#         'testee_num':testee_num,
-#         'test_category':test_category
-#     }
-
-#     files = {
-#         'pdf':open(pdf_path, "rb"),
-#         'data':(None, json.dumps(data), 'application/json')
-#     }
-
-#     response = requests.post(url, files=files)
-#     json_data = json.loads(response.text)
-#     json_path = OUTPUT_PATH / "data.json"
-
-#     with open(json_path, 'w') as f:
-#         json.dump(json_data, f)
-    
-#     df = pd.json_normalize(json_data)
-#     df.drop(columns=["file"], inplace=True)
-#     df.set_index(["testee_id", "num"], inplace=True)
-#     print(df)
 
 
 
@@ -769,10 +734,12 @@ def json_to_df_for_tables(data):
 
 
 def show_result():
+    global json_data
+    
     # Initialize Tkinter
     root2 = tk.Toplevel()
 
-    data = global_vars.json_data
+    data = json_data
 
     print(data)
 
