@@ -351,7 +351,7 @@ def getStringTamil(img):
 
 ### 오른쪽 상단 testee_name 인식 함수 ###
 def readTesteeName(img, reader):
-  x1, y1, x2, y2 = (620, 30, 750, 65)
+  x1, y1, x2, y2 = (610, 30, 750, 90)
   cropped_img = img.crop((x1, y1, x2, y2))
   image_np = np.array(cropped_img)
   
@@ -390,7 +390,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         img = img.resize((794,1123),Image.LANCZOS) # 인식 위치를 같게 만들기 위한 이미지 규격화.
 
         # 왼쪽 상단 num_id와 page 인식
-        x1, y1, x2, y2 = (30, 30, 165, 70)
+        x1, y1, x2, y2 = (35, 35, 160, 90)
         cropped_img = img.crop((x1, y1, x2, y2))
         image_np = np.array(cropped_img)
 
