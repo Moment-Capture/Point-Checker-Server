@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image
 
 from utils import getNumText
+from utils import *
 
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
