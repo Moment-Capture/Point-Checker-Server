@@ -71,7 +71,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     id_match = pd.DataFrame(columns=["testee_id", "testee_name"])
 
     # index_id
-    index_id = 1
+    index_id = 0
 
     # 폴더 내의 모든 파일에 대해 반복
     for file in jpg_file_path_list:
