@@ -13,19 +13,9 @@ from pandastable import Table
 from io import StringIO
 
 import global_vars
-import path
 
+from path import *
 from server import *
-
-
-##########################################################
-##########################################################
-
-
-
-### assets의 상대 경로 ###
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
 
 
 
@@ -543,8 +533,8 @@ def show_grade():
                 tk.messagebox.showinfo("채점 완료", "채점이 완료되었습니다.\n채점 결과 확인 버튼을 누르세요.")
         else:
             # 시험 정보가 모두 입력되지 않은 경우 안내창 표시
-            print("안채워짐")
-            tk.messagebox.showinfo("안내", "시험 정보를 입력하세요.")
+            print("시험 정보가 다 안 채워짐")
+            tk.messagebox.showinfo("안내", "시험 정보를 다 입력하세요.")
 
 
     # 4. 채점 버튼을 클릭하세요
@@ -733,11 +723,11 @@ canvas_r = tk.Canvas(
 canvas_r.pack(side=tk.RIGHT, padx=0, pady=0)
 
 # 툴바 버튼 생성
-photo = PhotoImage(file = relative_to_assets("btn_img/tool1.png"))
+photo = PhotoImage(file = TOOL1_PATH)
 transfer_button = tk.Button(root, image=photo, command=show_transfer, bg="#FFDED7", borderwidth=-1)
 transfer_button.pack(padx=10, pady=10)
 
-photo2 = PhotoImage(file = relative_to_assets("btn_img/tool2.png"))
+photo2 = PhotoImage(file = TOOL2_PATH)
 home_button = tk.Button(root, image=photo2, command=show_grade, bg="#FFDED7", borderwidth=-1) 
 home_button.pack( padx=10, pady=10) 
 

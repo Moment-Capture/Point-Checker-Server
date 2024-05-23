@@ -15,7 +15,7 @@ def set_global(data):
     global_vars.json_data = data
 
 
-# id 생성
+## id 생성 ##
 def getId():
     client_ip = ip.get()
     access_now = datetime.datetime.now()
@@ -25,14 +25,10 @@ def getId():
     return client_id
 
 
-### 서버 연결하는 함수 ###
+## 서버 연결하는 함수 ##
 def start_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     response = post_server(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category)
     json_data = json.loads(response.text)
-    json_path = OUTPUT_PATH / "data.json"
-
-    with open(json_path, 'w') as f:
-        json.dump(json_data, f)
     
     df = pd.json_normalize(json_data)
     df.drop(columns=["file"], inplace=True)
@@ -43,7 +39,7 @@ def start_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test
     return True
 
 
-### 서버에 post하는 함수 ###
+## 서버에 post하는 함수 ##
 def post_server(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     global client_id
 
