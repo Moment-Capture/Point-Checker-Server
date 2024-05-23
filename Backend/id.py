@@ -55,6 +55,7 @@ def testeeIdJpgDf(df, testee_jpg_df, id_match):
         testee_name = ""
         if testee_id != "":
             testee_name = id_match.loc[index_id-1, "testee_name"]
+            print(testee_name)
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
         df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
