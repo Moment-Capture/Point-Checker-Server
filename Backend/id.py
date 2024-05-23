@@ -92,7 +92,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if page == "1":
             testee_name = readTesteeName(img, reader)
-            id_match.loc[len(id_match.loc)] = [index_id, testee_id, testee_name]
+            id_match.loc[len(id_match)] = [index_id, testee_id, testee_name]
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
         index_id += 1
