@@ -17,8 +17,6 @@ from PIL import Image
 sys.path.append(os.path.dirname(os.getcwd() + "/models/tamil_ocr/ocr_tamil"))
 from ocr_tamil.ocr import OCR
 
-from id import *
-
 
 # 인트로 출력
 def print_intro():
