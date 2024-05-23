@@ -108,7 +108,6 @@ def categorize_qna(path):
 
     # 입력 파일 정렬
     images = os_sorted(Path(path).glob('*.jpg'))
-    print(images)
 
     # 잘린 예외 문항들 저장 array
     cropped_qna_arr = []
