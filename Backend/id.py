@@ -101,5 +101,6 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     print(testee_jpg_df)
     print()
     print(id_match)
+    print()
 
     return testee_jpg_df, id_match
