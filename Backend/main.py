@@ -180,7 +180,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
         # 응시자별 폴더로 jpg 나누기
         for idx, row in testee_jpg_df.iterrows():
-            if row["indext_id"] == str(i):
+            if row["index_id"] == str(i):
                 testee_jpg_path = row["file"]
                 testee_jpg_name = os.path.basename(testee_jpg_path)
                 testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
