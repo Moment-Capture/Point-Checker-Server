@@ -93,9 +93,9 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         if page == "1":
             testee_name = readTesteeName(img, reader)
             id_match.loc[len(id_match)] = [testee_id, testee_name]
+            index_id += 1
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
-        index_id += 1
 
     id_match.index += 1
 
