@@ -162,10 +162,10 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         # 응시자별 폴더 생성
         start = time.time()
         
-        index_id = str(i)
-        this_id = "testee_" + index_id
-        testee_id = id_match.loc[i, "testee_id"]
-        testee_name = id_match.loc[i, "testee_name"]
+        index_id = i
+        this_id = "testee_" + str(index_id)
+        testee_id = id_match.loc[index_id, "testee_id"]
+        testee_name = id_match.loc[index_id, "testee_name"]
 
         # if str(i) in id_match:
         #     testee_id = id_match[str(i)]
@@ -175,12 +175,12 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         makeTesteeFolder(testee_path)
 
         print()
-        print("testeed_id: " + testee_id)
+        print("testee_id: " + testee_id)
         print()
 
         # 응시자별 폴더로 jpg 나누기
         for idx, row in testee_jpg_df.iterrows():
-            if row["index_id"] == str(i):
+            if row["index_id"] == index_id:
                 testee_jpg_path = row["file"]
                 testee_jpg_name = os.path.basename(testee_jpg_path)
                 testee_jpg_copy_path = testee_path + "/" + testee_jpg_name
