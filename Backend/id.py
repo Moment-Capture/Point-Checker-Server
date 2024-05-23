@@ -46,16 +46,13 @@ def extractTesteeId(text):
         return "", ""
 
 
-### testee_jpg_df에 사용자 이름 추가
+### testee_jpg_df에 id_match 추가
 def testeeIdJpgDf(df, testee_jpg_df, id_match):
     # df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
     for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
         index_id = testee_jpg_df_row["index_id"]
         testee_id = testee_jpg_df_row["testee_id"]
-        testee_name = ""
-        if testee_id != "":
-            testee_name = id_match.loc[index_id-1, "testee_name"]
-            print(testee_name)
+        testee_name = id_match.loc[index_id, "testee_name"]
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
         df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
@@ -99,5 +96,10 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
 
     id_match.index += 1
+
+    print()
+    print(testee_jpg_df)
+    print()
+    print(id_match)
 
     return testee_jpg_df, id_match
