@@ -99,7 +99,4 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
 
     id_match.index += 1
 
-    print_full(testee_jpg_df)
-    print_full(id_match)
-
     return testee_jpg_df, id_match
