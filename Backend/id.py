@@ -54,7 +54,7 @@ def testeeIdJpgDf(df, testee_jpg_df, id_match):
         testee_id = testee_jpg_df_row["testee_id"]
         testee_name = ""
         if testee_id != "":
-            testee_name = id_match[[id_match["index_id"]==index_id]]["testee_name"]
+            testee_name = id_match.iloc[index_id]["testee_name"]
         file = testee_jpg_df_row["file"]
         page = testee_jpg_df_row["page"]
         df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
@@ -98,5 +98,5 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         index_id += 1
 
     id_match.index += 1
-    
+
     return testee_jpg_df, id_match
