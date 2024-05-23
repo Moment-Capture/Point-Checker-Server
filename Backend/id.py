@@ -32,7 +32,6 @@ def readTesteeName(img, reader):
   ocr_text = OCR().predict(image_np)
   text = getNumText(ocr_text)
 
-  # id가 있다면 id 반환, 없으면 none 반환
   return text
 
 
@@ -47,13 +46,29 @@ def extractTesteeId(text):
         return "", ""
 
 
+### testee_jpg_df에 사용자 이름 추가
+def testeeIdJpgDf(df, testee_jpg_df, id_match):
+    # df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
+    for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
+        index_id = testee_jpg_df_row["index_id"]
+        testee_id = testee_jpg_df_row["testee_id"]
+        testee_name = ""
+        if testee_id != "":
+            testee_name = id_match[index_id][testee_id]
+        file = testee_jpg_df_row["file"]
+        page = testee_jpg_df_row["page"]
+        df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
+
+    return df  
+
+
 ### 텍스트 부분 잘라내기 함수 (메인) ###
 def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     # easyOCR 사용
     reader = easyocr.Reader(['ko', 'en'])
     
     # id_match 딕셔너리 초기화
-    id_match = dict()
+    id_match = pd.DataFrame(columns=["index_id", "testee_id", "testee_name"])
 
     # index_id
     index_id = 1
@@ -77,24 +92,9 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if page == "1":
             testee_name = readTesteeName(img, reader)
-            id_match[index_id] = {testee_id : testee_name}
+            id_match.loc[len(id_match.loc)] = [index_id, testee_id, testee_name]
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
         index_id += 1
 
     return testee_jpg_df, id_match
-
-### testee_jpg_df에 사용자 이름 추가
-def testeeIdJpgDf(df, testee_jpg_df, id_match):
-    # df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
-    for testee_jpg_df_idx, testee_jpg_df_row in testee_jpg_df.iterrows():
-        index_id = testee_jpg_df_row["index_id"]
-        testee_id = testee_jpg_df_row["testee_id"]
-        testee_name = ""
-        if testee_id != "":
-            testee_name = id_match[index_id][testee_id]
-        file = testee_jpg_df_row["file"]
-        page = testee_jpg_df_row["page"]
-        df.loc[len(df)] = [index_id, testee_id, testee_name, file, page]
-
-    return df  

@@ -143,7 +143,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # jpg에 적힌 코드 인식해서 testee 구분
     testee_jpg_df = pd.DataFrame(columns=["index_id", "file", "testee_id", "page"])
-    id_match = {} #id_match는 testee_id와 id를 연결하는 딕셔너리
+    id_match = pd.DataFrame(columns=["index_id", "testee_id", "testee_name"])
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
     testee_jpg_df.to_excel(jpg_path + "/testee_jpg_df.xlsx")
 
@@ -163,11 +163,12 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         start = time.time()
         
         index_id = "testee_" + str(i)
-        testee_name = ""
+        testee_id = id_match[id_match[index_id]==str(i)]["testee_id"]
+        testee_id = id_match[id_match[index_id]==str(i)]["testee_name"]
 
-        if str(i) in id_match:
-            testee_id = id_match[str(i)]
-            testee_name = id_match[str(i)][testee_id]
+        # if str(i) in id_match:
+        #     testee_id = id_match[str(i)]
+        #     testee_name = id_match[str(i)][testee_id]
 
         testee_path = temp_path + "/" + index_id
         makeTesteeFolder(testee_path)
