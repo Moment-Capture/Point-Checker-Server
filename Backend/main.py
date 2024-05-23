@@ -21,8 +21,19 @@ def getMulDf(testee_path):
     reader = easyocr.Reader(['ko', 'en'])
 
     # 문제 인식 및 채점 진행
+    start = time.time()
     categorize_qna(path)
+    end = time.time()
+    qna_eta = end - start
+
+    start = time.time()
     mul_df = detect_multiple(path, reader)
+    end = time.time()
+    mul_eta = end - start
+
+    print()
+    print("qna_eta: " + f"{qna_eta:.2f} sec")
+    print("mul_eta: " + f"{mul_eta:.2f} sec")
 
     return mul_df
 
@@ -35,8 +46,19 @@ def getSubDf(testee_path):
     reader = easyocr.Reader(['ko', 'en'])
 
     # 문제 인식 및 채점 진행
+    start = time.time()
     categorize_qna(path)
-    sub_df = detect_subjective(path, reader)
+    end = time.time()
+    qna_eta = end - start
+
+    start = time.time()
+    sub_df = detect_multiple(path, reader)
+    end = time.time()
+    sub_eta = end - start
+
+    print()
+    print("qna_eta: " + f"{qna_eta:.2f} sec")
+    print("sub_eta: " + f"{sub_eta:.2f} sec")
 
     return sub_df
 
