@@ -68,7 +68,7 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
     reader = easyocr.Reader(['ko', 'en'])
     
     # id_match 딕셔너리 초기화
-    id_match = pd.DataFrame(columns=["index_id", "testee_id", "testee_name"])
+    id_match = pd.DataFrame(columns=["testee_id", "testee_name"])
 
     # index_id
     index_id = 1
@@ -92,9 +92,11 @@ def testeeCodeRecognition(jpg_file_path_list, testee_jpg_df):
         # page가 1인 경우 testee_id와 testee_name를 id_match에 딕셔너리로 추가
         if page == "1":
             testee_name = readTesteeName(img, reader)
-            id_match.loc[len(id_match)] = [index_id, testee_id, testee_name]
+            id_match.loc[len(id_match)] = [testee_id, testee_name]
 
         testee_jpg_df.loc[len(testee_jpg_df)] = [index_id, file, testee_id, page]
         index_id += 1
 
+    id_match.index += 1
+    
     return testee_jpg_df, id_match

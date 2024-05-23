@@ -143,7 +143,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     # jpg에 적힌 코드 인식해서 testee 구분
     testee_jpg_df = pd.DataFrame(columns=["index_id", "file", "testee_id", "page"])
-    id_match = pd.DataFrame(columns=["index_id", "testee_id", "testee_name"])
+    id_match = pd.DataFrame(columns=["testee_id", "testee_name"])
     testee_jpg_df, id_match = testeeCodeRecognition(jpg_file_path_list, testee_jpg_df)
     testee_jpg_df.to_excel(jpg_path + "/testee_jpg_df.xlsx")
 
@@ -164,8 +164,8 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         
         index_id = str(i)
         this_id = "testee_" + index_id
-        testee_id = testee_name = id_match[[id_match["index_id"]==index_id]]["testee_name"]
-        testee_name = testee_name = id_match[[id_match["index_id"]==index_id]]["testee_name"]
+        testee_id = testee_name = id_match.iloc[index_id]["testee_id"]
+        testee_name = testee_name = id_match.iloc[index_id]["testee_name"]
 
         # if str(i) in id_match:
         #     testee_id = id_match[str(i)]
@@ -175,7 +175,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         makeTesteeFolder(testee_path)
 
         print()
-        print(this_id)
+        print("testeed_id: " + testee_id)
         print()
 
         # 응시자별 폴더로 jpg 나누기
