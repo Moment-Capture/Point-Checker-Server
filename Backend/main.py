@@ -164,7 +164,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         
         index_id = "testee_" + str(i)
         testee_id = id_match[id_match[index_id]==str(i)]["testee_id"]
-        testee_id = id_match[id_match[index_id]==str(i)]["testee_name"]
+        testee_name = id_match[id_match[index_id]==str(i)]["testee_name"]
 
         # if str(i) in id_match:
         #     testee_id = id_match[str(i)]
