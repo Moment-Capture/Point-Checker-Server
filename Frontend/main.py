@@ -751,7 +751,7 @@ def show_result():
 
 # 메인 창 생성
 root = tk.Tk()
-root.title("POINT CHECKER")
+root.title("POINT-CHECKER")
 root.geometry("800x660")
 root.resizable(False, False)
 root.configure(bg = "#FFDED7")#"#FFFFFF")
