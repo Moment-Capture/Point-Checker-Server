@@ -38,7 +38,7 @@ def get_json(client_id):
     json_path = id_path + "/" + "data.json"
 
     with open(json_path) as f:
-        json_data = load(f)
+        json_data = json.load(f)
 
     return json_data, 200
 
