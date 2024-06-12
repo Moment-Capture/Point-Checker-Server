@@ -512,7 +512,7 @@ def show_grade():
 
             tThread = Thread(target=start_connect, args=(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
                         testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())], progress_bar))
-            tThread.setDaemon(True)
+            tThread.daemon = True
             tThread.start()
 
         else:
