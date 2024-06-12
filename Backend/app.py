@@ -80,7 +80,7 @@ def upload_files():
 @app.route("/plural", methods=["GET"])
 def plural_check():
     client_id = request.args.get("client_id", type=str)
-    test_name = request.args.get("test_name", type=int)
+    test_name = request.args.get("test_name", type=str)
     copy_num = request.args.get("copy_num", type=int)
     total_qna_num = request.args.get("total_qna_num", type=int)
     testee_num = request.args.get("testee_num", type=int)
