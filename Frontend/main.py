@@ -93,7 +93,7 @@ def start_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test
 def post_server(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
     post_url = url + "/upload"
     test_name = getTestName(test_name)
-    client_id = getId()
+    client_id = getId(test_name)
 
     data = {
         'client_id':client_id,
