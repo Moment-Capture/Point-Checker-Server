@@ -47,7 +47,7 @@ def upload_files():
         id_path = UPLOAD_FOLDER + "/" + client_id
 
         ## id 폴더 생성 ##
-        # makeIdFolder(id_path)
+        makeIdFolder(id_path)
 
         pdf = files["pdf"]
         pdf_name = pdf.filename
