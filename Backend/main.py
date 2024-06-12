@@ -192,12 +192,12 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         testee_df = pd.DataFrame()
 
         if is_mul and is_sub:
-            testee_df = getMulSubDf(testee_path)
+            testee_df = getMulSubDf(testee_path, total_qna_num)
         else:
             if is_mul:
-                testee_df = getMulDf(testee_path)
+                testee_df = getMulDf(testee_path, total_qna_num)
             if is_sub:
-                testee_df = getSubDf(testee_path)
+                testee_df = getSubDf(testee_path, total_qna_num)
         
         # 만약 testee_df['num']에 빈 곳이 하나 있으면 없는 번호로 채우기
         testee_df = fillOneDf(testee_df)
