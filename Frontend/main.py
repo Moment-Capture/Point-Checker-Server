@@ -614,10 +614,11 @@ def show_grade():
 
             is_scoring_finished = 0
 
-            tThread = Thread(target=start_connect, args=(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
-                        testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())], progress_bar))
-            tThread.setDaemon(True)
-            tThread.start()
+            # tThread = Thread(target=start_connect, args=(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
+            #             testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())], progress_bar))
+            # tThread.setDaemon(True)
+            # tThread.start()
+            start_connect(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(), testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())], progress_bar)
 
         else:
             # 시험 정보가 모두 입력되지 않은 경우 안내창 표시
