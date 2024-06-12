@@ -5,3 +5,5 @@ Frontend/.DS_Store
 Frontend/__pycache__/server.cpython-312.pyc
 Frontend/__pycache__/path.cpython-312.pyc
 Frontend/__pycache__/global_vars.cpython-312.pyc
+Frontend/Point-Checker.spec
+Frontend/build/Point-Checker/base_library.zip
