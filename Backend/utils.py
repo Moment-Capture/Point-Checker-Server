@@ -19,7 +19,7 @@ from ocr_tamil.ocr import OCR
 
 
 # 인트로 출력
-def print_intro():
+def printIntro():
     print()
     print("========================")
     print("환영합니다.")
@@ -30,7 +30,7 @@ def print_intro():
 
 
 # 아웃트로 출력
-def print_outro():
+def printOutro():
     print()
     print("========================")
     print("감사합니다.")
@@ -39,11 +39,19 @@ def print_outro():
 
 
 # 모든 df cmd로 출력
-def print_full(df):
+def printFull(df):
     pd.set_option('display.max_rows', len(df))
     print(df)
     pd.reset_option('display.max_rows')
     return
+
+
+# 값 확인
+def printVal(val_name, val_data):
+    print()
+    print(str(val_name) + ": ")
+    print(str(val_data))
+    print()
 
 
 # 이미지와 박스 영역을 주면 박스 영역 추출
@@ -179,6 +187,22 @@ def dfToFinalDf(df):
     return final_df
 
 
+# 만약 testee_df['num']에 빈 곳이 하나 있으면 없는 번호로 채우기
+def fillOneDf(testee_df):
+    if (testee_df["num"] == -1).sum() == 1:
+        missing_idx = testee_df[testee_df["num"] == -1].index[0]
+        existing_numbers = testee_df["num"][testee_df["num"] != -1].tolist()
+        existing_numbers = list(map(int, existing_numbers))
+
+        new_number = 1
+        while new_number in existing_numbers:
+            new_number += 1
+            
+        testee_df.at[missing_idx, "num"] = new_number
+    
+    return testee_df
+
+
 # 입력 받은 label을 int로 변환
 def labelToInt(label):
     if label == "check1":
@@ -222,8 +246,8 @@ def deleteFolder(path):
 
 # 응시자 폴더 생성
 def makeTesteeFolder(testee_path):
-    mul_path = testee_path + "/mul"
-    sub_path = testee_path + "/sub"
+    mul_path = testee_path + "/" + "mul"
+    sub_path = testee_path + "/" + "sub"
         
     ## temp 하위 폴더 생성 ##
     # 해당 tester의 폴더 생성
@@ -239,8 +263,8 @@ def makeTesteeFolder(testee_path):
 # id 폴더 생성
 def makeIdFolder(upload_path):
     id_path = str(Path(upload_path))
-    jpg_path = id_path + "/jpg"
-    temp_path = id_path + "/temp"
+    jpg_path = id_path + "/" + "jpg"
+    temp_path = id_path + "/" + "temp"
 
     ## 결과 저장 폴더 생성 ##
     # 해당 id의 폴더 생성
@@ -253,14 +277,27 @@ def makeIdFolder(upload_path):
     makeFolder(temp_path)
 
 
-# id 생성
-def getId():
-    client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    access_now = datetime.datetime.now()
-    access_date = access_now.strftime("%Y-%m-%d")
-    access_time = access_now.strftime("%H-%M-%S")
-    id = client_ip + "_" + access_date + "_" + access_time
-    return id
+# 이미지 전처리
+def preprocess_image(img):
+    # 대비 조정
+    img = cv2.convertScaleAbs(img, alpha=0.9, beta=0)
+    
+    return img
+
+
+# 답안 이미지 전처리
+def preprocess_image_answer(img):
+    # 대비 조정
+    img = cv2.convertScaleAbs(img, alpha=0.9, beta=0)
+    
+    # upscale & blur
+    scale_factor = 2
+    upscaled = cv2.resize(img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
+    blur = cv2.blur(upscaled, (5, 5))
+
+    img = blur
+    
+    return img
 
 
 # ocr_text에서 숫자만 추출
@@ -270,31 +307,36 @@ def getNumText(ocr_text):
         for t in txt:
             if (t.isdigit()):
                 text += t
-            elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/'):
+            elif (t == 'l' or t == 'i' or t == 'I' or t == '|' or t == '/' or t == ')'):
                 text += '1'
+            elif (t == '그'):
+                text += '2'
+            elif (t == 'b'):
+                text += '6'
+            elif (t == 'o'):
+                text += '8'
             elif (t == 'q'):
                 text += '9'
     return text
 
 
 # 문항 번호 반환 - EasyOCR
-def getNumEasy(num, img, reader):
+def getNumEasy(img, reader):
+    num = -1
+    img = preprocess_image(img)
     ocr_text = reader.readtext(img, detail=0)
     text = getNumText(ocr_text)
     
     if text:
         num = int(text)
-    else:
-        num = getNumTamil(num, img)
-    
-    # if num == -1:
-    #     num = getNumTamil(num, img)
     
     return num
 
 
 # 문항 번호 반환 - OCR Tamil
-def getNumTamil(num, img):
+def getNumTamil(img):
+    num = -1
+    img = preprocess_image(img)
     ocr_text = OCR().predict(img)
     text = getNumText(ocr_text)
     
@@ -304,24 +346,90 @@ def getNumTamil(num, img):
     return num
 
 
-# 단답 답안 반환 - OCR Tamil
-def getAnswerTamil(answer, img):
+def checkNum(num, total_num, num_list):
+    if num in num_list:
+        num = -1
+    if num > total_num:
+        num = -1
+    
+    return num
+
+
+# qna_num 반환
+def getQnaNum(num_list, img, total_qna_num, reader):
+    total_num = int(total_qna_num)
+    qna_num = -1
+    num = getNumTamil(img)
+    num = checkNum(num, total_num, num_list)
+    
+    if num == -1:
+        num = getNumEasy(img, reader)
+        num = checkNum(num, total_num, num_list)
+    
+    qna_num = num
+
+    if qna_num != -1:
+        num_list.append(qna_num)
+    
+    return qna_num
+
+
+# 문항 번호 반환 - EasyOCR
+def getTextEasy(img, reader):
+    text = ""
+    img = preprocess_image(img)
+    ocr_text = reader.readtext(img, detail=0)
+    text = getNumText(ocr_text)
+
+    # print()
+    # print("easy")
+    # print(ocr_text)
+    
+    return text
+
+
+# 문항 번호 반환 - OCR Tamil
+def getTextTamil(img):
+    text = ""
+    img = preprocess_image(img)
+    ocr_text = OCR().predict(img)
+    text = getNumText(ocr_text)
+
+    # print()
+    # print("tamil")
+    # print(ocr_text)
+    
+    return text
+
+
+# 문항 번호 반환 - EasyOCR
+def getAnswerEasy(img, reader):
+    text = ""
+    img = preprocess_image_answer(img)
+    ocr_text = reader.readtext(img, detail=0)
+    text = getNumText(ocr_text)
+    
+    return text
+
+
+# 문항 번호 반환 - OCR Tamil
+def getAnswerTamil(img):
+    text = ""
+    img = preprocess_image_answer(img)
     ocr_text = OCR().predict(img)
     text = getNumText(ocr_text)
     
-    if text:
-        answer = text
-    
-    # else:
-    #     reader = easyocr.Reader(['ko', 'en'])
-    #     ocr_text = reader.readtext(img, detail=0)
-    #     text = getString(ocr_text)
-    #     print("문항 감지 안 됨(text): " + text)
-    #     print("문항 감지 안 됨(ocr_text):")
-    #     for ocr in ocr_text:
-    #         print(ocr)
-    
-    return answer
+    return text
+
+
+# 단답 답안 반환
+def getAnswer(img, reader):
+    text = getAnswerTamil(img)
+
+    if not text:
+        text = getAnswerEasy(img, reader)
+
+    return text 
 
 
 # ocr_text에서 문자 전체 추출

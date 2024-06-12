@@ -23,16 +23,18 @@ from ocr_tamil.ocr import OCR
 
 ### 오른쪽 상단 testee_name 인식 함수 ###
 def readTesteeName(img, reader):
-  x1, y1, x2, y2 = (610, 30, 750, 90)
-  cropped_img = img.crop((x1, y1, x2, y2))
-  image_np = np.array(cropped_img)
-  
-  # tamilocr 사용
-  text = ""
-  ocr_text = OCR().predict(image_np)
-  text = getNumText(ocr_text)
-
-  return text
+    x1, y1, x2, y2 = (610, 30, 750, 90)
+    cropped_img = img.crop((x1, y1, x2, y2))
+    image_np = np.array(cropped_img)
+    
+    # tamilocr 사용
+    text = ""
+    text = getTextTamil(image_np)
+    
+    if not text:
+        text = getTextEasy(image_np, reader)
+    
+    return text
 
 
 ### 텍스트에서 testee_id와 page를 추출하는 함수 ###

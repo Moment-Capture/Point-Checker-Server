@@ -1,4 +1,8 @@
-from pathlib import Path
+if __name__ == "__main__":
+    from multiprocessing import freeze_support
+    freeze_support()
+
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
@@ -6,13 +10,11 @@ from tkinter import *
 
 import os
 import fitz
+import json
 
 import pandas as pd
+from threading import Thread
 from pandastable import Table
-
-from io import StringIO
-
-import global_vars
 
 from path import *
 from server import *
@@ -28,6 +30,9 @@ widgets = []
 entry_columns = []
 file_path_var = None
 answer_path_var = None
+json_data = None
+file_name = ""
+is_scoring_finished = 1
 
 
 ## 공통  ##
@@ -66,29 +71,29 @@ def insert_page_number(num_students, file_path):
     pdf_document = fitz.open(file_path)
     num_pages = len(pdf_document)
 
-    # Get page width and height
-    page_width = pdf_document[0].rect.width
-    page_height = pdf_document[0].rect.height
+    first_page = pdf_document[0]
+    # first_page = pdf_document.newPage()
 
-    print(page_width)
-    print(page_height)
-    print()
+    # Get page width and height
+    page_width = first_page.rect.width
+    page_height = first_page.rect.height
 
     # Convert start and end points to coordinates relative to top-right corner
     start_point = (page_width - 180, 65)
     end_point = (page_width - 60, 65)
 
-    print(start_point)
-    print(end_point)
-
     for i in range(0, num_students):
-        output_pdf_path = os.path.splitext(file_path)[0] + f"_{i+1}.pdf"
-        pdf_document = fitz.open(file_path)
+        output_pdf_path = os.path.splitext(file_path)[0] + "_new" + f"_{i+1}.pdf"
 
         #첫 장에 이름 적는 칸
         page = pdf_document[0]
+        rotation = page.rotation
+        # page.clean_contents()
+        # page = pdf_document.newPage()
+        page.wrap_contents()
         text = "ID : "
-        page.insert_text((page_width-220, 60), text, fontsize=16, fontname="courier")
+        point = fitz.Point(page_width-220, 60)
+        page.insert_text(point*page.derotation_matrix, text, fontsize=16, fontname="courier", rotate=page.rotation)
         page.draw_line(start_point, end_point)
 
         for j in range(0, num_pages):
@@ -96,13 +101,13 @@ def insert_page_number(num_students, file_path):
             text = f"{i+1}-{j+1}"
 
             # 삽입할 위치 (x, y 좌표)
-            insert_position = (60, 60)  # 적절한 위치로 수정 필요
+            insert_position = fitz.Point(60, 60)  # 적절한 위치로 수정 필요
 
             # Select the first page
             page = pdf_document[j]
 
             # Start editing the page
-            page.insert_text(insert_position, text, fontsize=18, fontname="courier")
+            page.insert_text(insert_position*page.derotation_matrix, text, fontsize=18, fontname="courier", rotate=page.rotation)
 
         # Save the changes to a new PDF
         pdf_document.save(output_pdf_path)
@@ -110,6 +115,7 @@ def insert_page_number(num_students, file_path):
         # Close the PDF
         pdf_document.close()
     show_popup()
+
 
 #종료 팝업 띄우기
 def show_popup():
@@ -126,39 +132,6 @@ def show_popup():
 def browse_file2():
     file_path = filedialog.askopenfilename(filetypes=(("Excel files","*.xls*"),))  # 파일 선택 다이얼로그 열기
     answer_path_var.set(file_path)  # 파일 경로를 보여주는 필드에 경로 설정
-
-
-# ### 서버 연결하는 함수 ###
-# def server_connect(pdf_path, test_name, copy_num, total_qna_num, testee_num, test_category):
-#     global df
-#     global json_data
-    
-#     url = "http://13.125.91.116:8080/upload"
-
-#     data = {
-#         'test_name':test_name,
-#         'copy_num':copy_num,
-#         'total_qna_num':total_qna_num,
-#         'testee_num':testee_num,
-#         'test_category':test_category
-#     }
-
-#     files = {
-#         'pdf':open(pdf_path, "rb"),
-#         'data':(None, json.dumps(data), 'application/json')
-#     }
-
-#     response = requests.post(url, files=files)
-#     json_data = json.loads(response.text)
-#     json_path = OUTPUT_PATH / "data.json"
-
-#     with open(json_path, 'w') as f:
-#         json.dump(json_data, f)
-    
-#     df = pd.json_normalize(json_data)
-#     df.drop(columns=["file"], inplace=True)
-#     df.set_index(["testee_id", "num"], inplace=True)
-#     print(df)
 
 
 
@@ -215,7 +188,7 @@ def show_transfer():
         35.0,
         130.0,
         anchor="nw",
-        text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)\n   (선택한 시험지 파일과 같은 위치에 양식이 적용된 새파일이 생성됩니다.)",
+        text="2. 변환할 시험지 파일을 업로드 하세요. (파일 확장자: .pdf)\n   (선택한 시험지 파일과 같은 위치에 양식이 적용된 새 파일이 생성됩니다.)",
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
@@ -298,7 +271,6 @@ def show_grade():
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-    
     test_name = tk.StringVar()
     test_name_field = tk.Entry(
         bd=0,
@@ -316,16 +288,41 @@ def show_grade():
         height=23
     )
 
-    # 1-2. 시험지1부당매수
+    # 1-2. 응시자수
     canvas_r.create_text(
         40,
         90,
+        anchor="nw",
+        text="응시자수",
+        fill="#000000",
+        font=(FONT_PATH, 14 * -1)
+    )
+    testee_num = tk.StringVar()
+    testee_num_field = tk.Entry(
+        bd=0,
+        bg="white",  # 배경색 (흰색)
+        fg="#000716",  # 텍스트 색상
+        highlightbackground="#d9d9d9",  # 테두리 색상
+        highlightthickness=1,
+        font=(FONT_PATH, 16 * -1),
+        textvariable=testee_num
+    )
+    testee_num_field.place(
+        x=340, 
+        y=85,
+        width=140,
+        height=23
+    )
+
+    # 1-3. 시험지 1부당 매수
+    canvas_r.create_text(
+        40,
+        125,
         anchor="nw",
         text="시험지 1부당 매수",
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-
     copy_num = tk.StringVar()
     copy_num_field = tk.Entry(
         bd=0,
@@ -338,21 +335,20 @@ def show_grade():
     )
     copy_num_field.place(
         x=340, 
-        y=85,
+        y=120,
         width=140,
         height=23
     )
     
-    # 1-3. 총문항수  
+    # 1-4. 총 문항 수  
     canvas_r.create_text(
         40,
-        125,
+        160,
         anchor="nw",
         text="총 문항 수",
         fill="#000000",
         font=(FONT_PATH, 14 * -1)
     )
-
     total_qna_num = tk.StringVar()
     total_qna_num_field = tk.Entry(
         bd=0,
@@ -364,33 +360,6 @@ def show_grade():
         textvariable=total_qna_num
     )
     total_qna_num_field.place(
-        x=340, 
-        y=120,
-        width=140,
-        height=23
-    )
-
-    # 1-4. 응시자수
-    canvas_r.create_text(
-        40,
-        160,
-        anchor="nw",
-        text="응시자수",
-        fill="#000000",
-        font=(FONT_PATH, 14 * -1)
-    )
-    
-    testee_num = tk.StringVar()
-    testee_num_field = tk.Entry(
-        bd=0,
-        bg="white",  # 배경색 (흰색)
-        fg="#000716",  # 텍스트 색상
-        highlightbackground="#d9d9d9",  # 테두리 색상
-        highlightthickness=1,
-        font=(FONT_PATH, 16 * -1),
-        textvariable=testee_num
-    )
-    testee_num_field.place(
         x=340, 
         y=155,
         width=140,
@@ -407,7 +376,7 @@ def show_grade():
         font=(FONT_PATH, 14 * -1)
     )
 
-    # 1-6. 객관식 체크박스 생성
+    # 1-5-1. 객관식 체크박스 생성
     test_category_mul = tk.IntVar(value=0)
     test_category_mul_checkbox = tk.Checkbutton(
         root,
@@ -423,7 +392,7 @@ def show_grade():
         y=190
     )
  
-    # 1-7. 단답식 체크박스 생성
+    # 1-5-2. 단답식 체크박스 생성
     test_category_sub = tk.IntVar(value=0)
     test_category_sub_checkbox = tk.Checkbutton(
         root,
@@ -450,7 +419,7 @@ def show_grade():
     )
 
     # 2-1. 시험지 파일 업로드 버튼
-    file_path = tk.StringVar()   
+    file_path_var = tk.StringVar()   
     file_path_label=tk.Label(
         bd=0,
         bg="#dddddd",
@@ -520,17 +489,31 @@ def show_grade():
     
     # 응시자수, 한부당 매수 확인 후 서버 전달
     def check_entries_and_start_grading():
+        global is_scoring_finished
+
+        if not is_scoring_finished:
+            print()
+            print("채점 진행 중")
+            print()
+        
+            tk.messagebox.showinfo("안내", "채점이 진행 중입니다.")
+
+            return 
+        
         # 텍스트 필드가 모두 채워졌는지 확인
-        if testee_num.get() and copy_num.get() and file_path_var.get() and answer_path_var.get():
+        if testee_num.get() and copy_num.get() and total_qna_num.get() and file_path_var.get() and answer_path_var.get() and test_name.get():
+            global file_name
+            file_name = str(test_name.get())
+
             progress_bar.start(20)
-            
-            # 시험 정보가 모두 입력된 경우 채점 함수 호출
-            if (start_connect(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
-                        testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())])):
-                progress_bar.stop()
-                progress_bar['mode'] = 'determinate'
-                progress_bar["value"]=100
-                tk.messagebox.showinfo("채점 완료", "채점이 완료되었습니다.\n채점 결과 확인 버튼을 누르세요.")
+
+            is_scoring_finished = 0
+
+            tThread = Thread(target=start_connect, args=(file_path_var.get(), test_name.get(), copy_num.get(), total_qna_num.get(),
+                        testee_num.get(), [str(test_category_mul.get()), str(test_category_sub.get())], progress_bar))
+            tThread.setDaemon(True)
+            tThread.start()
+
         else:
             # 시험 정보가 모두 입력되지 않은 경우 안내창 표시
             print("시험 정보가 다 안 채워짐")
@@ -565,7 +548,7 @@ def show_grade():
     )
 
     # 4-2. 진행 막대 생성
-    progress_bar = ttk.Progressbar(root, orient="horizontal", length=260, mode="indeterminate")
+    progress_bar = ttk.Progressbar(root, orient="horizontal", length=260, mode="determinate")
     progress_bar.place(x=350, y=565)
 
     # 4-3. 채점 결과 확인하기 버튼
@@ -616,7 +599,10 @@ class PandasViewer(tk.Frame):
         export_button.pack(side = tk.RIGHT, padx=10, pady=10)
 
     def export_to_excel(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx")
+        global file_name
+        ftypes = [('excel file', '.xlsx'), ('csv file', '.csv'), ('All files', '*')]
+        init_file = file_name + ".xlsx"
+        file_path = filedialog.asksaveasfilename(filetypes=ftypes, initialfile=init_file, defaultextension=".xlsx")
         if file_path:
             self.dataframe.to_excel(file_path, index=True)
 
@@ -635,43 +621,54 @@ def answer_to_dict(answer_path_var):
 
 # 서버에서 json data를 받아서 채점 결과 df 만드는 함수
 def json_to_df_for_tables(data):
+    data = json.loads(data)
+
     # 답 딕셔너리 가져오기
     question_answer = answer_to_dict(answer_path_var.get())
 
     # 필요한 정보 testee_id별 'num':'testee_answer'를 딕셔너리로 저장하는 함수 
     testee_answers = {}
+    total_num = len(question_answer["answer"])
+    count_o = 0
 
     for entry in data:
         testee_id = entry.get('testee_id')
         num = str(entry.get('num'))
         testee_answer = entry.get('testee_answer')
+
+        if testee_id not in testee_answers:
+            count_o = 0
+            testee_answers[testee_id] = {}
+            testee_answers[testee_id+" O/X"] = {}
+            testee_answers[testee_id+" O/X"]['정답'] = ""
+            testee_answers[testee_id+" O/X"]['오답'] = ""
+            testee_answers[testee_id+" O/X"]['총 문항수'] = str(total_num)
+
+            for ans_num in question_answer['answer']:
+                if ans_num not in testee_answers[testee_id]:
+                    testee_answers[testee_id][ans_num] = ""
+                if ans_num not in testee_answers[testee_id+" O/X"]:
+                    testee_answers[testee_id+" O/X"][ans_num] = 'X'
+
+        if not num in question_answer["answer"]:
+            continue
+
         # 다중 정답일 경우 대괄호를 제외하고 문자열로 저장
         if isinstance(testee_answer, list):
             testee_answer = ','.join(map(str, testee_answer))
         else:
             testee_answer = str(testee_answer)
 
-        if testee_id not in testee_answers:
-            count_o = 0
-            count_x = 0
-            testee_answers[testee_id] = {}
-            testee_answers[testee_id+" O/X"] = {}
-        
         testee_answers[testee_id][num] = testee_answer
-        # 문항번호가 누락되지 않은 문항에 대해서만 답 비교
-        if num != '-1':
-            if testee_answer == question_answer['answer'][num].replace(" ", ""):
-                count_o += 1
-                testee_answers[testee_id+" O/X"][num] = 'O'
-            else:
-                count_x += 1
-                testee_answers[testee_id+" O/X"][num] = 'X'
 
+        if testee_answer == question_answer['answer'][num].replace(" ", ""):
+            count_o += 1
+            testee_answers[testee_id+" O/X"][num] = 'O'
+        
         testee_answers[testee_id+" O/X"]['정답'] = str(count_o)
 
-        testee_answers[testee_id+" O/X"]['오답'] = str(count_x)
+        testee_answers[testee_id+" O/X"]['오답'] = str(total_num-count_o)
 
-        testee_answers[testee_id+" O/X"]['총 문항수'] = str(count_o+count_x)
 
     # 답 딕셔너리와 응시자 답안 딕셔너리를 합쳐서 data로 삽입
     df = pd.DataFrame.from_dict(data={**question_answer, **testee_answers}, orient='index', dtype='str')
@@ -680,12 +677,31 @@ def json_to_df_for_tables(data):
 
 
 def show_result():
+    global json_data
+    data = json_data
+
+    global is_scoring_finished
+
+    if not is_scoring_finished:
+        print()
+        print("채점 진행 중")
+        print()
+        
+        tk.messagebox.showinfo("안내", "채점이 진행 중입니다.")
+
+        return 
+
+    if not json_data:
+        print()
+        print("채점 진행 중")
+        print()
+        
+        tk.messagebox.showinfo("안내", "채점이 진행 중입니다.")
+        
+        return    
+    
     # Initialize Tkinter
     root2 = tk.Toplevel()
-
-    data = global_vars.json_data
-
-    print(data)
 
     # Create the PandasViewer instance
     viewer = PandasViewer(root2, dataframe=json_to_df_for_tables(data))

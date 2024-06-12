@@ -8,10 +8,13 @@ from path import *
 from utils import cropBox, concatImage
 
 
-def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_path):
+def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, path, mul_save_path):
     # cropped_arr에 저장된 crop_obj 매칭
+    match_result_path = path + "/" + "result_match"
     model_match = YOLO(match_path)
-    results_match = model_match(source=crop_obj, conf=0.6, save=False)
+    # results_match = model_match(source=crop_obj, conf=0.6, save=False, save_crop=False)
+    # results_match = model_match(source=crop_obj, conf=0.6, save=True, save_crop=True, project=match_result_path)
+    results_match = model_match(source=crop_obj, conf=0.6, save=False, save_crop=False)
     
     names = model_match.names
     result = results_match[0]
@@ -36,7 +39,7 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
         return
     elif name_match == "front_5":
         # 이미지 저장
-        save_name = mul_save_path + "\mul_" + str(mul_save_idx) + ".jpg"
+        save_name = mul_save_path + "/" + "mul_" + str(mul_save_idx) + ".jpg"
         cv2.imwrite(save_name, crop_obj)
         mul_save_idx += 1
         cropped_qna_arr.pop()
@@ -89,7 +92,7 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
             cropped_qna_arr.remove(searching_arr)
 
             # 이미지 저장
-            save_name = mul_save_path + "\\mul_" + str(mul_save_idx) + ".jpg"
+            save_name = mul_save_path + "/" + "mul_" + str(mul_save_idx) + ".jpg"
             cv2.imwrite(save_name, joined_image)
             mul_save_idx += 1
 
@@ -98,13 +101,14 @@ def crop_match(cropped_qna_arr, crop_obj, match_path, mul_save_idx, mul_save_pat
 
 def categorize_qna(path):
     # 경로 정의
-    mul_path = path + "/mul"
-    sub_path = path + "/sub"
+    qna_result_path = path + "/" + "result_qna"
+    mul_path = path + "/" + "mul"
+    sub_path = path + "/" + "sub"
     save_name = ""
 
-    model_path = BE_PATH + "/models"
-    qna_path = model_path + "/qna/weights/best.pt"
-    match_path = model_path + "/matching/weights/best.pt"
+    model_path = BE_PATH + "/" + "models"
+    qna_path = model_path + "/" + "qna" + "/" + "weights" + "/" + "best.pt"
+    match_path = model_path + "/" + "matching" + "/" + "weights" + "/" + "best.pt"
 
     # 입력 파일 정렬
     images = os_sorted(Path(path).glob('*.jpg'))
@@ -114,6 +118,8 @@ def categorize_qna(path):
 
     # Yolov8 사용
     model_qna = YOLO(qna_path)
+    # results_qna = model_qna(source=images, conf=0.75, save=False, save_crop=False)
+    # results_qna = model_qna(source=images, conf=0.6, save=True, save_crop=True, project=qna_result_path)
     results_qna = model_qna(source=images, conf=0.75, save=False, save_crop=False)
 
     names = model_qna.names
@@ -138,16 +144,16 @@ def categorize_qna(path):
                     continue
 
                 elif (names[int(cls)] == "multiple"):
-                    save_name = mul_path + "/mul_" + str(mul_save_idx) + ".jpg"
+                    save_name = mul_path + "/" + "mul_" + str(mul_save_idx) + ".jpg"
                     cv2.imwrite(save_name, qna)
                     mul_save_idx += 1
                     continue
 
                 elif (names[int(cls)] == "subjective"):
-                    save_name = sub_path + "/sub_" + str(sub_save_idx) + ".jpg"
+                    save_name = sub_path + "/" + "sub_" + str(sub_save_idx) + ".jpg"
                     cv2.imwrite(save_name, qna)
                     sub_save_idx += 1
                     continue
 
                 elif (names[int(cls)] == "multiple_cropped"):
-                    crop_match(cropped_qna_arr, qna, match_path, mul_save_idx, mul_path)
+                    crop_match(cropped_qna_arr, qna, match_path, mul_save_idx, path, mul_path)
