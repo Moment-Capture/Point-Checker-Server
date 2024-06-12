@@ -155,7 +155,7 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
 
     testee_id_jpg_df = pd.DataFrame(columns=["index_id", "testee_id", "testee_name", "file", "page"])
     testee_id_jpg_df = testeeIdJpgDf(testee_id_jpg_df, testee_jpg_df, id_match)
-    testee_jpg_df.to_excel(jpg_path + "/testee_jpg_df.xlsx")
+    testee_jpg_df.to_excel(jpg_path + "/" + "testee_jpg_df.xlsx")
     display_testeed_jpg_df = testee_id_jpg_df.set_index(keys=["index_id", "testee_id", "testee_name", "file"], drop=True)
     
     print()
