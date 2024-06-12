@@ -213,7 +213,6 @@ def pointchecker(upload_path, test_name, copy_num, total_qna_num, testee_num, te
         testee_eta = end - start
         print("testee_eta: " + f"{testee_eta:.2f} sec")
 
-    print(path + "/" + str(test_name) + "_final_df.xlsx")
     df.to_excel(path + "/" + test_name + "_final_df.xlsx")
 
     # # temp 폴더 삭제
