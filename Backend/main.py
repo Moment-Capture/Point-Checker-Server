@@ -15,7 +15,7 @@ from utils import *
 from recognize import *
 
 
-def getMulDf(testee_path, total_qna_nu):
+def getMulDf(testee_path, total_qna_num):
     # 경로 정의
     path = testee_path
 
