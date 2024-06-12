@@ -217,9 +217,9 @@ def insert_page_number(num_students, file_path):
     # Save the changes to a new PDF
     pdf_document.save(output_pdf_path)
         
-        # Close the PDF
+    # Close the PDF
     pdf_document.close()
-    
+
     show_popup()
 
 
