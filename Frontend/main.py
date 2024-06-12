@@ -54,7 +54,7 @@ TOOL2_PATH = relative_to_btn_img("tool2.png")
 
 
 ### from server import *
-url = "http://44.214.90.12"
+url = "http://44.214.90.12:8080"
 
 def set_global(data):
     global json_data
