@@ -93,7 +93,7 @@ def insert_page_number(num_students, file_path):
         page.wrap_contents()
         text = "ID : "
         point = fitz.Point(page_width-220, 60)
-        page.insert_text(point*page.derotation_matrix, text, fontsize=16, fontname="courier", rotate=page.rotation)
+        page.insert_text(point*page.derotation_matrix, text, fontsize=16, fontname="courier", rotate=rotation)
         page.draw_line(start_point, end_point)
 
         for j in range(0, num_pages):
@@ -107,7 +107,7 @@ def insert_page_number(num_students, file_path):
             page = pdf_document[j]
 
             # Start editing the page
-            page.insert_text(insert_position*page.derotation_matrix, text, fontsize=18, fontname="courier", rotate=page.rotation)
+            page.insert_text(insert_position*page.derotation_matrix, text, fontsize=18, fontname="courier", rotate=rotation)
 
         # Save the changes to a new PDF
         pdf_document.save(output_pdf_path)
