@@ -219,6 +219,7 @@ def insert_page_number(num_students, file_path):
         
         # Close the PDF
     pdf_document.close()
+    
     show_popup()
 
 

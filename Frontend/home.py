@@ -109,11 +109,12 @@ def insert_page_number(num_students, file_path):
             # Start editing the page
             page.insert_text(insert_position*page.derotation_matrix, text, fontsize=18, fontname="courier", rotate=rotation)
 
-        # Save the changes to a new PDF
-        pdf_document.save(output_pdf_path)
+    # Save the changes to a new PDF
+    pdf_document.save(output_pdf_path)
         
-        # Close the PDF
-        pdf_document.close()
+    # Close the PDF
+    pdf_document.close()
+    
     show_popup()
 
 
