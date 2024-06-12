@@ -10,7 +10,7 @@ import global_vars
 
 from path import *
 
-url = "http://13.125.91.116:8080"
+url = "http://44.214.90.12"
 
 def set_global(data):
     global_vars.json_data = data

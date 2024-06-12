@@ -5,6 +5,7 @@ from tkinter import ttk
 from tkinter import *
 
 import os
+import re
 import fitz
 import json
 import requests
@@ -48,7 +49,7 @@ TOOL2_PATH = relative_to_btn_img("tool2.png")
 
 
 ### from server import *
-url = "http://13.125.91.116:8080"
+url = "http://44.214.90.12"
 
 def set_global(data):
     global json_data
