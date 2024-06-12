@@ -191,6 +191,7 @@ def insert_page_number(num_students, file_path):
         output_pdf_path = os.path.splitext(file_path)[0] + "_new" + f"_{i+1}.pdf"
 
         #첫 장에 이름 적는 칸
+        pdf_document = fitz.open(file_path)
         page = pdf_document[0]
         rotation = page.rotation
         # page.clean_contents()
