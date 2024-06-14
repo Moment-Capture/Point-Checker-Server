@@ -70,9 +70,10 @@ python main.py
 </br></br>
 
 - Tkinter GUI를 통해 사용자와 인터렉션
-- pandastable로 생성된 엑셀 파일을 출력물로 전달
+- Flask를 통해 서버와 통신
 - Yolov8을 통해 객체 인식
 - EasyOCR, Tamil-OCR을 통해 OCR
+- pandastable로 생성된 엑셀 파일을 출력물로 전달
 </br></br>
 
 ## 채점 엔진
