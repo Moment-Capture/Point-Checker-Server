@@ -44,21 +44,52 @@
 
 
 # 실행 방법
-## 1. 리포지토리 클론
+## 서버 구축
+### 1. 리포지토리 클론
 ```bash
 git clone https://github.com/Moment-Capture/Point-Checker.git
 ```
 </br>
  
-## 2. 라이브러리 설치
+### 2. 패키지 설치
 ```bash
-pip install -r requirements.txt
+xargs sudo apt-get -y install < ./Backend/apt-requirements.txt
+```
+
+- Python 3.9 이상 환경에서 구동 가능합니다.
+</br></br>
+ 
+### 2. 라이브러리 설치
+```bash
+pip install -r ./Backend/requirements.txt
 ```
 
 - Python 3.9 이상 환경에서 구동 가능합니다.
 </br></br>
 
-## 3. main.py 실행
+### 3. main.py 실행
+```bash
+python3 app.py
+```
+</br>
+
+
+## GUI 실행
+### 1. 리포지토리 클론
+```bash
+git clone https://github.com/Moment-Capture/Point-Checker.git
+```
+</br>
+ 
+### 2. 라이브러리 설치
+```bash
+pip install -r ./Frontend/requirements.txt
+```
+
+- Python 3.9 이상 환경에서 구동 가능합니다.
+</br></br>
+
+### 3. main.py 실행
 ```bash
 python main.py
 ```
