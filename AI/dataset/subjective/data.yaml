@@ -1,0 +1,7 @@
+path: /content/drive/MyDrive/MomentCapture/Colab/dataset/subjective/all
+train: autosplit_train.txt
+val: autosplit_val.txt
+
+names:
+  0: num
+  1: answer

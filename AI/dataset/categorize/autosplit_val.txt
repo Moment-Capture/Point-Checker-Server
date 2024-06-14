@@ -1,0 +1,361 @@
+./data/2019_mid_language (1)-1.jpg
+./data/2019_mid_language (10)-3.jpg
+./data/2019_mid_language (11)-3.jpg
+./data/2019_mid_language (11)-4.jpg
+./data/2019_mid_language (11)-5.jpg
+./data/2019_mid_language (11)-6.jpg
+./data/2019_mid_language (12)-2.jpg
+./data/2019_mid_language (13)-2.jpg
+./data/2019_mid_language (13)-3.jpg
+./data/2019_mid_language (13)-5.jpg
+./data/2019_mid_language (13)-7.jpg
+./data/2019_mid_language (14)-3.jpg
+./data/2019_mid_language (14)-7.jpg
+./data/2019_mid_language (15)-3.jpg
+./data/2019_mid_language (15)-7.jpg
+./data/2019_mid_language (15)-8.jpg
+./data/2019_mid_language (16)-4.jpg
+./data/2019_mid_language (17)-1.jpg
+./data/2019_mid_language (17)-3.jpg
+./data/2019_mid_language (19)-3.jpg
+./data/2019_mid_language (19)-4.jpg
+./data/2019_mid_language (19)-5.jpg
+./data/2019_mid_language (19)-6.jpg
+./data/2019_mid_language (19)-7.jpg
+./data/2019_mid_language (2)-4.jpg
+./data/2019_mid_language (2)-5.jpg
+./data/2019_mid_language (2)-6.jpg
+./data/2019_mid_language (2)-8.jpg
+./data/2019_mid_language (20)-2.jpg
+./data/2019_mid_language (20)-3.jpg
+./data/2019_mid_language (20)-9.jpg
+./data/2019_mid_language (21)-7.jpg
+./data/2019_mid_language (22)-6.jpg
+./data/2019_mid_language (23)-9.jpg
+./data/2019_mid_language (24)-3.jpg
+./data/2019_mid_language (24)-7.jpg
+./data/2019_mid_language (24)-8.jpg
+./data/2019_mid_language (26)-4.jpg
+./data/2019_mid_language (27)-3.jpg
+./data/2019_mid_language (27)-4.jpg
+./data/2019_mid_language (27)-7.jpg
+./data/2019_mid_language (28)-1.jpg
+./data/2019_mid_language (29)-5.jpg
+./data/2019_mid_language (3)-5.jpg
+./data/2019_mid_language (30)-4.jpg
+./data/2019_mid_language (31)-9.jpg
+./data/2019_mid_language (34)-2.jpg
+./data/2019_mid_language (34)-6.jpg
+./data/2019_mid_language (34)-7.jpg
+./data/2019_mid_language (34)-8.jpg
+./data/2019_mid_language (35)-2.jpg
+./data/2019_mid_language (35)-6.jpg
+./data/2019_mid_language (36)-7.jpg
+./data/2019_mid_language (37)-3.jpg
+./data/2019_mid_language (38)-1.jpg
+./data/2019_mid_language (38)-3.jpg
+./data/2019_mid_language (39)-2.jpg
+./data/2019_mid_language (39)-7.jpg
+./data/2019_mid_language (4)-6.jpg
+./data/2019_mid_language (4)-7.jpg
+./data/2019_mid_language (40)-1.jpg
+./data/2019_mid_language (40)-7.jpg
+./data/2019_mid_language (42)-4.jpg
+./data/2019_mid_language (44)-4.jpg
+./data/2019_mid_language (44)-6.jpg
+./data/2019_mid_language (44)-7.jpg
+./data/2019_mid_language (45)-6.jpg
+./data/2019_mid_language (46)-1.jpg
+./data/2019_mid_language (46)-4.jpg
+./data/2019_mid_language (48)-6.jpg
+./data/2019_mid_language (49)-2.jpg
+./data/2019_mid_language (49)-4.jpg
+./data/2019_mid_language (5)-2.jpg
+./data/2019_mid_language (50)-3.jpg
+./data/2019_mid_language (50)-4.jpg
+./data/2019_mid_language (50)-8.jpg
+./data/2019_mid_language (51)-2.jpg
+./data/2019_mid_language (52)-3.jpg
+./data/2019_mid_language (52)-4.jpg
+./data/2019_mid_language (52)-5.jpg
+./data/2019_mid_language (53)-1.jpg
+./data/2019_mid_language (53)-4.jpg
+./data/2019_mid_language (53)-7.jpg
+./data/2019_mid_language (54)-4.jpg
+./data/2019_mid_language (55)-1.jpg
+./data/2019_mid_language (55)-3.jpg
+./data/2019_mid_language (55)-7.jpg
+./data/2019_mid_language (55)-9.jpg
+./data/2019_mid_language (56)-2.jpg
+./data/2019_mid_language (56)-6.jpg
+./data/2019_mid_language (57)-4.jpg
+./data/2019_mid_language (58)-3.jpg
+./data/2019_mid_language (58)-4.jpg
+./data/2019_mid_language (58)-7.jpg
+./data/2019_mid_language (59)-5.jpg
+./data/2019_mid_language (6)-4.jpg
+./data/2019_mid_language (60)-1.jpg
+./data/2019_mid_language (61)-7.jpg
+./data/2019_mid_language (63)-2.jpg
+./data/2019_mid_language (63)-4.jpg
+./data/2019_mid_language (63)-5.jpg
+./data/2019_mid_language (63)-7.jpg
+./data/2019_mid_language (65)-3.jpg
+./data/2019_mid_language (65)-5.jpg
+./data/2019_mid_language (65)-6.jpg
+./data/2019_mid_language (66)-5.jpg
+./data/2019_mid_language (66)-6.jpg
+./data/2019_mid_language (67)-5.jpg
+./data/2019_mid_language (67)-6.jpg
+./data/2019_mid_language (69)-2.jpg
+./data/2019_mid_language (69)-3.jpg
+./data/2019_mid_language (7)-4.jpg
+./data/2019_mid_language (7)-5.jpg
+./data/2019_mid_language (7)-7.jpg
+./data/2019_mid_language (70)-4.jpg
+./data/2019_mid_language (71)-3.jpg
+./data/2019_mid_language (71)-7.jpg
+./data/2019_mid_language (72)-1.jpg
+./data/2019_mid_language (72)-5.jpg
+./data/2019_mid_language (72)-6.jpg
+./data/2019_mid_language (73)-2.jpg
+./data/2019_mid_language (73)-6.jpg
+./data/2019_mid_language (73)-7.jpg
+./data/2019_mid_language (74)-1.jpg
+./data/2019_mid_language (77)-1.jpg
+./data/2019_mid_language (78)-3.jpg
+./data/2019_mid_language (79)-6.jpg
+./data/2019_mid_language (82)-1.jpg
+./data/2019_mid_language (82)-3.jpg
+./data/2019_mid_language (9)-6.jpg
+./data/2019english (1)-5.jpg
+./data/2019english (14)-5.jpg
+./data/2019english (15)-2.jpg
+./data/2019english (16)-1.jpg
+./data/2019english (16)-2.jpg
+./data/2019english (17)-6.jpg
+./data/2019english (18)-3.jpg
+./data/2019english (18)-7.jpg
+./data/2019english (19)-4.jpg
+./data/2019english (20)-4.jpg
+./data/2019english (21)-1.jpg
+./data/2019english (21)-2.jpg
+./data/2019english (21)-3.jpg
+./data/2019english (21)-4.jpg
+./data/2019english (23)-1.jpg
+./data/2019english (23)-3.jpg
+./data/2019english (24)-2.jpg
+./data/2019english (26)-2.jpg
+./data/2019english (27)-1.jpg
+./data/2019english (27)-6.jpg
+./data/2019english (27)-7.jpg
+./data/2019english (28)-5.jpg
+./data/2019english (29)-1.jpg
+./data/2019english (29)-6.jpg
+./data/2019english (29)-7.jpg
+./data/2019english (31)-8.jpg
+./data/2019english (33)-3.jpg
+./data/2019english (34)-4.jpg
+./data/2019english (35)-3.jpg
+./data/2019english (4)-4.jpg
+./data/2019english (5)-10.jpg
+./data/2019english (5)-3.jpg
+./data/2019english (6)-3.jpg
+./data/2019english (6)-6.jpg
+./data/2019english (7)-1.jpg
+./data/2019english (7)-4.jpg
+./data/2019english (9)-7.jpg
+./data/2020_suneung (10).jpg
+./data/2020_suneung (16).jpg
+./data/2020_suneung (25).jpg
+./data/2020_suneung (3).jpg
+./data/2020_suneung (34).jpg
+./data/2020_suneung (35).jpg
+./data/2020_suneung (38).jpg
+./data/2020_suneung (43).jpg
+./data/2020_suneung (6).jpg
+./data/2020_suneung (9).jpg
+./data/2021_09 (11).jpg
+./data/2021_09 (111).jpg
+./data/2021_09 (13).jpg
+./data/2021_09 (130).jpg
+./data/2021_09 (134).jpg
+./data/2021_09 (135).jpg
+./data/2021_09 (14).jpg
+./data/2021_09 (140).jpg
+./data/2021_09 (144).jpg
+./data/2021_09 (146).jpg
+./data/2021_09 (151).jpg
+./data/2021_09 (156).jpg
+./data/2021_09 (157).jpg
+./data/2021_09 (159).jpg
+./data/2021_09 (16).jpg
+./data/2021_09 (165).jpg
+./data/2021_09 (177).jpg
+./data/2021_09 (179).jpg
+./data/2021_09 (181).jpg
+./data/2021_09 (185).jpg
+./data/2021_09 (189).jpg
+./data/2021_09 (191).jpg
+./data/2021_09 (195).jpg
+./data/2021_09 (21).jpg
+./data/2021_09 (28).jpg
+./data/2021_09 (3).jpg
+./data/2021_09 (30).jpg
+./data/2021_09 (36).jpg
+./data/2021_09 (38).jpg
+./data/2021_09 (4).jpg
+./data/2021_09 (40).jpg
+./data/2021_09 (42).jpg
+./data/2021_09 (44).jpg
+./data/2021_09 (55).jpg
+./data/2021_09 (58).jpg
+./data/2021_09 (71).jpg
+./data/2021_09 (72).jpg
+./data/2021_09 (73).jpg
+./data/2021_09 (75).jpg
+./data/2021_09 (76).jpg
+./data/2021_09 (89).jpg
+./data/2021_09 (93).jpg
+./data/2021_09 (98).jpg
+./data/2021_suneung (102).jpg
+./data/2021_suneung (103).jpg
+./data/2021_suneung (105).jpg
+./data/2021_suneung (111).jpg
+./data/2021_suneung (122).jpg
+./data/2021_suneung (124).jpg
+./data/2021_suneung (129).jpg
+./data/2021_suneung (130).jpg
+./data/2021_suneung (131).jpg
+./data/2021_suneung (137).jpg
+./data/2021_suneung (146).jpg
+./data/2021_suneung (15).jpg
+./data/2021_suneung (153).jpg
+./data/2021_suneung (156).jpg
+./data/2021_suneung (167).jpg
+./data/2021_suneung (170).jpg
+./data/2021_suneung (172).jpg
+./data/2021_suneung (176).jpg
+./data/2021_suneung (178).jpg
+./data/2021_suneung (180).jpg
+./data/2021_suneung (189).jpg
+./data/2021_suneung (191).jpg
+./data/2021_suneung (193).jpg
+./data/2021_suneung (195).jpg
+./data/2021_suneung (25).jpg
+./data/2021_suneung (27).jpg
+./data/2021_suneung (30).jpg
+./data/2021_suneung (33).jpg
+./data/2021_suneung (34).jpg
+./data/2021_suneung (36).jpg
+./data/2021_suneung (46).jpg
+./data/2021_suneung (54).jpg
+./data/2021_suneung (62).jpg
+./data/2021_suneung (63).jpg
+./data/2021_suneung (64).jpg
+./data/2021_suneung (72).jpg
+./data/2021_suneung (74).jpg
+./data/2021_suneung (79).jpg
+./data/2021_suneung (80).jpg
+./data/2021_suneung (87).jpg
+./data/2021_suneung (9).jpg
+./data/2021_suneung (96).jpg
+./data/2022_suneung (119).jpg
+./data/2022_suneung (120).jpg
+./data/2022_suneung (125).jpg
+./data/2022_suneung (126).jpg
+./data/2022_suneung (128).jpg
+./data/2022_suneung (129).jpg
+./data/2022_suneung (133).jpg
+./data/2022_suneung (134).jpg
+./data/2022_suneung (137).jpg
+./data/2022_suneung (138).jpg
+./data/2022_suneung (14).jpg
+./data/2022_suneung (141).jpg
+./data/2022_suneung (142).jpg
+./data/2022_suneung (143).jpg
+./data/2022_suneung (149).jpg
+./data/2022_suneung (154).jpg
+./data/2022_suneung (160).jpg
+./data/2022_suneung (161).jpg
+./data/2022_suneung (169).jpg
+./data/2022_suneung (170).jpg
+./data/2022_suneung (172).jpg
+./data/2022_suneung (173).jpg
+./data/2022_suneung (175).jpg
+./data/2022_suneung (176).jpg
+./data/2022_suneung (177).jpg
+./data/2022_suneung (185).jpg
+./data/2022_suneung (187).jpg
+./data/2022_suneung (188).jpg
+./data/2022_suneung (195).jpg
+./data/2022_suneung (200).jpg
+./data/2022_suneung (201).jpg
+./data/2022_suneung (206).jpg
+./data/2022_suneung (211).jpg
+./data/2022_suneung (213).jpg
+./data/2022_suneung (214).jpg
+./data/2022_suneung (218).jpg
+./data/2022_suneung (222).jpg
+./data/2022_suneung (224).jpg
+./data/2022_suneung (27).jpg
+./data/2022_suneung (30).jpg
+./data/2022_suneung (4).jpg
+./data/2022_suneung (42).jpg
+./data/2022_suneung (51).jpg
+./data/2022_suneung (56).jpg
+./data/2022_suneung (57).jpg
+./data/2022_suneung (63).jpg
+./data/2022_suneung (69).jpg
+./data/2022_suneung (7).jpg
+./data/2022_suneung (79).jpg
+./data/2022_suneung (80).jpg
+./data/2022_suneung (81).jpg
+./data/2022_suneung (95).jpg
+./data/suneung_dirty_0.jpg
+./data/suneung_dirty_1.jpg
+./data/suneung_dirty_102.jpg
+./data/suneung_dirty_104.jpg
+./data/suneung_dirty_111.jpg
+./data/suneung_dirty_116.jpg
+./data/suneung_dirty_128.jpg
+./data/suneung_dirty_13.jpg
+./data/suneung_dirty_137.jpg
+./data/suneung_dirty_140.jpg
+./data/suneung_dirty_153.jpg
+./data/suneung_dirty_154.jpg
+./data/suneung_dirty_16.jpg
+./data/suneung_dirty_162.jpg
+./data/suneung_dirty_163.jpg
+./data/suneung_dirty_170.jpg
+./data/suneung_dirty_171.jpg
+./data/suneung_dirty_172.jpg
+./data/suneung_dirty_177.jpg
+./data/suneung_dirty_182.jpg
+./data/suneung_dirty_187.jpg
+./data/suneung_dirty_188.jpg
+./data/suneung_dirty_196.jpg
+./data/suneung_dirty_2.jpg
+./data/suneung_dirty_20.jpg
+./data/suneung_dirty_208.jpg
+./data/suneung_dirty_212.jpg
+./data/suneung_dirty_216.jpg
+./data/suneung_dirty_22.jpg
+./data/suneung_dirty_221.jpg
+./data/suneung_dirty_225.jpg
+./data/suneung_dirty_25.jpg
+./data/suneung_dirty_33.jpg
+./data/suneung_dirty_35.jpg
+./data/suneung_dirty_40.jpg
+./data/suneung_dirty_45.jpg
+./data/suneung_dirty_51.jpg
+./data/suneung_dirty_58.jpg
+./data/suneung_dirty_6.jpg
+./data/suneung_dirty_67.jpg
+./data/suneung_dirty_69.jpg
+./data/suneung_dirty_75.jpg
+./data/suneung_dirty_78.jpg
+./data/suneung_dirty_84.jpg
+./data/suneung_dirty_91.jpg
+./data/suneung_dirty_93.jpg
+./data/suneung_dirty_99.jpg

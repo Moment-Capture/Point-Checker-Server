@@ -1,0 +1,18 @@
+path: ../dataset/cropped/multiple_cropped
+train: autosplit_train.txt
+val: autosplit_val.txt
+
+names:
+  0: front_num
+  1: front_1
+  2: front_2
+  3: front_3
+  4: front_4
+  5: front_5
+  6: back_num
+  7: back_1
+  8: back_2
+  9: back_3
+  10: back_4
+  11: back_5
+  12: etc

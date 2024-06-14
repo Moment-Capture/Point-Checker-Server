@@ -1,0 +1,12 @@
+path: ../dataset/categorize/all
+train: autosplit_train.txt
+val: autosplit_val.txt
+
+names:
+  0: multiple
+  1: multiple_cropped
+  2: subjective
+  3: subjective_cropped
+  4: q_mark
+  5: s_period
+  6: q_period

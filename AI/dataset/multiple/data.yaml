@@ -1,0 +1,11 @@
+path: /content/drive/MyDrive/MomentCapture/Colab/dataset/multiple/ver2
+train: autosplit_train.txt
+val: autosplit_val.txt
+
+names:
+  0: num
+  1: check1
+  2: check2
+  3: check3
+  4: check4
+  5: check5

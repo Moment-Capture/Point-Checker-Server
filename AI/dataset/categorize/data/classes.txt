@@ -1,0 +1,7 @@
+multiple
+multiple_cropped
+subjective
+subjective_cropped
+q_mark
+s_period
+q_period
